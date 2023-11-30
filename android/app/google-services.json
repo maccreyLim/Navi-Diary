@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "398900241774",
+    "project_id": "navidiary-26a8b",
+    "storage_bucket": "navidiary-26a8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398900241774:android:86df122d698c2065618d7f",
+        "android_client_info": {
+          "package_name": "com.example.navi_diary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABVJcpavhQyyfOJiWB22Z0GueKuLKiIOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
