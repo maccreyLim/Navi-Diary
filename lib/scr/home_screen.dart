@@ -29,6 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
   //파이어베이스 Release
   final _release = ReleaseFirestore();
 
+  // daysPassed 변수 추가
+  int daysPassed = 0;
+
   // 출소일 계산 함수
   DateTime calculateReleaseDate(DateTime inputDate, int years, int months) {
     // 1월의 날 수를 결정하기 위해 윤년 여부 확인
@@ -44,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (releaseDate.month == 1) {
       releaseDate = releaseDate.add(Duration(days: daysInJanuary - 1));
     }
-
+    dayPassedCalculate(inputDate);
+    // 출소일을 반환
     return releaseDate;
   }
 
@@ -66,6 +70,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     double percentage = (daysPassed / totalDays) * 100;
     return percentage.isFinite ? percentage : 0.0;
+  }
+
+//입소일로부터 몇일이 지났는지 계산하는 함수
+  dayPassedCalculate(DateTime inputDate) {
+    DateTime currentDate = DateTime.now();
+
+    daysPassed = currentDate.difference(inputDate).inDays;
+
+// daysPassed 변수에는 inputDate부터 현재까지의 일수가 저장됩니다.
+    print('입소일로부터 경과한 날짜: $daysPassed 일');
   }
 
   @override
@@ -177,13 +191,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          Text(
-                                            '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white38,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.white38,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
+                                              ),
+                                            ],
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
@@ -205,16 +228,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 percentageMap[release.name]
                                                             ?.isFinite ==
                                                         true
-                                                    ? percentageMap[
-                                                                release.name]! <
-                                                            80
-                                                        ? const Color.fromARGB(
-                                                            255,
-                                                            217,
-                                                            89,
-                                                            240) // Gray for 0-80%
-                                                        : Colors
-                                                            .red // Red for 80-100%
+                                                    ? daysPassed < 7
+                                                        ? Colors
+                                                            .red // Red for 0-7%
+                                                        : daysPassed <= 30
+                                                            ? Colors
+                                                                .yellow // Yellow for 7-30%
+                                                            : percentageMap[release
+                                                                        .name]! <
+                                                                    80
+                                                                ? Colors
+                                                                    .purple // Purple for 30-80%
+                                                                : Colors
+                                                                    .green // Green for 80-100%
                                                     : Colors.grey,
                                               ),
                                             ),
@@ -224,17 +250,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              const Text(
-                                                'Tip : 가석방 신청 가능 기간',
+                                              Text(
+                                                daysPassed <= 7
+                                                    ? "Tip: 신경이 극도로 예민해요 [입소${daysPassed}째]"
+                                                    : daysPassed <= 30
+                                                        ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}째]"
+                                                        : daysPassed <= 100
+                                                            ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}째]"
+                                                            : percentageMap[release
+                                                                        .name]! <
+                                                                    80
+                                                                ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}째]"
+                                                                : "가석방 가능 기간입니다.",
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: 11,
                                                   color: Colors.white54,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              Text(
-                                                '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
-                                              ),
+                                              // Text(
+                                              //   '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
+                                              // ),
                                             ],
                                           )
                                         ],
@@ -343,31 +379,34 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             //출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
             Positioned(
-              top: 240,
-              right: 5,
-              child: isRelease == true
-                  ? IconButton(
-                      icon: const Icon(
-                        Icons.add,
-                        size: 30,
-                        color: Colors.white38,
-                      ),
-                      onPressed: () {
-                        Get.to(() => const CreateReleaseScreen());
-                      },
-                    )
-                  : IconButton(
-                      icon: const Icon(
-                        Icons.close,
-                        size: 20,
-                        color: Colors.white38,
-                      ),
-                      onPressed: () {
-                        Get.to(() =>
-                            UpdateReleaseScreen(release: selectedRelease!));
-                      },
-                    ),
-            ),
+                top: 240,
+                right: 5,
+                child: GetBuilder<AuthController>(
+                  builder: (controller) {
+                    return isRelease == false
+                        ? IconButton(
+                            icon: const Icon(
+                              Icons.add,
+                              size: 30,
+                              color: Colors.white38,
+                            ),
+                            onPressed: () {
+                              Get.to(() => const CreateReleaseScreen());
+                            },
+                          )
+                        : IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              size: 20,
+                              color: Colors.white38,
+                            ),
+                            onPressed: () {
+                              Get.to(() => UpdateReleaseScreen(
+                                  release: selectedRelease!));
+                            },
+                          );
+                  },
+                )),
           ],
         ),
       ),

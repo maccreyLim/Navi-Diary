@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/login_screen.dart';
+import 'package:navi_diary/scr/wellcome_join_message_scren.dart';
 import 'package:navi_diary/widget/show_toast.dart';
 
 class AuthController extends GetxController {
@@ -82,6 +83,7 @@ class AuthController extends GetxController {
       );
 
       // 회원가입 성공 시, 여기에서 다른 동작을 추가할 수 있습니다.
+      Get.to(() => const WellcomeJoinMessageScreen());
     } on FirebaseAuthException catch (e) {
       String errorMessage = '';
 
@@ -119,13 +121,14 @@ class AuthController extends GetxController {
       );
       // 로그인이 성공한 경우, 이메일 인증 여부 확인
       User? user = authentication.currentUser;
-      if (user != null && _user.value!.emailVerified) {
+      if (user != null && user.emailVerified == false) {
         // 이메일이 인증되지 않았다면 예외 던지기
         throw FirebaseAuthException(
           code: 'email-not-verified',
           message: '이메일이 인증되지 않았습니다.',
         );
       }
+
       // Firestore에서 사용자 정보 가져오기
       DocumentSnapshot<Map<String, dynamic>> userDocument =
           await _firestore.collection('users').doc(user?.uid).get();

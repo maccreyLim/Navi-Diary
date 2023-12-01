@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/firebase_options.dart';
-import 'package:navi_diary/scr/join_screen.dart';
+import 'package:navi_diary/scr/login_screen.dart';
 
 void main() async {
 // Firebase 초기화
@@ -26,8 +26,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const JoinScreen(),
-      // const LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }
