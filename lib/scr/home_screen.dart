@@ -8,7 +8,9 @@ import 'package:navi_diary/controller/release_calculator_firebase.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
 import 'package:navi_diary/scr/create_release_screen.dart';
+import 'package:navi_diary/scr/diary_list_screen.dart';
 import 'package:navi_diary/scr/login_screen.dart';
+import 'package:navi_diary/scr/setting_screen.dart';
 import 'package:navi_diary/scr/update_release_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -76,10 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
   dayPassedCalculate(DateTime inputDate) {
     DateTime currentDate = DateTime.now();
 
-    daysPassed = currentDate.difference(inputDate).inDays;
-
 // daysPassed 변수에는 inputDate부터 현재까지의 일수가 저장됩니다.
-    print('입소일로부터 경과한 날짜: $daysPassed 일');
+    daysPassed = currentDate.difference(inputDate).inDays;
   }
 
   @override
@@ -98,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Stack(
           children: [
+            //위쪽 화면
             Positioned(
               top: 70,
               left: 10,
@@ -252,17 +253,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                             children: [
                                               Text(
                                                 daysPassed <= 7
-                                                    ? "Tip: 신경이 극도로 예민해요 [입소${daysPassed}째]"
+                                                    ? "Tip: 신경이 극도로 예민해요 [입소${daysPassed}일째]"
                                                     : daysPassed <= 30
-                                                        ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}째]"
+                                                        ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}일째]"
                                                         : daysPassed <= 100
-                                                            ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}째]"
+                                                            ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}일째]"
                                                             : percentageMap[release
                                                                         .name]! <
                                                                     80
-                                                                ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}째]"
+                                                                ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
                                                                 : "가석방 가능 기간입니다.",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 11,
                                                   color: Colors.white54,
                                                   fontWeight: FontWeight.bold,
@@ -289,6 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+            //아래에 있는 화면
             Positioned(
               top: MediaQuery.of(context).size.height * 0.40,
               left: 10,
@@ -311,6 +313,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
+
+            // 타이틀 위젯
             Positioned(
               top: 20,
               left: 20,
@@ -335,10 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           setState(() {});
                           //Todo: 설정화면 구현
-                          //임시테스트 버튼
-
-                          print(
-                              '프로필 이름 : ${authController.userData?['profileName']}');
+                          Get.to(() => SettingScreen());
                         },
                         icon: const Icon(
                           Icons.settings,
@@ -379,34 +380,45 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             //출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
             Positioned(
-                top: 240,
-                right: 5,
-                child: GetBuilder<AuthController>(
-                  builder: (controller) {
-                    return isRelease == false
-                        ? IconButton(
-                            icon: const Icon(
-                              Icons.add,
-                              size: 30,
-                              color: Colors.white38,
-                            ),
-                            onPressed: () {
-                              Get.to(() => const CreateReleaseScreen());
-                            },
-                          )
-                        : IconButton(
-                            icon: const Icon(
-                              Icons.close,
-                              size: 20,
-                              color: Colors.white38,
-                            ),
-                            onPressed: () {
-                              Get.to(() => UpdateReleaseScreen(
-                                  release: selectedRelease!));
-                            },
-                          );
-                  },
-                )),
+              top: 240,
+              right: 5,
+              child: GetBuilder<AuthController>(
+                builder: (controller) {
+                  return isRelease == false
+                      ? IconButton(
+                          icon: const Icon(
+                            Icons.add,
+                            size: 30,
+                            color: Colors.white38,
+                          ),
+                          onPressed: () {
+                            Get.to(() => const CreateReleaseScreen());
+                          },
+                        )
+                      : IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            size: 20,
+                            color: Colors.white38,
+                          ),
+                          onPressed: () {
+                            Get.to(() =>
+                                UpdateReleaseScreen(release: selectedRelease!));
+                          },
+                        );
+                },
+              ),
+            ),
+            // 일기장 리스트 뷰
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.42, // 조정 가능한 값
+              left: MediaQuery.of(context).size.width * 0.054, // 조정 가능한 값
+              child: Container(
+                width: MediaQuery.of(context).size.height * 0.45,
+                height: MediaQuery.of(context).size.width * 1.08,
+                child: diaryListScrren(),
+              ),
+            ),
           ],
         ),
       ),
