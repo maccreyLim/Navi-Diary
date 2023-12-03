@@ -33,24 +33,33 @@ class ReleaseFirestore {
     }
   }
 
-  //파이어베이스 Read
+// 파이어베이스 Read
   Future<List<ReleaseModel>> getReleases() async {
+    // 사용자의 'release' 컬렉션에 대한 참조 생성
     CollectionReference collectionRef = db
         .collection('users')
         .doc(authController.currentUser?.uid)
         .collection('release');
-    //release 파일 존재 여부에 따라 변경
-    authController.isReleaseChange();
 
     try {
+      // 컬렉션에서 문서들을 가져옴
       QuerySnapshot querySnapshot = await collectionRef.get();
+
+      // 컬렉션에 문서가 있는지 확인
+      if (querySnapshot.docs.isNotEmpty) {
+        // 데이터가 있을 때만 isReleaseChange 호출
+        authController.isReleaseChange(true);
+      }
+
+      // 문서들을 ReleaseModel로 변환하여 리스트로 반환
       List<ReleaseModel> releases = querySnapshot.docs
           .map(
               (doc) => ReleaseModel.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
       return releases;
     } catch (e) {
-      print('Get Releases Error: $e');
+      // 오류 발생 시 로그 출력 후 다시 던지기
+      print('출소 정보 가져오기 오류: $e');
       rethrow;
     }
   }

@@ -192,10 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     MaterialStateProperty.all<Color>(
                                         Colors.purple),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   //Todo: 파이어베이스 Login 구현
-                                  authController.signIn(
+                                  await authController.signIn(
                                     idController.text,
                                     pwController.text,
                                   );

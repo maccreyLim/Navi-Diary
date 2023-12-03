@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:navi_diary/controller/%08diary_controller.dart';
+import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
@@ -32,6 +32,10 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   void initState() {
     super.initState();
     _initializeForm();
+    // 기존 이미지로 images를 초기화합니다.
+    images = widget.diary.photoURL!
+        .map((path) => XFile(path))
+        .toList(growable: true);
   }
 
   void _initializeForm() {

@@ -56,21 +56,27 @@ class DiaryController {
   // Firebase에서 일기 읽어오기
   Future<List<DiaryModel>> getDiaries() async {
     try {
-      String userUid = authController.userData!['uid'];
+      if (authController.userData != null) {
+        String userUid = authController.userData!['uid'];
 
-      // Firestore에서 일기 읽어오기
-      QuerySnapshot querySnapshot = await _firestore
-          .collection('users')
-          .doc(userUid)
-          .collection('diaries')
-          .get();
-      List<DiaryModel> diaries = [];
+        // Firestore에서 일기 읽어오기
+        QuerySnapshot querySnapshot = await _firestore
+            .collection('users')
+            .doc(userUid)
+            .collection('diaries')
+            .get();
+        List<DiaryModel> diaries = [];
 
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        diaries.add(DiaryModel.fromMap(doc.data() as Map<String, dynamic>));
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          diaries.add(DiaryModel.fromMap(doc.data() as Map<String, dynamic>));
+        }
+
+        return diaries;
+      } else {
+        // authController.userData가 null인 경우에 대한 처리
+        print('authController.userData is null');
+        return [];
       }
-
-      return diaries;
     } catch (e) {
       print('일기 읽어오기 오류: $e');
       return [];

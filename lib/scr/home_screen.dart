@@ -26,8 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   AuthController authController = AuthController.instance;
 
   //Release 생성 / 삭제 /수정 구분을 위한 버튼
-  //파이어베이스 구현후 삭제
-  bool isRelease = false;
+
   //파이어베이스 Release
   final _release = ReleaseFirestore();
 
@@ -141,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               List<ReleaseModel>? releases = snapshot.data;
                               selectedRelease = releases?.first;
 
-                              isRelease = releases != null;
                               Map<String, double> percentageMap = {};
 
                               return ListView.builder(
@@ -365,7 +363,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             //출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
             ReleaseChangeButton(
-                isRelease: isRelease, selectedRelease: selectedRelease),
+                isRelease: authController.isReleaseFirebase.value,
+                selectedRelease: selectedRelease),
           ],
         ),
       ),
@@ -408,7 +407,7 @@ class ReleaseTipText extends StatelessWidget {
 }
 
 //출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
-class ReleaseChangeButton extends StatelessWidget {
+class ReleaseChangeButton extends StatefulWidget {
   const ReleaseChangeButton({
     Key? key,
     required this.isRelease,
@@ -419,13 +418,18 @@ class ReleaseChangeButton extends StatelessWidget {
   final ReleaseModel? selectedRelease;
 
   @override
+  State<ReleaseChangeButton> createState() => _ReleaseChangeButtonState();
+}
+
+class _ReleaseChangeButtonState extends State<ReleaseChangeButton> {
+  @override
   Widget build(BuildContext context) {
     return Positioned(
       top: 240,
       right: 5,
       child: GetBuilder<AuthController>(
         builder: (controller) {
-          return isRelease == false
+          return AuthController.instance.isReleaseFirebase == false
               ? IconButton(
                   icon: const Icon(
                     Icons.add,
@@ -449,8 +453,8 @@ class ReleaseChangeButton extends StatelessWidget {
                     color: Colors.white38,
                   ),
                   onPressed: () {
-                    Get.to(() =>
-                            UpdateReleaseScreen(release: selectedRelease!))!
+                    Get.to(() => UpdateReleaseScreen(
+                            release: widget.selectedRelease!))!
                         .then((value) {
                       // UpdateReleaseScreen이 닫힌 후 실행되는 코드
                       if (value == true) {

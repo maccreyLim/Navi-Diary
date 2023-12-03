@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:navi_diary/controller/%08diary_controller.dart';
+import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/update_diary_screen.dart';
 

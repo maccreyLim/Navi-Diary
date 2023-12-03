@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:navi_diary/controller/%08diary_controller.dart';
+import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';

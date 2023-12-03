@@ -56,8 +56,8 @@ class AuthController extends GetxController {
   }
 
   //isReleaseFirebase 토글
-  isReleaseChange() {
-    isReleaseFirebase.toggle();
+  isReleaseChange(bool a) {
+    isReleaseFirebase.value = a;
   }
 
   // 회원가입
