@@ -199,6 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     idController.text,
                                     pwController.text,
                                   );
+                                  print(authController.userData);
                                 }
                               },
                               child: const Text(

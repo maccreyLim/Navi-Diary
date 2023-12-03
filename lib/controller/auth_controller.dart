@@ -137,15 +137,21 @@ class AuthController extends GetxController {
         Map<String, dynamic> userData = userDocument.data()!;
         // _userData 업데이트
         _userData.value = userData;
-        print("User Data: $userData");
+        print("User Data: ${_userData.value!['uid']}");
       } else {
         // 사용자 정보가 없는 경우
         print("사용자 정보가 없습니다.");
       }
     } on FirebaseAuthException catch (e) {
-      String errorMessage = '';
+      print("FirebaseAuthException: $e");
+      String errorMessage = "로그인 되었습니다.";
       // FirebaseAuthException에서 발생한 특정 오류처리
       switch (e.code) {
+        case 'email-not-verified':
+          errorMessage = '이메일이 인증되지 않았습니다. 인증 이메일을 다시 보내시겠습니까?';
+          // 사용자에게 확인 다이얼로그 또는 메시지를 표시하여 인증 이메일 재전송 기능 추가
+          Get.to(() => const WellcomeJoinMessageScreen());
+          break;
         case 'user-not-found':
           errorMessage = '등록되지 않은 이메일 주소입니다.';
           break;

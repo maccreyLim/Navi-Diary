@@ -27,6 +27,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
   // Text controllers
   TextEditingController nameController = TextEditingController();
   TextEditingController messageController = TextEditingController();
+  TextEditingController yearsController = TextEditingController();
+  TextEditingController monthsController = TextEditingController();
 
   // Form key
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -62,6 +64,9 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
     super.initState();
     nameController.text = widget.release.name;
     messageController.text = widget.release.message;
+    yearsController.text = widget.release.years.toString();
+    monthsController.text = widget.release.months.toString();
+
     selectedDate = releaseData.inputDate;
   }
 
@@ -70,6 +75,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
     super.dispose();
     nameController.dispose();
     messageController.dispose();
+    yearsController.dispose();
+    monthsController.dispose();
   }
 
   @override
@@ -160,15 +167,10 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                                 ),
                                 const SizedBox(width: 26),
                                 SizedBox(
-                                  width: 80,
-                                  child: TextFormField(
+                                    width: 80,
+                                    child: TextFormField(
+                                      controller: yearsController,
                                       keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          // 여기서는 release 객체의 years 필드에 직접 값을 할당하는 것으로 가정합니다.
-                                          releaseData.years = int.parse(value);
-                                        });
-                                      },
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
                                           return '필수';
@@ -178,32 +180,23 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                                       decoration: const InputDecoration(
                                         hintText: '년',
                                       ),
-                                      // release.years가 null이 아니면 초기값으로 표시합니다.
-                                      initialValue:
-                                          releaseData.years.toString()),
-                                ),
+                                    )),
                                 const SizedBox(width: 30),
                                 SizedBox(
                                   width: 80,
                                   child: TextFormField(
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          releaseData.months = int.parse(value);
-                                        });
-                                      },
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return '필수';
-                                        }
-                                        return null; // 유효한 경우에는 null을 반환
-                                      },
-                                      decoration: const InputDecoration(
-                                        hintText: '개월',
-                                      ),
-                                      // release.years가 null이 아니면 초기값으로 표시합니다.
-                                      initialValue:
-                                          releaseData.months.toString()),
+                                    controller: monthsController,
+                                    keyboardType: TextInputType.number,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return '필수';
+                                      }
+                                      return null; // 유효한 경우에는 null을 반환
+                                    },
+                                    decoration: const InputDecoration(
+                                      hintText: '개월',
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -307,8 +300,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                             id: releaseData.id,
                             name: nameController.text,
                             inputDate: selectedDate,
-                            years: years,
-                            months: months,
+                            years: int.parse(yearsController.text),
+                            months: int.parse(monthsController.text),
                             message: messageController.text,
                           ),
                         );

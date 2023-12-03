@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 
 class WellcomeJoinMessageScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class WellcomeJoinMessageScreen extends StatefulWidget {
 }
 
 class _WellcomeJoinMessageScreenState extends State<WellcomeJoinMessageScreen> {
+  AuthController _authController = AuthController.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +80,7 @@ class _WellcomeJoinMessageScreenState extends State<WellcomeJoinMessageScreen> {
                             MaterialStateProperty.all<Color>(Colors.purple),
                       ),
                       onPressed: () {
+                        _authController.signOut();
                         Get.to(() => const LoginScreen());
                       },
                       child: const Text(

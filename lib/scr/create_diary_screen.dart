@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:navi_diary/controller/%08diary_controller.dart';
+import 'package:navi_diary/controller/auth_controller.dart';
+import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:navi_diary/widget/show_toast.dart';
 
 class CreateDiaryScreen extends StatefulWidget {
   const CreateDiaryScreen({super.key});
@@ -11,7 +18,12 @@ class CreateDiaryScreen extends StatefulWidget {
 }
 
 class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
-  //Property
+  // Property
+// 이미지 File을 저장할 리스트
+  List<XFile?> images = [];
+  // DiaryController 인스턴스 생성
+  DiaryController diaryController = DiaryController();
+  AuthController _authController = AuthController.instance;
   // Text controllers
   TextEditingController titleController = TextEditingController();
   TextEditingController contentsController = TextEditingController();
@@ -61,10 +73,10 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                       color: Colors.white.withOpacity(0.1),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.2), // 그림자의 색상과 투명도
-                          spreadRadius: 5, // 그림자의 확산 범위
-                          blurRadius: 7, // 그림자의 흐림 정도
-                          offset: const Offset(0, 3), // 그림자의 위치 조정 (가로, 세로)
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
                         ),
                       ],
                       borderRadius: BorderRadius.circular(30),
@@ -86,97 +98,103 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return '필수항목 입니다'; // Return the error message if the field is empty
+                                  return '필수항목 입니다';
                                 }
-                                return null; // Return null if the input is valid
+                                return null;
                               },
                             ),
                             const SizedBox(height: 10),
                             TextFormField(
                               maxLength: 400,
-                              maxLines: 12,
+                              maxLines: 8,
                               controller: contentsController,
                               keyboardType: TextInputType.emailAddress,
                               decoration: const InputDecoration(
-                                  icon: Icon(Icons.content_paste),
-                                  labelText: 'Contents',
-                                  hintText: 'Please write the contents"',
-                                  border: OutlineInputBorder()),
+                                icon: Icon(Icons.content_paste),
+                                labelText: 'Contents',
+                                hintText: 'Please write the contents"',
+                                border: OutlineInputBorder(),
+                              ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return '필수항목 입니다'; // Return the error message if the field is empty
+                                  return '필수항목 입니다';
                                 }
-                                return null; // Return null if the input is valid
+                                return null;
                               },
                             ),
                             IconButton(
-                                onPressed: () {
-                                  //Todo: 이미지 가지고 오기
-                                },
-                                icon: const Icon(Icons.camera_alt_outlined)),
+                              onPressed: () async {
+                                // 이미지 가져오기
+                                await diaryController.pickMultiImage(images);
+                                setState(() {});
+                              },
+                              icon: const Icon(
+                                Icons.camera_alt_outlined,
+                                size: 40,
+                              ),
+                            ),
+                            SizedBox(height: 14),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset(
-                                      'assets/sample1.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset(
-                                      'assets/sample2.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset(
-                                      'assets/sample3.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset(
-                                      'assets/sample4.png',
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                                    // color: Colors.black,
+                                    height: 100,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.85,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: images.length + 1,
+                                      itemBuilder: (context, index) {
+                                        if (index < images.length) {
+                                          return Container(
+                                            // color: Colors.red,
+                                            height: 80,
+                                            width: 100,
+                                            margin: EdgeInsets.only(right: 10),
+                                            child: Stack(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                  child: Image.file(
+                                                    File(images[index]!.path),
+                                                    width: 70,
+                                                    height: 70,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  bottom: 18,
+                                                  left: 20,
+                                                  child: Container(
+                                                    // color: Colors.amber,
+                                                    width: 100,
+                                                    height: 140,
+                                                    child: IconButton(
+                                                      onPressed: () {
+                                                        // 이미지 삭제
+                                                        diaryController
+                                                            .deleteImage(
+                                                                index, images);
+                                                        setState(() {});
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.delete,
+                                                        color: Colors.black54,
+                                                        size: 24,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    )),
                               ],
                             )
                           ],
@@ -211,17 +229,36 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                   width: MediaQuery.of(context).size.width * 0.95,
                   height: 50,
                   child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.pink),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink,
+                    ),
                     child: const Text(
                       'Save',
                       style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white60),
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white60,
+                      ),
                     ),
-                    onPressed: () {
-                      //Todo : 파이어베이스에 일기 저장 구현
+                    onPressed: () async {
+                      // 파이어베이스에 일기 저장
+                      if (_authController.userData != null) {
+                        diaryController.addDiary(
+                          DiaryModel(
+                            uid: _authController.userData!['uid'],
+                            createdAt: DateTime.now(),
+                            title: titleController.text,
+                            contents: contentsController.text,
+                            photoURL:
+                                images.map((image) => image!.path).toList(),
+                          ),
+                        );
+                        showToast('${_authController.userData?['uid']}', 1);
+                      } else {
+                        // _authController.userData가 null인 경우에 대한 처리
+                        // 예를 들어, 에러 메시지를 표시하거나 다른 조치를 취할 수 있습니다.
+                        showToast('사용자 데이터를 찾을 수 없습니다.', 2);
+                      }
                     },
                     onLongPress: () {
                       Get.to(() => const HomeScreen());

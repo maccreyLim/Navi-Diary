@@ -8,7 +8,7 @@ import 'package:navi_diary/controller/release_calculator_firebase.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
 import 'package:navi_diary/scr/create_release_screen.dart';
-import 'package:navi_diary/scr/diary_list_screen.dart';
+import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
 import 'package:navi_diary/scr/update_release_screen.dart';
@@ -171,33 +171,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                             color: Colors.white70),
                                       ),
 
-                                      subtitle: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 24),
-                                          Text(
-                                            '입소일:  ${DateFormat('yyyy-MM-dd').format(release.inputDate).toString()}',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white38,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            '형   량:  ${release.years}년 ${release.months}개월',
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.white38,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                      subtitle: GestureDetector(
+                                        onLongPress: () {
+                                          print(release.message);
+                                          _showGetXDialog(release);
+                                        },
+                                        child: Container(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
+                                              const SizedBox(height: 24),
                                               Text(
-                                                '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
+                                                '입소일:  ${DateFormat('yyyy-MM-dd').format(release.inputDate).toString()}',
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white38,
@@ -205,76 +191,92 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 8, 0, 4),
-                                            child: LinearProgressIndicator(
-                                              minHeight: 20,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: percentageMap[release.name]
-                                                          ?.isFinite ==
-                                                      true
-                                                  ? percentageMap[
-                                                          release.name]! /
-                                                      100
-                                                  : 0.0,
-                                              backgroundColor: Colors.white38,
-                                              valueColor:
-                                                  AlwaysStoppedAnimation<Color>(
-                                                percentageMap[release.name]
-                                                            ?.isFinite ==
-                                                        true
-                                                    ? daysPassed < 7
-                                                        ? Colors
-                                                            .red // Red for 0-7%
-                                                        : daysPassed <= 30
-                                                            ? Colors
-                                                                .yellow // Yellow for 7-30%
-                                                            : percentageMap[release
-                                                                        .name]! <
-                                                                    80
-                                                                ? Colors
-                                                                    .purple // Purple for 30-80%
-                                                                : Colors
-                                                                    .green // Green for 80-100%
-                                                    : Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                daysPassed <= 7
-                                                    ? "Tip: 신경이 극도로 예민해요 [입소${daysPassed}일째]"
-                                                    : daysPassed <= 30
-                                                        ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}일째]"
-                                                        : daysPassed <= 100
-                                                            ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}일째]"
-                                                            : percentageMap[release
-                                                                        .name]! <
-                                                                    80
-                                                                ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
-                                                                : "가석방 가능 기간입니다.",
+                                                '형   량:  ${release.years}년 ${release.months}개월',
                                                 style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.white54,
+                                                  fontSize: 14,
+                                                  color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              // Text(
-                                              //   '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
-                                              // ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.white38,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
+                                                  ),
+                                                ],
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 8, 0, 4),
+                                                child: LinearProgressIndicator(
+                                                  minHeight: 20,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  value: percentageMap[
+                                                                  release.name]
+                                                              ?.isFinite ==
+                                                          true
+                                                      ? percentageMap[
+                                                              release.name]! /
+                                                          100
+                                                      : 0.0,
+                                                  backgroundColor:
+                                                      Colors.white38,
+                                                  valueColor:
+                                                      AlwaysStoppedAnimation<
+                                                          Color>(
+                                                    percentageMap[release.name]
+                                                                ?.isFinite ==
+                                                            true
+                                                        ? daysPassed < 7
+                                                            ? Colors
+                                                                .red // Red for 0-7%
+                                                            : daysPassed <= 30
+                                                                ? Colors
+                                                                    .yellow // Yellow for 7-30%
+                                                                : percentageMap[release
+                                                                            .name]! <
+                                                                        80
+                                                                    ? Colors
+                                                                        .purple // Purple for 30-80%
+                                                                    : Colors
+                                                                        .green // Green for 80-100%
+                                                        : Colors.grey,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 5),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  ReleaseTipText(
+                                                      daysPassed: daysPassed,
+                                                      percentageMap:
+                                                          percentageMap,
+                                                      release: release),
+                                                  // Text(
+                                                  //   '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
+                                                  // ),
+                                                ],
+                                              )
                                             ],
-                                          )
-                                        ],
+                                          ),
+                                        ),
                                       ),
                                       // 다른 출소 정보를 표시하기 위한 추가 위젯 추가
                                     ),
@@ -291,30 +293,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             //아래에 있는 화면
-            Positioned(
-              top: MediaQuery.of(context).size.height * 0.40,
-              left: 10,
-              child: Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.58,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.1),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2), // 그림자의 색상과 투명도
-                        spreadRadius: 5, // 그림자의 확산 범위
-                        blurRadius: 7, // 그림자의 흐림 정도
-                        offset: const Offset(0, 3), // 그림자의 위치 조정 (가로, 세로)
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
-            ),
+            DownScreenForm(),
 
-            // 타이틀 위젯
+            // 타이틀 표시위젯
             Positioned(
               top: 20,
               left: 20,
@@ -362,6 +343,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
+
+            // 일기장 영역
+            DiaryScreenForm(),
+            //일기장 작성 버튼
             Positioned(
               bottom: 30,
               right: 20,
@@ -379,49 +364,186 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             //출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
-            Positioned(
-              top: 240,
-              right: 5,
-              child: GetBuilder<AuthController>(
-                builder: (controller) {
-                  return isRelease == false
-                      ? IconButton(
-                          icon: const Icon(
-                            Icons.add,
-                            size: 30,
-                            color: Colors.white38,
-                          ),
-                          onPressed: () {
-                            Get.to(() => const CreateReleaseScreen());
-                          },
-                        )
-                      : IconButton(
-                          icon: const Icon(
-                            Icons.close,
-                            size: 20,
-                            color: Colors.white38,
-                          ),
-                          onPressed: () {
-                            Get.to(() =>
-                                UpdateReleaseScreen(release: selectedRelease!));
-                          },
-                        );
-                },
-              ),
-            ),
-            // 일기장 리스트 뷰
-            Positioned(
-              top: MediaQuery.of(context).size.height * 0.42, // 조정 가능한 값
-              left: MediaQuery.of(context).size.width * 0.054, // 조정 가능한 값
-              child: Container(
-                width: MediaQuery.of(context).size.height * 0.45,
-                height: MediaQuery.of(context).size.width * 1.08,
-                child: diaryListScrren(),
-              ),
-            ),
+            ReleaseChangeButton(
+                isRelease: isRelease, selectedRelease: selectedRelease),
           ],
         ),
       ),
     );
   }
+}
+
+//출소일에 따른 Tip 안내멘트
+class ReleaseTipText extends StatelessWidget {
+  const ReleaseTipText({
+    super.key,
+    required this.daysPassed,
+    required this.percentageMap,
+    required this.release,
+  });
+
+  final int daysPassed;
+  final Map<String, double> percentageMap;
+  final ReleaseModel release;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      daysPassed <= 7
+          ? "Tip: 신경이 극도로 예민해요 [입소${daysPassed}일째]"
+          : daysPassed <= 30
+              ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}일째]"
+              : daysPassed <= 100
+                  ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}일째]"
+                  : percentageMap[release.name]! < 80
+                      ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
+                      : "가석방 가능 기간입니다.",
+      style: const TextStyle(
+        fontSize: 11,
+        color: Colors.white54,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+//출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
+class ReleaseChangeButton extends StatelessWidget {
+  const ReleaseChangeButton({
+    Key? key,
+    required this.isRelease,
+    required this.selectedRelease,
+  }) : super(key: key);
+
+  final bool isRelease;
+  final ReleaseModel? selectedRelease;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 240,
+      right: 5,
+      child: GetBuilder<AuthController>(
+        builder: (controller) {
+          return isRelease == false
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.add,
+                    size: 30,
+                    color: Colors.white38,
+                  ),
+                  onPressed: () {
+                    Get.to(() => const CreateReleaseScreen())!.then((value) {
+                      // CreateReleaseScreen이 닫힌 후 실행되는 코드
+                      if (value == true) {
+                        // 화면이 성공적으로 닫혔을 때, 상위 화면 다시 그리기
+                        controller.update();
+                      }
+                    });
+                  },
+                )
+              : IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 20,
+                    color: Colors.white38,
+                  ),
+                  onPressed: () {
+                    Get.to(() =>
+                            UpdateReleaseScreen(release: selectedRelease!))!
+                        .then((value) {
+                      // UpdateReleaseScreen이 닫힌 후 실행되는 코드
+                      if (value == true) {
+                        // 화면이 성공적으로 닫혔을 때, 상위 화면 다시 그리기
+                        controller.update();
+                      }
+                    });
+                  },
+                );
+        },
+      ),
+    );
+  }
+}
+
+// 일기장 영역
+class DiaryScreenForm extends StatelessWidget {
+  const DiaryScreenForm({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.42, // 조정 가능한 값
+      left: MediaQuery.of(context).size.width * 0.054, // 조정 가능한 값
+      child: Container(
+        // color: Colors.transparent,
+        width: MediaQuery.of(context).size.height * 0.45,
+        height: MediaQuery.of(context).size.width * 1.08,
+        child: DiaryListWidget(),
+      ),
+    );
+  }
+}
+
+//아래에 있는 화면
+class DownScreenForm extends StatelessWidget {
+  const DownScreenForm({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.40,
+      left: 10,
+      child: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.952,
+          height: MediaQuery.of(context).size.height * 0.58,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.1),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2), // 그림자의 색상과 투명도
+                spreadRadius: 5, // 그림자의 확산 범위
+                blurRadius: 7, // 그림자의 흐림 정도
+                offset: const Offset(0, 3), // 그림자의 위치 조정 (가로, 세로)
+              ),
+            ],
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//출소정보 디테일 다이얼로그
+void _showGetXDialog(ReleaseModel release) {
+  Get.defaultDialog(
+    title: release.name, titleStyle: TextStyle(color: Colors.white),
+    content: Text(
+      release.message,
+      style: TextStyle(color: Colors.white54, fontSize: 20),
+    ),
+    backgroundColor: Colors.deepPurple, // 배경색 변경
+    actions: [
+      ElevatedButton(
+        onPressed: () {
+          // Handle the entered value here
+
+          Get.back(); // Close the dialog
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.pink, // 버튼 색상 변경
+        ),
+        child: Text(
+          '확인',
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      ),
+    ],
+  );
 }

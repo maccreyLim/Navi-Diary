@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:navi_diary/scr/home_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -92,19 +91,13 @@ class _SettingScreenState extends State<SettingScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Todo : 설정 저장 구현
-                    Get.offAll(() => HomeScreen());
+                    // Todo: 설정 저장 구현
+
+                    // Get.offAll(() => HomeScreen());
                   },
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromARGB(255, 18, 80, 187))),
-                  child: Text(
-                    "설정 저장",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  // 추가된 child 매개변수
+                  child: Text('Your Button Text'), // 원하는 텍스트를 넣어주세요
+                  // 나머지 위젯 속성들...
                 ),
               ),
             ),
