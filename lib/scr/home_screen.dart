@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Stack(
           children: [
-            //위쪽 화면
+            //위쪽 화면 Stack
             Positioned(
               top: 70,
               left: 10,
@@ -125,10 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: CircularProgressIndicator(),
-                              );
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
                             } else if (!snapshot.hasData ||
@@ -221,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         0, 8, 0, 4),
                                                 child: LinearProgressIndicator(
                                                   minHeight: 20,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
+                                                  // borderRadius:
+                                                  //     BorderRadius.circular(10),
                                                   value: percentageMap[
                                                                   release.name]
                                                               ?.isFinite ==
@@ -353,6 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 tooltip: '일기쓰기',
                 onPressed: () {
                   Get.to(() => const CreateDiaryScreen());
+                  setState(() {});
                 },
                 child: const Icon(
                   Icons.add,
@@ -394,9 +393,11 @@ class ReleaseTipText extends StatelessWidget {
               ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}일째]"
               : daysPassed <= 100
                   ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}일째]"
-                  : percentageMap[release.name]! < 80
-                      ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
-                      : "가석방 가능 기간입니다.",
+                  : percentageMap[release.name]! < 50
+                      ? "Tip: 50%가 지났습니다.힘냅시다 [입소${daysPassed}일째]"
+                      : percentageMap[release.name]! < 80
+                          ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
+                          : "가석방 가능 기간입니다.",
       style: const TextStyle(
         fontSize: 11,
         color: Colors.white54,
@@ -485,13 +486,14 @@ class DiaryScreenForm extends StatelessWidget {
         // color: Colors.transparent,
         width: MediaQuery.of(context).size.height * 0.45,
         height: MediaQuery.of(context).size.width * 1.08,
+        //일기장 리스트
         child: DiaryListWidget(),
       ),
     );
   }
 }
 
-//아래에 있는 화면
+//아래에 있는 화면 Stack
 class DownScreenForm extends StatelessWidget {
   const DownScreenForm({
     super.key,

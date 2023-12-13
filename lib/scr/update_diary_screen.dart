@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
@@ -27,6 +29,9 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   final TextEditingController contentsController = TextEditingController();
 
   List<XFile?> images = [];
+
+  // Firebase Storage 인스턴스
+  FirebaseStorage _storage = FirebaseStorage.instance;
 
   @override
   void initState() {
@@ -57,6 +62,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
           Get.back();
+          setState(() {});
         }
       },
       child: Scaffold(
@@ -168,8 +174,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.pink,
           ),
-          child: Text(
-            'Save',
+          child: const Text(
+            '저장',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -178,7 +184,9 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
           ),
           onPressed: () async {
             // 일기 저장 함수 호출
-            _saveDiary();
+            _saveDiary(images);
+
+            Get.back();
           },
           onLongPress: () {
             // 홈 화면으로 이동
@@ -230,14 +238,10 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     );
   }
 
-  // 카메라 아이콘 버튼을 그리는 함수
+// 카메라 아이콘 버튼을 그리는 함수
   Widget _buildCameraIconButton() {
     return IconButton(
-      onPressed: () async {
-        // 이미지 가져오기
-        await _diaryController.pickMultiImage(images);
-        setState(() {});
-      },
+      onPressed: _pickMultiImage, // 이미지 추가 함수로 변경
       icon: Icon(
         Icons.camera_alt_outlined,
         size: 40,
@@ -245,95 +249,220 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     );
   }
 
+  void _pickMultiImage() async {
+    try {
+      // ImagePicker를 사용하여 여러 이미지를 선택합니다.
+      List<XFile>? selectedImages = await ImagePicker().pickMultiImage();
+
+      // 선택된 이미지를 기존 리스트에 추가합니다.
+      if (selectedImages.isNotEmpty) {
+        images.addAll(selectedImages);
+        setState(() {});
+      }
+    } catch (e) {
+      print('이미지 선택 오류: $e');
+    }
+  }
+
   // 이미지 리스트 뷰를 그리는 함수
   Widget _buildImageListView() {
-    return Row(
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width * 0.85,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          return _buildImageContainer(index);
+        },
+      ),
+    );
+  }
+
+  // 이미지 추가 버튼을 그리는 함수
+  Widget _buildAddImageButton() {
+    return GestureDetector(
+      onTap: _pickMultiImage, // 이미지 추가 함수 호출
+      child: Container(
+        height: 80,
+        width: 100,
+        margin: const EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.add,
+            size: 40,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // 이미지 컨테이너를 그리는 함수
+  Widget _buildImageContainer(int index) {
+    return Stack(
       children: [
-        Container(
-          height: 100,
-          width: MediaQuery.of(context).size.width * 0.85,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: images.length + 1,
-            itemBuilder: (context, index) {
-              if (index < images.length) {
-                // 이미지 컨테이너를 그리는 함수
-                return _buildImageContainer(index);
-              } else {
-                return Container();
-              }
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15.0),
+          child:
+              images[index]!.path.startsWith('http') // 기존 이미지는 네트워크 이미지로 가정합니다.
+                  ? Image.network(
+                      images[index]!.path,
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.file(
+                      File(images[index]!.path),
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                    ),
+        ),
+        Positioned(
+          bottom: 2,
+          left: 2,
+          child: GestureDetector(
+            onTap: () {
+              // 이미지 삭제 함수 호출
+              deleteImage(index);
             },
+            child: Container(
+              padding: EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.delete,
+                color: Colors.black,
+                size: 16,
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 
-  // 이미지 컨테이너를 그리는 함수
-  Widget _buildImageContainer(int index) {
-    return Container(
-      height: 80,
-      width: 100,
-      margin: const EdgeInsets.only(right: 10),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(15.0),
-            child: Image.file(
-              File(images[index]!.path),
-              width: 70,
-              height: 70,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Positioned(
-            bottom: 18,
-            left: 20,
-            child: Container(
-              width: 100,
-              height: 140,
-              child: IconButton(
-                onPressed: () {
-                  // 이미지 삭제 함수 호출
-                  deleteImage(index);
-                },
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.black54,
-                  size: 24,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 일기 저장 함수
-  void _saveDiary() async {
+  void _saveDiary(List<XFile?> updatedImages) async {
     if (_formKey.currentState!.validate()) {
       if (_authController.userData != null) {
-        _diaryController.updateDiary(
-          DiaryModel(
-            uid: _authController.userData!['uid'],
-            createdAt: DateTime.now(),
-            title: titleController.text,
-            contents: contentsController.text,
-            photoURL: images.map((image) => image!.path).toList(),
-          ),
-        );
-        showToast('Diary updated successfully', 1);
+        try {
+          // 업데이트된 이미지 목록에서 기존 이미지 목록을 제외한 이미지 목록을 가져옴
+          List<String> deletedImageUrls = widget.diary.photoURL!
+              .where((existingImageUrl) => !updatedImages
+                  .any((newImage) => newImage?.path == existingImageUrl))
+              .toList();
+
+          // Firestore에서 삭제된 이미지 제거
+          await _deleteImagesFromFirestore(deletedImageUrls);
+
+          // 새로 추가된 이미지를 Firebase Storage에 업로드
+          List<String> newImageUrls = await _uploadNewImages(updatedImages);
+          print(newImageUrls);
+
+          // Firestore에서 일기 업데이트
+          await _diaryController.updateDiary(
+              widget.diary, // 기존 DiaryModel
+              images,
+              deletedImageUrls,
+              newImageUrls // 삭제된 이미지 목록
+              );
+
+          showToast('일기가 성공적으로 업데이트되었습니다', 1);
+        } catch (e) {
+          print('일기 업데이트 오류: $e');
+          showToast('일기 업데이트 중 오류가 발생했습니다', 2);
+        }
       } else {
-        showToast('User data not found', 2);
+        showToast('사용자 데이터를 찾을 수 없습니다', 2);
       }
     }
   }
 
-  // 이미지 삭제 함수
-  void deleteImage(int index) {
-    setState(() {
-      images.removeAt(index);
-    });
+// 새로 추가된 이미지를 Firebase Storage에 업로드하는 메서드
+  Future<List<String>> _uploadNewImages(List<XFile?> newImages) async {
+    List<String> updatedImageUrls = [];
+
+    for (XFile? newImage in newImages) {
+      if (newImage != null) {
+        if (newImage.path.startsWith('http')) {
+          // If the image is from a network URL, use it directly
+          updatedImageUrls.add(newImage.path);
+        } else {
+          // If the image is local, compress and upload it
+          File compressedImage = await _compressAndGetFile(File(newImage.path));
+
+          final ref =
+              _storage.ref().child('images/${DateTime.now().toString()}');
+          await ref.putFile(compressedImage);
+
+          final url = await ref.getDownloadURL();
+          updatedImageUrls.add(url);
+        }
+      }
+    }
+
+    return updatedImageUrls;
   }
+
+// Firestore에서 이미지 삭제
+  Future<void> _deleteImagesFromFirestore(List<String> deletedImageUrls) async {
+    for (String deletedImageUrl in deletedImageUrls) {
+      await _diaryController.deleteImageFromFirestore(
+          widget.diary, deletedImageUrl);
+    }
+  }
+
+// 이미지 압축
+  Future<File> _compressAndGetFile(File file) async {
+    // 압축 품질 설정 (0에서 100까지)
+    int quality = 60;
+
+    List<int> compressedBytes = await FlutterImageCompress.compressWithList(
+      file.readAsBytesSync(),
+      quality: quality,
+    );
+
+    // 압축된 바이트를 새 파일에 저장
+    File compressedFile = File('${file.path}_compressed.jpg')
+      ..writeAsBytesSync(compressedBytes);
+
+    return compressedFile;
+  }
+
+  // 이미지 삭제 함수
+  void deleteImage(int index) async {
+    try {
+      // 이미지 URL 가져오기
+      String imageUrl = images[index]!.path;
+
+      // Firebase Storage 인스턴스 생성
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      // StorageReference를 사용하여 이미지 삭제
+      await storage.refFromURL(imageUrl).delete();
+
+      // Firestore에서도 해당 이미지 삭제
+      await _diaryController.deleteImageFromFirestore(widget.diary, imageUrl);
+
+      // 이미지 리스트에서 해당 이미지 제거
+      setState(() {
+        images.removeAt(index);
+      });
+
+      // 삭제 성공 메시지 또는 다른 작업 추가
+      print('이미지가 성공적으로 삭제되었습니다.');
+    } catch (error) {
+      // 삭제 중 오류 발생 시 오류 메시지 출력
+      print('이미지 삭제 오류: $error');
+    }
+  }
+
+  // _uploadNewImages 메서드 추가
 }

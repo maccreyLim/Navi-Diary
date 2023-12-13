@@ -46,11 +46,9 @@ class AuthController extends GetxController {
 
 //user가 LogOut되면 즉시 로그인으로 이동 , LogIn이면 홈으로 이동
   _moveToPage(User? user) {
-    if (user == null) {
-      //로그아웃이 되어 있는 상태에서 페이지이동 구현
+    if (user == null || userData == null) {
       Get.off(() => const LoginScreen());
     } else {
-      //로그인이 되어 있는 상태에서 페이지이동 구현
       Get.offAll(() => const HomeScreen());
     }
   }
@@ -122,11 +120,8 @@ class AuthController extends GetxController {
       // 로그인이 성공한 경우, 이메일 인증 여부 확인
       User? user = authentication.currentUser;
       if (user != null && user.emailVerified == false) {
-        // 이메일이 인증되지 않았다면 예외 던지기
-        throw FirebaseAuthException(
-          code: 'email-not-verified',
-          message: '이메일이 인증되지 않았습니다.',
-        );
+        // 이메일이 인증되지 않았다면 인즈 안내페이지로 이동
+        Get.to(() => const WellcomeJoinMessageScreen());
       }
 
       // Firestore에서 사용자 정보 가져오기
@@ -137,6 +132,8 @@ class AuthController extends GetxController {
         Map<String, dynamic> userData = userDocument.data()!;
         // _userData 업데이트
         _userData.value = userData;
+        // 사용자 정보가 로드되면 홈 화면으로 이동
+        Get.offAll(() => const HomeScreen());
         print("User Data: ${_userData.value!['uid']}");
       } else {
         // 사용자 정보가 없는 경우
@@ -175,6 +172,9 @@ class AuthController extends GetxController {
     try {
       // Firebase Authentication을 사용하여 로그아웃
       await authentication.signOut();
+
+      // 로그아웃 성공 시 _user 값을 갱신
+      _user.value = null;
 
       // 로그아웃 성공 시 추가적인 작업이 필요하다면 여기에 추가
     } catch (e) {

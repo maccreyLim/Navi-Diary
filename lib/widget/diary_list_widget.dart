@@ -14,101 +14,102 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<DiaryModel>>(
-      future: _diaryController.getDiaries(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          List<DiaryModel>? diaries = snapshot.data;
+    return Obx(() => FutureBuilder<List<DiaryModel>>(
+          future: _diaryController.getDiaries(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else {
+              List<DiaryModel>? diaries = snapshot.data;
 
-          if (diaries == null || diaries.isEmpty) {
-            return const Center(
-              child: Text('일기가 없습니다.'),
-            );
-          }
+              if (diaries == null || diaries.isEmpty) {
+                return const Center(
+                  child: Text('일기가 없습니다.'),
+                );
+              }
 
-          return Container(
-            child: ListView.builder(
-              itemCount: diaries.length,
-              itemBuilder: (context, index) {
-                var diary = diaries[index];
+              return Container(
+                child: ListView.builder(
+                  itemCount: diaries.length,
+                  itemBuilder: (context, index) {
+                    var diary = diaries[index];
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          ' ${_formatDate(diary.createdAt)}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              ' ${_formatDate(diary.createdAt)}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Get.to(() => UpdateDiaryScreen(diary: diary));
+                                setState(() {});
+                              },
+                              icon: Icon(Icons.edit),
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Get.to(() => UpdateDiaryScreen(diary: diary));
-                          },
-                          icon: Icon(Icons.edit),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        // 이미지 표시 부분
+                        for (int imgIndex = 0;
+                            imgIndex < diary.photoURL!.length;
+                            imgIndex++)
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            width: MediaQuery.of(context).size.height * 0.45,
+                            height: MediaQuery.of(context).size.width * 0.7,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(diary.photoURL![imgIndex]),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(25.0),
+                            ),
+                          ),
+
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(height: 20),
+                        Text(
+                          diary.title,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          diary.contents,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Divider(),
+                        SizedBox(
+                          height: 20,
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 14,
-                    ),
-                    // 이미지 표시 부분
-                    for (int imgIndex = 0;
-                        imgIndex < diary.photoURL!.length;
-                        imgIndex++)
-                      Container(
-                        margin: EdgeInsets.only(top: 20),
-                        width: MediaQuery.of(context).size.height * 0.45,
-                        height: MediaQuery.of(context).size.width * 0.7,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(diary.photoURL![imgIndex]),
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                      ),
-
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      diary.title,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      diary.contents,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Divider(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
-        }
-      },
-    );
+                    );
+                  },
+                ),
+              );
+            }
+          },
+        ));
   }
 
   String _formatDate(DateTime? dateTime) {

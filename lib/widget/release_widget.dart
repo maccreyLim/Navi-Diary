@@ -20,7 +20,7 @@ class _releaseWidgetState extends State<releaseWidget> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Data is still loading
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             // An error occurred while fetching data
             return Text('Error: ${snapshot.error}');
