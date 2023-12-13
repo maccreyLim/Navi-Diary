@@ -36,73 +36,97 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                   itemBuilder: (context, index) {
                     var diary = diaries[index];
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              ' ${_formatDate(diary.createdAt)}',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 32,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                Get.to(() => UpdateDiaryScreen(diary: diary));
-                                setState(() {});
-                              },
-                              icon: Icon(Icons.edit),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        // 이미지 표시 부분
-                        for (int imgIndex = 0;
-                            imgIndex < diary.photoURL!.length;
-                            imgIndex++)
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            width: MediaQuery.of(context).size.height * 0.45,
-                            height: MediaQuery.of(context).size.width * 0.7,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(diary.photoURL![imgIndex]),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(25.0),
-                            ),
-                          ),
+                    return GestureDetector(
+                      onLongPress: () {
+                        //일기 삭제 구현
+                        // 어떤 화면에서 이미지 삭제를 수행하는 예제 코드
+                        void deleteImageExample(
+                            DiaryModel diary, String imageUrl) async {
+                          try {
+                            // DiaryController 인스턴스 생성
+                            DiaryController diaryController = DiaryController();
 
-                        SizedBox(
-                          height: 10,
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          diary.title,
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          diary.contents,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Divider(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                      ],
+                            // 이미지 삭제
+                            await diaryController.deleteImageFromFirestore(
+                                diary, imageUrl);
+
+                            // 삭제 성공 시 메시지 표시
+                            print('이미지가 성공적으로 삭제되었습니다.');
+                          } catch (error) {
+                            // 오류 발생 시 오류 메시지 출력
+                            print('이미지 삭제 중 오류 발생: $error');
+                          }
+                        }
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                ' ${_formatDate(diary.createdAt)}',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Get.to(() => UpdateDiaryScreen(diary: diary));
+                                  setState(() {});
+                                },
+                                icon: Icon(Icons.edit),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 14,
+                          ),
+                          // 이미지 표시 부분
+                          for (int imgIndex = 0;
+                              imgIndex < diary.photoURL!.length;
+                              imgIndex++)
+                            Container(
+                              margin: EdgeInsets.only(top: 20),
+                              width: MediaQuery.of(context).size.height * 0.45,
+                              height: MediaQuery.of(context).size.width * 0.7,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image:
+                                      NetworkImage(diary.photoURL![imgIndex]),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                            ),
+
+                          SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(height: 20),
+                          Text(
+                            diary.title,
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            diary.contents,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Divider(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

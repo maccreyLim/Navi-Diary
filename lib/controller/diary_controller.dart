@@ -18,7 +18,7 @@ class DiaryController {
   Future<void> addDiary(DiaryModel diary) async {
     try {
       // Firestore 인스턴스와 'diaries'라는 컬렉션을 사용
-      await FirebaseFirestore.instance
+      DocumentReference diaryRef = await FirebaseFirestore.instance
           .collection('users')
           .doc(authController.userData!['uid'])
           .collection('diaries')
@@ -29,7 +29,11 @@ class DiaryController {
         'contents': diary.contents,
         'photoURL': diary.photoURL,
       });
-      // 필요한 경우 추가적인 로직이나 에러 처리를 할 수 있습니다.
+      // 추가된 문서의 ID를 출력
+      print('Added document with ID: ${diaryRef.id}');
+
+      // 추가된 문서의 ID를 사용하여 'id' 필드 업데이트
+      await diaryRef.set({'id': diaryRef.id}, SetOptions(merge: true));
     } catch (e) {
       // 에러 처리
       print('일기 추가 중 오류: $e');
@@ -95,27 +99,6 @@ class DiaryController {
     }
   }
 
-  // // 타이틀이나 날짜를 기준으로 일기들을 검색하는 함수
-  // Future<List<DiaryModel>> getDiariesByTitleOrDate(String searchTerm) async {
-  //   try {
-  //     String userUid = authController.userData!['uid'];
-  //     QuerySnapshot querySnapshot = await _firestore
-  //         .collection('users')
-  //         .doc(userUid)
-  //         .collection('diaries')
-  //         .where('title', isEqualTo: searchTerm)
-  //         .where('createdAt',
-  //             isGreaterThanOrEqualTo: DateTime.parse(searchTerm))
-  //         .get();
-
-  //     return querySnapshot.docs
-  //         .map((doc) => DiaryModel.fromMap(doc.data() as Map<String, dynamic>))
-  //         .toList();
-  //   } catch (e) {
-  //     print('일기 검색 오류: $e');
-  //     return [];
-  //   }
-  // }
 
 // 일기를 업데이트하는 함수
   Future<void> updateDiary(
@@ -127,13 +110,6 @@ class DiaryController {
     try {
       String userUid = authController.userData!['uid'];
 
-      // 기존 이미지와 새 이미지의 URL 결합
-      List<String> allImageUrls = List.from(existingDiary.photoURL!)
-        ..addAll(newImageUrls);
-
-      // 중복된 URL 제거
-      allImageUrls = allImageUrls.toSet().toList();
-
       // Firestore 문서 업데이트
       await _firestore
           .collection('users')
@@ -141,14 +117,24 @@ class DiaryController {
           .collection('diaries')
           .doc(existingDiary.id)
           .update({
-        'updatedAt': FieldValue.serverTimestamp(),
+        'updatedAt': DateTime.now(),
         'title': existingDiary.title,
         'contents': existingDiary.contents,
-        'photoURL': allImageUrls,
+        'photoURL': newImageUrls,
       });
+
+      // 여기에서 'photoURL'을 업데이트합니다.
+
+      // 나머지 코드는 그대로 유지됩니다.
     } catch (e) {
       print('일기 업데이트 오류: $e');
     }
+  }
+
+// 중복을 제거하는 함수
+  List<String> removeDuplicates(List<String> list) {
+    Set<String> uniqueSet = Set<String>.from(list);
+    return uniqueSet.toList();
   }
 
   // 일기를 삭제하는 함수
@@ -197,7 +183,7 @@ class DiaryController {
     }
   }
 
-  // 이미지를 Firebase Storage에서 삭제하는 메서드
+// 이미지를 Firebase Storage에서 삭제하는 메서드
   Future<void> deleteImageFromStorage(String imageUrl) async {
     try {
       // 이미지 URL에서 gs:// 형태의 Bucket 이름과 Path 추출
@@ -209,7 +195,8 @@ class DiaryController {
         String path = match.group(2)!;
 
         // Firebase Storage에서 해당 이미지의 참조를 얻어옴
-        Reference imageRef = FirebaseStorage.instance.ref(bucket).child(path);
+        Reference imageRef =
+            FirebaseStorage.instance.ref().child(bucket).child(path);
 
         // Firebase Storage에서 이미지 삭제
         await imageRef.delete();
@@ -221,11 +208,12 @@ class DiaryController {
     }
   }
 
-  // Firestore에서 이미지를 삭제하는 메서드
+// Firestore에서 이미지를 삭제하는 메서드
   Future<void> deleteImageFromFirestore(
       DiaryModel diary, String imageUrl) async {
     try {
-      await _firestore
+      // Firestore 문서 삭제 코드
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(authController.userData!['uid'])
           .collection('diaries')
@@ -233,7 +221,8 @@ class DiaryController {
           .update({
         'photoURL': FieldValue.arrayRemove([imageUrl]),
       });
-      print('Firestore: 이미지가 성공적으로 삭제되었습니다');
+
+      print('Firestore에서 이미지가 성공적으로 삭제되었습니다.');
     } catch (error) {
       print('Firestore: 이미지 삭제 중 오류 발생 - $error');
     }
