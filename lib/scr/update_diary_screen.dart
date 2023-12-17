@@ -31,6 +31,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   List<XFile?> images = [];
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+  bool isDlelete = false;
+
   @override
   void initState() {
     super.initState();
@@ -38,9 +40,26 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     images = widget.diary.photoURL!
         .map((path) => XFile(path))
         .toList(growable: true);
+
+    // titleController의 값이 변경될 때마다 호출되는 콜백 함수 등록
+    titleController.addListener(() {
+      // titleController 값이 변경될 때마다 widget.diary.title 업데이트
+      setState(() {
+        widget.diary.title = titleController.text;
+      });
+    });
+
+    // contentsController의 값이 변경될 때마다 호출되는 콜백 함수 등록
+    contentsController.addListener(() {
+      // contentsController 값이 변경될 때마다 widget.diary.contents 업데이트
+      setState(() {
+        widget.diary.contents = contentsController.text;
+      });
+    });
   }
 
   void _initializeForm() {
+    // 폼의 타이틀과 내용 초기화
     titleController.text = widget.diary.title;
     contentsController.text = widget.diary.contents;
   }
@@ -54,17 +73,21 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 키보드를 내리는 함수
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       onHorizontalDragEnd: (details) {
         if (details.primaryVelocity! > 0) {
+          // 뒤로 가기
           Get.back();
           setState(() {});
         }
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Container(
+        body:
+            //배경 화면 구현
+            Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -77,9 +100,14 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
           ),
           child: Stack(
             children: [
+              //TextFormFild가 있는 스택
               _buildFormContainer(),
+              //Update a Diary 텍스트 구현
               _buildTitleText(),
+              //수정 버튼
               _buildSaveButton(),
+              //삭제버튼
+              _buildDeleteButton(),
             ],
           ),
         ),
@@ -152,14 +180,14 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildSaveButton() {
     return Positioned(
-      bottom: 40,
+      bottom: 90,
       left: 10,
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.95,
         height: 50,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.pink,
+            backgroundColor: Colors.purple,
           ),
           child: const Text(
             '수정',
@@ -170,17 +198,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
             ),
           ),
           onPressed: () async {
-            // await showDialog(
-            //   context: context,
-            //   builder: (BuildContext context) {
-            //     return const Center(
-            //       child: CircularProgressIndicator(),
-            //     );
-            //   },
-            //   barrierDismissible: false,
-            // );
-
             try {
+              // 다이어리 업데이트
               await _saveDiary(images);
 
               Get.offAll(() => const HomeScreen());
@@ -191,6 +210,48 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
             }
           },
           onLongPress: () {
+            // 홈 스크린으로 이동
+            Get.to(() => const HomeScreen());
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDeleteButton() {
+    return Positioned(
+      bottom: 30,
+      left: 10,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.95,
+        height: 50,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: isDlelete ? Colors.pink : Colors.grey),
+          child: Text(
+            isDlelete ? '길게 누르면 삭제가 됩니다.' : '삭제',
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white60,
+            ),
+          ),
+          onPressed: () {
+            //길게 눌렀을때 삭제 됨을 표시
+            setState(() {
+              isDlelete = !isDlelete;
+            });
+          },
+          onLongPress: () async {
+            // 파이어 스토리지에서 이미지 삭제
+            if (widget.diary.photoURL?.isNotEmpty == true) {
+              deleteImages(widget.diary.photoURL);
+            }
+
+            // 파이어스토어에서 다이어리 삭제
+            await _diaryController.deleteDiary(widget.diary.id.toString());
+
+            // 홈 화면으로 이동
             Get.to(() => const HomeScreen());
           },
         ),
@@ -249,6 +310,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   void _pickMultiImage() async {
     try {
+      // 이미지 선택
       List<XFile>? selectedImages = await ImagePicker().pickMultiImage();
 
       if (selectedImages.isNotEmpty) {
@@ -300,14 +362,11 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     return Container(
       height: 80,
       width: 80,
-      // color: Colors.red,
       child: Stack(
         children: [
           Positioned(
             top: 6,
-            child:
-                // 이미지 표시
-                ClipRRect(
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: images[index]!.path.startsWith('http')
                   ? Image.network(
@@ -328,13 +387,12 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
             bottom: 18,
             left: 20,
             child: Container(
-              // color: Colors.amber,
               width: 100,
               height: 140,
               child: IconButton(
                 onPressed: () {
                   // 이미지 삭제
-                  deleteImage(index);
+                  deleteUpdateImage(index);
                   setState(() {});
                 },
                 icon: const Icon(
@@ -354,17 +412,21 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     if (_formKey.currentState!.validate()) {
       if (_authController.userData != null) {
         try {
+          // 삭제된 이미지 URL 가져오기
           List<String> deletedImageUrls = widget.diary.photoURL!
               .where((existingImageUrl) => !updatedImages
                   .any((newImage) => newImage?.path == existingImageUrl))
               .toList();
 
+          // Firestore에서 삭제된 이미지 삭제
           await _deleteImagesFromFirestore(deletedImageUrls);
 
           print('새 이미지 업로드 중...');
+          // 새 이미지 업로드 및 URL 가져오기
           List<String> newImageUrls = await _uploadNewImages(updatedImages);
           print('새 이미지 URL: $newImageUrls');
 
+          // 다이어리 업데이트
           await _diaryController.updateDiary(
             widget.diary,
             images,
@@ -389,14 +451,14 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     for (XFile? newImage in newImages) {
       if (newImage != null) {
         if (newImage.path.startsWith('http')) {
+          // 이미지가 이미 원격 URL인 경우 URL 그대로 사용
           updatedImageUrls.add(newImage.path);
         } else {
+          // 이미지를 압축하고 Firebase Storage에 업로드
           File compressedImage = await _compressAndGetFile(File(newImage.path));
-
           final ref =
               _storage.ref().child('images/${DateTime.now().toString()}');
           await ref.putFile(compressedImage);
-
           final url = await ref.getDownloadURL();
           updatedImageUrls.add(url);
         }
@@ -409,40 +471,90 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   Future<void> _deleteImagesFromFirestore(List<String> deletedImageUrls) async {
     for (String deletedImageUrl in deletedImageUrls) {
       print('Firestore에서 이미지 삭제 중...');
+      // Firestore에서 이미지 삭제
       await _diaryController.deleteImageFromFirestore(
           widget.diary, deletedImageUrl);
     }
     print('이미지가 성공적으로 삭제되었습니다.');
   }
 
+  // 이미지를 압축하고 파일을 반환하는 비동기 함수
   Future<File> _compressAndGetFile(File file) async {
+    // 이미지 품질 설정 (0부터 100까지, 높은 품질일수록 용량이 큼)
     int quality = 60;
 
+    // FlutterImageCompress 라이브러리를 사용하여 이미지 압축
     List<int> compressedBytes = await FlutterImageCompress.compressWithList(
       file.readAsBytesSync(),
       quality: quality,
     );
 
+    // 압축된 이미지를 새로운 파일로 저장
     File compressedFile = File('${file.path}_compressed.jpg')
       ..writeAsBytesSync(compressedBytes);
 
+    // 압축된 파일 반환
     return compressedFile;
   }
 
-  void deleteImage(int index) async {
+// 이미지 수정삭제
+  void deleteUpdateImage(int index) async {
+    // photoURL이 null인 경우 빠져나감
+    if (widget.diary.photoURL == null) {
+      return;
+    }
+
     try {
-      String imageUrl = images[index]!.path;
-      FirebaseStorage storage = FirebaseStorage.instance;
-      await storage.refFromURL(imageUrl).delete();
-      await _diaryController.deleteImageFromFirestore(widget.diary, imageUrl);
+      // index가 photoURL 리스트의 범위 내에 있는지 확인
+      if (index >= 0 && index < widget.diary.photoURL!.length) {
+        String imageUrl = widget.diary.photoURL![index];
+        FirebaseStorage storage = FirebaseStorage.instance;
 
-      setState(() {
-        images.removeAt(index);
-      });
+        // imagePath를 사용하여 이미지 삭제
+        await storage.refFromURL(imageUrl).delete();
 
-      print('이미지가 성공적으로 삭제되었습니다.');
+        // Firestore에서도 삭제 가능하다면 해당 로직 추가
+        // await _diaryController.deleteImageFromFirestore(widget.diary, imageUrl);
+
+        setState(() {
+          // images 리스트에서 이미지 삭제
+          images.removeAt(index);
+        });
+
+        print('이미지가 성공적으로 삭제되었습니다.');
+      } else {
+        print('인덱스가 photoURL 리스트의 범위를 벗어납니다.');
+      }
     } catch (error) {
       print('이미지 삭제 오류: $error');
     }
   }
+
+// 이미지 삭제
+  void deleteImages(List<String>? imageUrls) {
+    if (imageUrls != null && imageUrls.isNotEmpty) {
+      for (String imageUrl in imageUrls) {
+        int index = widget.diary.photoURL!.indexOf(imageUrl);
+
+        if (index >= 0 && index < widget.diary.photoURL!.length) {
+          // imagePath를 사용하여 이미지 삭제
+          FirebaseStorage.instance.refFromURL(imageUrl).delete();
+
+          // Firestore에서도 삭제 가능하다면 해당 로직 추가
+          // _diaryController.deleteImageFromFirestore(diary, imageUrl);
+        }
+      }
+    }
+  }
+
+  // String extractPathFromUrl(String imageUrl) {
+  //   // 이미지 URL에서 파일 경로 추출
+  //   Uri uri = Uri.parse(imageUrl);
+  //   String path = uri.path;
+  //   // token 제거
+  //   path = path.split('?').first;
+  //   // URL 디코딩
+  //   path = Uri.decodeFull(path);
+  //   return path;
+  // }
 }

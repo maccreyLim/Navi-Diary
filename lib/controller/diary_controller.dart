@@ -99,9 +99,8 @@ class DiaryController {
     }
   }
 
-
 // 일기를 업데이트하는 함수
-  Future<void> updateDiary(
+  Future<DiaryModel?> updateDiary(
     DiaryModel existingDiary,
     List<XFile?> newImages,
     List<String> deletedImageUrls,
@@ -125,9 +124,21 @@ class DiaryController {
 
       // 여기에서 'photoURL'을 업데이트합니다.
 
-      // 나머지 코드는 그대로 유지됩니다.
+      // existingDiary를 수정하지 않고 새로운 DiaryModel 객체를 반환
+      return DiaryModel(
+        id: existingDiary.id,
+        title: existingDiary.title,
+        contents: existingDiary.contents,
+        // 나머지 필드들도 업데이트에 따라 적절히 추가
+        // 예: photoURL, createdAt, updatedAt 등
+        photoURL: newImageUrls,
+        createdAt: existingDiary.createdAt,
+        updatedAt: DateTime.now(),
+        uid: existingDiary.uid,
+      );
     } catch (e) {
       print('일기 업데이트 오류: $e');
+      return null;
     }
   }
 
