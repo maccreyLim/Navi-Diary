@@ -149,42 +149,51 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                                           height: 80,
                                           width: 100,
                                           margin: EdgeInsets.only(right: 10),
-                                          child: Stack(
-                                            children: [
-                                              // 이미지 표시
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                                child: Image.file(
-                                                  File(images[index]!.path),
-                                                  width: 70,
-                                                  height: 70,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              Positioned(
-                                                bottom: 18,
-                                                left: 20,
-                                                child: Container(
-                                                  width: 100,
-                                                  height: 140,
-                                                  child: IconButton(
-                                                    onPressed: () {
-                                                      // 이미지 삭제
-                                                      diaryController
-                                                          .deleteImage(
-                                                              index, images);
-                                                      setState(() {});
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.delete,
-                                                      color: Colors.black54,
-                                                      size: 24,
+                                          child: Container(
+                                            height: 80,
+                                            width: 80,
+                                            child: Stack(
+                                              children: [
+                                                Positioned(
+                                                  top: 6,
+                                                  child:
+                                                      // 이미지 표시
+                                                      ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15.0),
+                                                    child: Image.file(
+                                                      File(images[index]!.path),
+                                                      width: 70,
+                                                      height: 70,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                                Positioned(
+                                                  bottom: 18,
+                                                  left: 20,
+                                                  child: Container(
+                                                    width: 100,
+                                                    height: 140,
+                                                    child: IconButton(
+                                                      onPressed: () {
+                                                        // 이미지 삭제
+                                                        diaryController
+                                                            .deleteImage(
+                                                                index, images);
+                                                        setState(() {});
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.delete,
+                                                        color: Colors.black54,
+                                                        size: 24,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         );
                                       } else {

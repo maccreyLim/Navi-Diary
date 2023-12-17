@@ -297,46 +297,56 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   }
 
   Widget _buildImageContainer(int index) {
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(15.0),
-          child: images[index]!.path.startsWith('http')
-              ? Image.network(
-                  images[index]!.path,
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                )
-              : Image.file(
-                  File(images[index]!.path),
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                ),
-        ),
-        Positioned(
-          bottom: 2,
-          left: 2,
-          child: GestureDetector(
-            onTap: () {
-              deleteImage(index);
-            },
+    return Container(
+      height: 80,
+      width: 80,
+      // color: Colors.red,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 6,
+            child:
+                // 이미지 표시
+                ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: images[index]!.path.startsWith('http')
+                  ? Image.network(
+                      images[index]!.path,
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.file(
+                      File(images[index]!.path),
+                      width: 70,
+                      height: 70,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+          ),
+          Positioned(
+            bottom: 18,
+            left: 20,
             child: Container(
-              padding: EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.delete,
-                color: Colors.black,
-                size: 16,
+              // color: Colors.amber,
+              width: 100,
+              height: 140,
+              child: IconButton(
+                onPressed: () {
+                  // 이미지 삭제
+                  deleteImage(index);
+                  setState(() {});
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: Colors.black54,
+                  size: 24,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -378,11 +388,10 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
     for (XFile? newImage in newImages) {
       if (newImage != null) {
-        if (newImage.path != null && newImage.path.startsWith('http')) {
+        if (newImage.path.startsWith('http')) {
           updatedImageUrls.add(newImage.path);
         } else {
-          File compressedImage =
-              await _compressAndGetFile(File(newImage.path!));
+          File compressedImage = await _compressAndGetFile(File(newImage.path));
 
           final ref =
               _storage.ref().child('images/${DateTime.now().toString()}');
