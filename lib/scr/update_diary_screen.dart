@@ -412,6 +412,9 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     if (_formKey.currentState!.validate()) {
       if (_authController.userData != null) {
         try {
+          // 로딩 인디케이터 표시
+          showLoadingIndicator();
+
           // 삭제된 이미지 URL 가져오기
           List<String> deletedImageUrls = widget.diary.photoURL!
               .where((existingImageUrl) => !updatedImages
@@ -438,11 +441,29 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
         } catch (e) {
           print('일기 업데이트 오류: $e');
           showToast('일기 업데이트 중 오류가 발생했습니다', 2);
+        } finally {
+          // 로딩 인디케이터 숨기기
+          hideLoadingIndicator();
         }
       } else {
         showToast('사용자 데이터를 찾을 수 없습니다', 2);
       }
     }
+  }
+
+  // 로딩 인디케이터를 표시하는 메서드
+  void showLoadingIndicator() {
+    showDialog(
+      context: context,
+      builder: (context) => Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  // 로딩 인디케이터를 숨기는 메서드
+  void hideLoadingIndicator() {
+    Get.back();
   }
 
   Future<List<String>> _uploadNewImages(List<XFile?> newImages) async {
