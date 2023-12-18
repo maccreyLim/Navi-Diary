@@ -8,6 +8,7 @@ import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/member_terminator_notice.dart';
 
+// ignore: must_be_immutable
 class MypageScreen extends StatelessWidget {
   MypageScreen({super.key});
   late int diaryTotalCount; // diaryCount를 클래스 필드로 선언
