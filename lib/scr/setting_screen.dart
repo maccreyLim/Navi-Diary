@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:navi_diary/model/release_model.dart';
+import 'package:navi_diary/scr/my_page_screen.dart';
+import 'package:navi_diary/scr/notice_screen.dart';
+import 'package:navi_diary/scr/release_setting_screen.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({super.key});
+  const SettingScreen({super.key, required this.selectedReleases});
+  final List<ReleaseModel>? selectedReleases;
 
   @override
   State<SettingScreen> createState() => _SettingScreenState();
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  //Property
+  // AuthController _authController = AuthController.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,22 +97,97 @@ class _SettingScreenState extends State<SettingScreen> {
               left: MediaQuery.of(context).size.width * 0.13,
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.75,
-                height: 50,
+                height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Todo: 설정 저장 구현
-
-                    // Get.offAll(() => HomeScreen());
+                    //E-mail 문의 구현
+                    print(widget.selectedReleases!.first.message); //데이타 사용법
+                    _sendEmail();
                   },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.indigo),
+                  ),
                   // 추가된 child 매개변수
-                  child: Text('Your Button Text'), // 원하는 텍스트를 넣어주세요
+                  child: Container(
+                    alignment: Alignment.center, // Text를 가운데로 정렬
+                    padding: EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
+                    child: Text(
+                      '     문의 및 제휴문의\nmaccrey@naver.com',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ), // 원하는 텍스트를 넣어주세요
                   // 나머지 위젯 속성들...
                 ),
               ),
             ),
+            Positioned(
+                top: 100,
+                child: Padding(
+                  padding: const EdgeInsets.all(28.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 40),
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => MypageScreen());
+                        },
+                        child: const Text(
+                          '마이페이지',
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => const ReleaseSettingScrren());
+                        },
+                        child: const Text(
+                          '출소일 설정',
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      TextButton(
+                        onPressed: () {
+                          Get.to(() => const NoticeScreen());
+                        },
+                        child: Text(
+                          '공지사항',
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        ),
+                      ),
+                    ],
+                  ),
+                ))
           ],
         ),
       ),
     );
+  }
+
+  void _sendEmail() async {
+    final Email email = Email(
+        body:
+            '아래 내용을 함께 보내주시면 큰 도움이 됩니다.\n 아이디 : \n OS 버전: \n기기 : \n 아래에 문의 내용을 적어주세요.\n',
+        subject: 'Navi diary 문의 및 제휴문의',
+        recipients: ['maccrey@naver.com'],
+        cc: ['navi.project2023@gmail.com'],
+        isHTML: false);
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (e) {
+      String title =
+          '기본 메일 앱을 사용할 수 없기 때문에 \n앱에서 바로 문의를 전송하기 어려운 상황입니다.\n\n사용하시는 메일을 이용하여\nmaccrey@naver.com으로 문의를 주세요!';
+      Get.defaultDialog(
+        title: '안내',
+        content: Text(title),
+        textConfirm: '확인',
+        confirmTextColor: Colors.white54,
+        onConfirm: Get.back,
+      );
+    }
   }
 }

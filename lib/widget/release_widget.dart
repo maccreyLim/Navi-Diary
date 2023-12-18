@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:navi_diary/controller/release_calculator_firebase.dart';
+import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 
-class releaseWidget extends StatefulWidget {
-  const releaseWidget({super.key});
+class ReleaseWidget extends StatefulWidget {
+  const ReleaseWidget({super.key});
 
   @override
-  State<releaseWidget> createState() => _releaseWidgetState();
+  State<ReleaseWidget> createState() => _ReleaseWidgetState();
 }
 
-class _releaseWidgetState extends State<releaseWidget> {
-  final ReleaseFirestore _releaseFirestore = ReleaseFirestore();
+class _ReleaseWidgetState extends State<ReleaseWidget> {
+  final ReleaseController _releaseController = ReleaseController.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<ReleaseModel>>(
-        future: _releaseFirestore.getReleases(),
+        future: _releaseController.getReleases(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // Data is still loading

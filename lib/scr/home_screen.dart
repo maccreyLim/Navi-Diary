@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
-import 'package:navi_diary/controller/release_calculator_firebase.dart';
+import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
 import 'package:navi_diary/scr/create_release_screen.dart';
@@ -21,14 +21,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ReleaseModel? selectedRelease;
+  List<ReleaseModel>? selectedReleases; // 여기에 선언하세요.
   //AuthController의 인스턴스를 얻기
-  AuthController authController = AuthController.instance;
+  final AuthController _authController = AuthController.instance;
 
   //Release 생성 / 삭제 /수정 구분을 위한 버튼
 
   //파이어베이스 Release
-  final _release = ReleaseFirestore();
+  final _release = ReleaseController.instance;
 
   // daysPassed 변수 추가
   int daysPassed = 0;
@@ -120,9 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     children: [
                       Expanded(
-                        child: FutureBuilder<List<ReleaseModel>>(
-                          future: _release.getReleases(),
-                          builder: (context, snapshot) {
+                        child: StreamBuilder<List<ReleaseModel>>(
+                          stream: _release.getReleasesStream(),
+                          builder: (context,
+                              AsyncSnapshot<List<ReleaseModel>> snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
                               return const Center(
@@ -136,10 +137,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             } else {
                               List<ReleaseModel>? releases = snapshot.data;
-                              selectedRelease = releases?.first;
-
+                              selectedReleases = releases;
+                              _authController.isReleaseChange(true);
+                              print(AuthController
+                                  .instance.isReleaseFirebase.value);
                               Map<String, double> percentageMap = {};
-
                               return ListView.builder(
                                 itemCount: releases?.length ?? 0,
                                 itemBuilder: (context, index) {
@@ -149,7 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     releases.first.years,
                                     releases.first.months,
                                   );
-
                                   // percentageMap 업데이트
                                   percentageMap[release.name] =
                                       calculatePercentage(
@@ -160,13 +161,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         const EdgeInsets.fromLTRB(18, 0, 18, 0),
                                     child: ListTile(
                                       title: Text(
-                                        '${release.name}',
+                                        release.name,
                                         style: const TextStyle(
                                             fontSize: 26,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white70),
                                       ),
-
                                       subtitle: GestureDetector(
                                         onLongPress: () {
                                           print(release.message);
@@ -219,8 +219,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         0, 8, 0, 4),
                                                 child: LinearProgressIndicator(
                                                   minHeight: 20,
-                                                  // borderRadius:
-                                                  //     BorderRadius.circular(10),
                                                   value: percentageMap[
                                                                   release.name]
                                                               ?.isFinite ==
@@ -265,9 +263,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       percentageMap:
                                                           percentageMap,
                                                       release: release),
-                                                  // Text(
-                                                  //   '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
-                                                  // ),
                                                 ],
                                               )
                                             ],
@@ -289,8 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             //아래에 있는 화면
-            DownScreenForm(),
-
+            const DownScreenForm(),
             // 타이틀 표시위젯
             Positioned(
               top: 20,
@@ -316,7 +310,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           setState(() {});
                           //Todo: 설정화면 구현
-                          Get.to(() => SettingScreen());
+                          Get.to(() => SettingScreen(
+                              selectedReleases: selectedReleases));
                         },
                         icon: const Icon(
                           Icons.settings,
@@ -326,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         onPressed: () {
                           //Todo: 파이어베이스 로그아웃 구현
-                          authController.signOut();
+                          _authController.signOut();
                           Get.to(() => const LoginScreen());
                         },
                         icon: const Icon(
@@ -360,10 +355,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            //출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
-            ReleaseChangeButton(
-                isRelease: authController.isReleaseFirebase.value,
-                selectedRelease: selectedRelease),
+            // 출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
+            // ReleaseChangeButton(
+            //   isRelease: _authController.isReleaseFirebase.value,
+            //   selectedReleases: selectedReleases,
+            // ),
           ],
         ),
       ),
@@ -412,11 +408,11 @@ class ReleaseChangeButton extends StatefulWidget {
   const ReleaseChangeButton({
     Key? key,
     required this.isRelease,
-    required this.selectedRelease,
+    required this.selectedReleases,
   }) : super(key: key);
 
   final bool isRelease;
-  final ReleaseModel? selectedRelease;
+  final List<ReleaseModel>? selectedReleases;
 
   @override
   State<ReleaseChangeButton> createState() => _ReleaseChangeButtonState();
@@ -426,47 +422,46 @@ class _ReleaseChangeButtonState extends State<ReleaseChangeButton> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 240,
-      right: 5,
-      child: GetBuilder<AuthController>(
-        builder: (controller) {
-          return AuthController.instance.isReleaseFirebase == false
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    size: 30,
-                    color: Colors.white38,
-                  ),
-                  onPressed: () {
-                    Get.to(() => const CreateReleaseScreen())!.then((value) {
-                      // CreateReleaseScreen이 닫힌 후 실행되는 코드
-                      if (value == true) {
-                        // 화면이 성공적으로 닫혔을 때, 상위 화면 다시 그리기
-                        controller.update();
-                      }
-                    });
-                  },
-                )
-              : IconButton(
-                  icon: const Icon(
-                    Icons.close,
-                    size: 20,
-                    color: Colors.white38,
-                  ),
-                  onPressed: () {
-                    Get.to(() => UpdateReleaseScreen(
-                            release: widget.selectedRelease!))!
-                        .then((value) {
-                      // UpdateReleaseScreen이 닫힌 후 실행되는 코드
-                      if (value == true) {
-                        // 화면이 성공적으로 닫혔을 때, 상위 화면 다시 그리기
-                        controller.update();
-                      }
-                    });
-                  },
-                );
-        },
-      ),
+      // top: MediaQuery.of(context).size.height * 0.5,
+      // right: 20,
+      child: Obx(() => AuthController.instance.isReleaseFirebase.value
+          ? IconButton(
+              icon: const Icon(
+                Icons.close,
+                size: 20,
+                color: Colors.white38,
+              ),
+              onPressed: () {
+                if (widget.selectedReleases != null &&
+                    widget.selectedReleases!.isNotEmpty) {
+                  // 변경된 부분
+
+                  Get.to(() => UpdateReleaseScreen(
+                      release: widget.selectedReleases!.first))?.then((value) {
+                    if (value == true) {
+                      setState(() {});
+                      ;
+                    }
+                  });
+                }
+              },
+            )
+          : IconButton(
+              icon: const Icon(
+                Icons.add,
+                size: 30,
+                color: Colors.white38,
+              ),
+              onPressed: () {
+                Get.to(() => const CreateReleaseScreen())!.then((value) {
+                  // CreateReleaseScreen이 닫힌 후 실행되는 코드
+                  if (value == true) {
+                    // 화면이 성공적으로 닫혔을 때, 상위 화면 다시 그리기
+                    AuthController.instance.update();
+                  }
+                });
+              },
+            )),
     );
   }
 }
@@ -503,7 +498,7 @@ class DownScreenForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: MediaQuery.of(context).size.height * 0.40,
-      left: 10,
+      left: MediaQuery.of(context).size.width * 0.025,
       child: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.952,

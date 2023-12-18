@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:navi_diary/controller/release_calculator_firebase.dart';
+import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
@@ -238,7 +238,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                     onPressed: () async {
                       //Todo : 파이어베이스에 일기 저장 구현
                       if (_formKey.currentState?.validate() ?? false) {
-                        final release = ReleaseFirestore();
+                        final release = ReleaseController.instance;
                         String result = await release.createRelease(
                           ReleaseModel(
                             name: nameController.text,

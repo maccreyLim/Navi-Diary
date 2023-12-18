@@ -18,6 +18,8 @@ class ReleaseModel {
     required this.message,
   });
 
+  get first => null;
+
   // 모델 객체를 Map으로 변환
   Map<String, dynamic> toMap() {
     return {

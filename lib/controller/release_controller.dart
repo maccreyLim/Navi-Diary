@@ -2,11 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 
-class ReleaseFirestore {
+class ReleaseController {
   //Firebase Firestore의 인스턴스 얻기
   FirebaseFirestore db = FirebaseFirestore.instance;
 //AuthController의 인스턴스 얻기
   AuthController authController = AuthController.instance;
+  // 정적 getter로 인스턴스에 접근할 수 있도록 함
+  static ReleaseController get instance => _instance;
+  // private static 인스턴스
+  static final ReleaseController _instance = ReleaseController._internal();
+
+  // private 생성자
+  ReleaseController._internal();
 
 //파이어베이스 Create
   Future<String> createRelease(ReleaseModel model) async {
@@ -44,7 +51,7 @@ class ReleaseFirestore {
     try {
       // 컬렉션에서 문서들을 가져옴
       QuerySnapshot querySnapshot = await collectionRef.get();
-
+      print("Release Data = ${querySnapshot}");
       // 컬렉션에 문서가 있는지 확인
       if (querySnapshot.docs.isNotEmpty) {
         // 데이터가 있을 때만 isReleaseChange 호출

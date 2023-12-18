@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
-import 'package:navi_diary/controller/release_calculator_firebase.dart';
+import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
@@ -294,7 +294,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                       //Todo : 파이어베이스에 일기 저장 구현
 
                       if (_formKey.currentState?.validate() ?? false) {
-                        final _release = ReleaseFirestore();
+                        final _release = ReleaseController.instance;
                         await _release.updateRelease(
                           ReleaseModel(
                             id: releaseData.id,
@@ -306,7 +306,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                           ),
                         );
                         showToast('저장되었습니다.', 1);
-                        Get.back();
+                        Get.back;
                       }
                     },
                     onLongPress: () {

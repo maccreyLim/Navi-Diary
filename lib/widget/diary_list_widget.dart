@@ -67,7 +67,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                               Text(
                                 ' ${_formatDate(diary.createdAt)}',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.white54,
                                   fontSize: 32,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -82,7 +82,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             ],
                           ),
                           SizedBox(
-                            height: 14,
+                            height: 18,
                           ),
                           // 이미지 표시 부분
                           for (int imgIndex = 0;
@@ -102,21 +102,24 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                               ),
                             ),
 
-                          SizedBox(
-                            height: 10,
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
+                            child: Text(
+                              diary.title,
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
                           ),
                           SizedBox(height: 20),
-                          Text(
-                            diary.title,
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            diary.contents,
-                            style: TextStyle(fontSize: 16),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              diary.contents,
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
                           SizedBox(
                             height: 20,
