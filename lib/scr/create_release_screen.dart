@@ -249,7 +249,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                           ),
                         );
                         showToast('저장되었습니다.', 1);
-                        Get.back();
+                        Get.to(() => HomeScreen());
                         print(result);
                       }
                     },

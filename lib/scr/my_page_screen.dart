@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
+import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/member_terminator_notice.dart';
 
 // ignore: must_be_immutable
@@ -226,6 +227,7 @@ class MypageScreen extends StatelessWidget {
                     Get.to(() => MemberTerminatorNotice(
                           diarytotalCount: diaryTotalCount.toString(),
                         ));
+                    Get.to(() => LoginScreen);
                   },
                   style: ButtonStyle(
                     backgroundColor:

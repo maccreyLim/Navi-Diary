@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/login_screen.dart';
@@ -11,6 +12,8 @@ class AuthController extends GetxController {
   final FirebaseAuth authentication = FirebaseAuth.instance;
   //Firebase Firestore  인스턴스
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // Firebase Storage 인스턴스
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   //static AuthCotroller Type으로 GetX를 Global 함수로 설정
   static AuthController instance = Get.find();
@@ -185,38 +188,85 @@ class AuthController extends GetxController {
     }
   }
 
-  // 회원 탈퇴
   Future<void> deleteAccount() async {
     try {
       // 현재 사용자 정보를 가져옴
       User? user = authentication.currentUser;
+      // Firestore에서 참조를 만듭니다.
+      final userRef = _firestore.collection('users').doc(user?.uid);
 
-      // Firestore에서 사용자 데이터 가져오기
-      DocumentSnapshot<Map<String, dynamic>> userDocument =
-          await _firestore.collection('users').doc(user?.uid).get();
+      // 최근에 로그인한 상태인지 확인
+      if (user != null && user.metadata.lastSignInTime != null) {
+        // Firestore에서 사용자 데이터 가져오기
+        DocumentSnapshot<Map<String, dynamic>> userDocument =
+            await _firestore.collection('users').doc(user.uid).get();
 
-      // 사용자 데이터가 있는 경우
-      if (userDocument.exists) {
-        // 사용자 정보를 Rx 변수에 저장
-        _userData.value = userDocument.data();
+        // 사용자 데이터가 있는 경우
+        if (userDocument.exists) {
+          // 사용자 정보를 Rx 변수에 저장
+          _userData.value = userDocument.data();
+        }
+
+        // Firestore에서 사용자 데이터 삭제 (필요한 경우)
+        if (user != null) {
+          //파이어스토어 삭제
+          await userRef.delete();
+          //파이어 스토어 하위 파일 삭제
+          await _deleteCollection(userRef.collection('diaries'));
+          await _deleteCollection(userRef.collection('release'));
+          //파이어스토리지 하위 삭제
+          await deleteUserDataFromStorage(user.uid);
+        }
+
+        // 사용자 계정 삭제
+        await user?.delete();
+
+        // 계정 삭제 후 로그인 화면으로 이동
+        Get.off(() => const LoginScreen());
+
+        // 계정 삭제 이후 추가 작업이 필요한 경우 여기에 수행
+      } else {
+        // 최근에 로그인하지 않은 경우에 대한 처리
+        // 예를 들어, 사용자에게 로그인을 유도하는 메시지를 표시하거나, 다시 로그인 페이지로 이동
+        showToast("다시 로그인한 후에 시도해주세요.", 2);
+        Get.off(() => const LoginScreen());
       }
-
-      // Firestore에서 사용자 데이터 삭제 (필요한 경우)
-      if (user != null) {
-        await _firestore.collection('users').doc(user.uid).delete();
-      }
-
-      // 사용자 계정 삭제
-      await user?.delete();
-
-      // 계정 삭제 후 로그인 화면으로 이동
-      Get.off(() => const LoginScreen());
-
-      // 계정 삭제 이후 추가 작업이 필요한 경우 여기에 수행
     } catch (e) {
       // 오류 처리
       print('계정 삭제 중 오류 발생: $e');
       // 사용자에게 오류 메시지 표시 또는 필요한 추가 작업 수행
+    }
+  }
+
+  Future<void> deleteUserDataFromStorage(String userId) async {
+    try {
+      // Firebase Storage에서 데이터에 대한 참조를 만듭니다.
+      final ref = _storage.ref().child('users/$userId');
+
+      // 데이터를 삭제합니다.
+      await ref.delete();
+      print("회원탈퇴 이미지가 삭제되었습니다.");
+    } catch (e) {
+      // 오류를 처리합니다. 예를 들어 오류 메시지를 출력할 수 있습니다.
+      print('Firebase Storage에서 데이터를 삭제하는 중 오류 발생: $e');
+    }
+  }
+
+  Future<void> _deleteCollection(
+      CollectionReference collectionReference) async {
+    // 컬렉션에 대한 모든 문서를 가져옵니다.
+    final QuerySnapshot<Map<String, dynamic>> snapshot =
+        await collectionReference.get() as QuerySnapshot<Map<String, dynamic>>;
+
+    // 만약 문서가 하나도 없으면 함수를 종료합니다.
+    if (snapshot.docs.isEmpty) {
+      print('컬렉션에 문서가 없습니다.');
+      return;
+    }
+
+    // 각 문서에 대해 삭제 작업을 수행합니다.
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in snapshot.docs) {
+      await doc.reference.delete();
     }
   }
 }
