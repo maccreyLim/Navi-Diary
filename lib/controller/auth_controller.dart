@@ -208,18 +208,16 @@ class AuthController extends GetxController {
         }
 
         // Firestore에서 사용자 데이터 삭제 (필요한 경우)
-        if (user != null) {
-          //파이어스토어 삭제
-          await userRef.delete();
-          //파이어 스토어 하위 파일 삭제
-          await _deleteCollection(userRef.collection('diaries'));
-          await _deleteCollection(userRef.collection('release'));
-          //파이어스토리지 하위 삭제
-          await deleteUserDataFromStorage(user.uid);
-        }
+        //파이어스토어 삭제
+        await userRef.delete();
+        //파이어 스토어 하위 파일 삭제
+        await _deleteCollection(userRef.collection('diaries'));
+        await _deleteCollection(userRef.collection('release'));
+        //파이어스토리지 하위 삭제
+        await deleteUserDataFromStorage(user.uid);
 
         // 사용자 계정 삭제
-        await user?.delete();
+        await user.delete();
 
         // 계정 삭제 후 로그인 화면으로 이동
         Get.off(() => const LoginScreen());
