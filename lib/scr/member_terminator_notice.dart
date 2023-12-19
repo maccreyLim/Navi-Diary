@@ -3,12 +3,21 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 
-class MemberTerminatorNotice extends StatelessWidget {
+// ignore: must_be_immutable
+class MemberTerminatorNotice extends StatefulWidget {
   final String diarytotalCount;
+
+  const MemberTerminatorNotice({Key? key, required this.diarytotalCount})
+      : super(key: key);
+
+  @override
+  State<MemberTerminatorNotice> createState() => _MemberTerminatorNoticeState();
+}
+
+class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
   final AuthController authController = AuthController.instance;
 
-  MemberTerminatorNotice({Key? key, required this.diarytotalCount})
-      : super(key: key);
+  bool isPress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +147,7 @@ class MemberTerminatorNotice extends StatelessWidget {
                               color: Colors.white54),
                         ),
                         Text(
-                          '회원님은 현재 소중한 ${diarytotalCount}개의 일기장이 있습니다.',
+                          '회원님은 현재 소중한 ${widget.diarytotalCount}개의 일기장이 있습니다.',
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -164,14 +173,23 @@ class MemberTerminatorNotice extends StatelessWidget {
                   height: 60,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: ElevatedButton(
-                      onPressed: () {},
-                      onLongPress: () {},
+                      onPressed: () {
+                        setState(() {
+                          isPress = !isPress;
+                        });
+                      },
+                      onLongPress: () async {
+                        await AuthController.instance.deleteAccount();
+                      },
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blueGrey),
+                        backgroundColor: isPress
+                            ? MaterialStateProperty.all<Color>(Colors.red)
+                            : MaterialStateProperty.all<Color>(Colors.blueGrey),
                       ),
                       child: Text(
-                        '정말 회원을 탈퇴하시겠습니까?',
+                        isPress
+                            ? '회원을 탈퇴를 원하시면\n     길게 눌러주세요'
+                            : '정말 회원을 탈퇴하시겠습니까?',
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

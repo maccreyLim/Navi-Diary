@@ -45,9 +45,12 @@ class DiaryController {
     List<String> imageUrls = [];
 
     try {
+      // 현재 로그인한 사용자의 UID 가져오기
+      String uid = authController.userData!['uid'] ?? 'unknown_user';
       for (String imagePath in imagePaths) {
         File compressedImage = await _compressImage(File(imagePath));
-        final ref = _storage.ref().child('images/${DateTime.now()}');
+        // "images/UID/현재시간" 경로에 파일 업로드
+        final ref = _storage.ref().child('images/$uid/${DateTime.now()}');
         await ref.putFile(compressedImage);
         final url = await ref.getDownloadURL();
         imageUrls.add(url);

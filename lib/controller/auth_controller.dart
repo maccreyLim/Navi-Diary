@@ -184,4 +184,39 @@ class AuthController extends GetxController {
       // 예를 들어, 에러 메시지를 사용자에게 보여주는 토스트 메시지 표시 등
     }
   }
+
+  // 회원 탈퇴
+  Future<void> deleteAccount() async {
+    try {
+      // 현재 사용자 정보를 가져옴
+      User? user = authentication.currentUser;
+
+      // Firestore에서 사용자 데이터 가져오기
+      DocumentSnapshot<Map<String, dynamic>> userDocument =
+          await _firestore.collection('users').doc(user?.uid).get();
+
+      // 사용자 데이터가 있는 경우
+      if (userDocument.exists) {
+        // 사용자 정보를 Rx 변수에 저장
+        _userData.value = userDocument.data();
+      }
+
+      // Firestore에서 사용자 데이터 삭제 (필요한 경우)
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).delete();
+      }
+
+      // 사용자 계정 삭제
+      await user?.delete();
+
+      // 계정 삭제 후 로그인 화면으로 이동
+      Get.off(() => const LoginScreen());
+
+      // 계정 삭제 이후 추가 작업이 필요한 경우 여기에 수행
+    } catch (e) {
+      // 오류 처리
+      print('계정 삭제 중 오류 발생: $e');
+      // 사용자에게 오류 메시지 표시 또는 필요한 추가 작업 수행
+    }
+  }
 }
