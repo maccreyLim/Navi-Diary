@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
+import 'package:navi_diary/scr/find_password_screen.dart';
 import 'package:navi_diary/scr/join_screen.dart';
 import 'package:validators/validators.dart';
 
@@ -139,6 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   TextButton(
                                       onPressed: () {
                                         //Todo: 파이어베이스 Password찾기 구현
+                                        Get.to(() => FindPasswordScreen());
                                       },
                                       child: const Text(
                                         'Find Your Password',

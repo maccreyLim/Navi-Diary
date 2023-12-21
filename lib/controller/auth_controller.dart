@@ -267,4 +267,12 @@ class AuthController extends GetxController {
       await doc.reference.delete();
     }
   }
+
+  //패스워드 찾기
+  Future<void> forgotPassword(String email) async {
+    // 사용자 인증
+    final auth = FirebaseAuth.instance;
+    // 비밀번호 재설정 메일 전송
+    await auth.sendPasswordResetEmail(email: email);
+  }
 }
