@@ -393,7 +393,7 @@ class ReleaseTipText extends StatelessWidget {
                       ? "Tip: 50%가 지났습니다.힘냅시다 [입소${daysPassed}일째]"
                       : percentageMap[release.name]! < 80
                           ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
-                          : "가석방 가능 기간입니다.",
+                          : "가석방 가능 기간입니다. [입소${daysPassed}일째]",
       style: const TextStyle(
         fontSize: 11,
         color: Colors.white54,
@@ -437,12 +437,14 @@ class _ReleaseChangeButtonState extends State<ReleaseChangeButton> {
                   // 변경된 부분
 
                   Get.to(() => UpdateReleaseScreen(
-                      release: widget.selectedReleases!.first))?.then((value) {
-                    if (value == true) {
-                      setState(() {});
-                      ;
-                    }
-                  });
+                      release: widget.selectedReleases!.first))?.then(
+                    (value) {
+                      if (value == true) {
+                        setState(() {});
+                        ;
+                      }
+                    },
+                  );
                 }
               },
             )

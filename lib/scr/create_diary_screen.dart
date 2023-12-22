@@ -21,7 +21,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
   List<XFile?> images = []; // 이미지 File을 저장할 리스트
   DiaryController diaryController =
       DiaryController(); // DiaryController 인스턴스 생성
-  AuthController _authController = AuthController.instance;
+  final AuthController _authController = AuthController.instance;
   TextEditingController titleController =
       TextEditingController(); // Text controllers
   TextEditingController contentsController = TextEditingController();

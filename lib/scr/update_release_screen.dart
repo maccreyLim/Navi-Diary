@@ -124,7 +124,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                           children: [
                             TextFormField(
                               controller: nameController,
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.text,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.title),
                                 labelText: 'Name',
@@ -205,7 +205,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                               maxLength: 400,
                               maxLines: 10,
                               controller: messageController,
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.multiline,
                               decoration: const InputDecoration(
                                   icon: Icon(Icons.content_paste),
                                   labelText: 'Message',
@@ -306,7 +306,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                           ),
                         );
                         showToast('저장되었습니다.', 1);
-                        Get.back;
+                        Get.back();
                       }
                     },
                     onLongPress: () {

@@ -187,7 +187,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                               maxLength: 400,
                               maxLines: 10,
                               controller: messageController,
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.multiline,
                               decoration: const InputDecoration(
                                   icon: Icon(Icons.content_paste),
                                   labelText: 'Message',

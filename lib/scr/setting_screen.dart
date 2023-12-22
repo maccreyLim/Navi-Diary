@@ -152,7 +152,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       SizedBox(height: 20),
                       TextButton(
                         onPressed: () {
-                          Get.to(() => const NoticeScreen());
+                          Get.to(() => NoticeScreen());
                         },
                         child: Text(
                           '공지사항',
