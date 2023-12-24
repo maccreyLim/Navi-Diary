@@ -8,7 +8,7 @@ import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
 
 class CreateNoticeScreen extends StatefulWidget {
-  CreateNoticeScreen({Key? key}) : super(key: key);
+  const CreateNoticeScreen({Key? key}) : super(key: key);
 
   @override
   State<CreateNoticeScreen> createState() => _CreateNoticeScreenState();
@@ -56,7 +56,7 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
 
             showToast('게시물이 성공적으로 저장되었습니다.', 1);
             setState(() {
-              Get.off(NoticeScreen());
+              Get.off(const NoticeScreen());
             });
           },
           child: const Text(
@@ -216,11 +216,11 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           inputText(titleController, "제목", 1),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           inputText(contentsController, "내용", 8),
-                          SizedBox(height: 180),
+                          const SizedBox(height: 180),
                           SizedBox(
                               height: 60,
                               width: MediaQuery.of(context).size.width * 0.9,

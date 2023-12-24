@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:navi_diary/model/notice_model.dart';
+import 'package:navi_diary/scr/notice_screen.dart';
 
 class NoticeDetailScreen extends StatelessWidget {
-  const NoticeDetailScreen({super.key});
+  //Property
+  final NoticeModel notice;
+  const NoticeDetailScreen({super.key, required this.notice});
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -71,7 +76,7 @@ class NoticeDetailScreen extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.52,
+                                width: MediaQuery.of(context).size.width * 0.36,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -107,13 +112,58 @@ class NoticeDetailScreen extends StatelessWidget {
             ),
             //화면구성
             Positioned(
-              bottom: 40,
+              top: MediaQuery.of(context).size.height * 0.25,
               left: 40,
               right: 40,
-              child: Column(
-                children: [],
+              bottom: MediaQuery.of(context).size.height * 0.22,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      notice.title,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      notice.content,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                    // 원하는 다른 위젯 추가
+                  ],
+                ),
               ),
             ),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.06,
+              left: MediaQuery.of(context).size.width * 0.1,
+              child: Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.to(() => const NoticeScreen());
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.indigo),
+                  ),
+                  child: const Text(
+                    "확   인",
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white54),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),

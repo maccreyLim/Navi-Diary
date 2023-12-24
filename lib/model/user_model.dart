@@ -7,6 +7,8 @@ class UserModel {
   String profileName; // 프로필 이름
   String sex; // 성별
   bool isRelease; // 출소일 데이타 존재
+  int point; // 포인트 금액
+  bool isAdmin; //Admin 확인
 
   // 생성자
   UserModel({
@@ -16,6 +18,8 @@ class UserModel {
     required this.profileName,
     required this.sex,
     this.isRelease = false, // 기본값으로 false 설정
+    this.point = 1000,
+    this.isAdmin = false,
   });
 
   // UserModel 객체를 Firestore 문서로 변환
@@ -27,6 +31,8 @@ class UserModel {
       'profileName': profileName,
       'sex': sex,
       'isRelease': isRelease,
+      'point': point,
+      'isAdmin': isAdmin,
     };
   }
 
@@ -39,6 +45,8 @@ class UserModel {
       profileName: data['profileName'],
       sex: data['sex'],
       isRelease: data['isRelease'],
+      point: data['point'],
+      isAdmin: data['isAdmin'],
     );
   }
 }

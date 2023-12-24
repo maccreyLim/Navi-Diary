@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/model/notice_model.dart';
 import 'package:navi_diary/scr/create_notice.dart';
 import 'package:navi_diary/scr/home_screen.dart';
@@ -16,9 +17,8 @@ class NoticeScreen extends StatefulWidget {
 
 class _NoticeScreenState extends State<NoticeScreen> {
   //Property
-  // DateTime 포멧팅
-  // String formattedDate =
-  //     DateFormat('yyyy년 MM월 dd일 HH:mm').format(comment.createdAt);
+  //AuthController의 인스턴스를 얻기
+  final AuthController _authController = AuthController.instance;
 // Firebase Firestore로부터 공지사항을 가져오기 위한 쿼리
   final Query query = FirebaseFirestore.instance.collection('notice');
   //공지사항 리스트뷰빌더로 구현
@@ -60,7 +60,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 overflow: TextOverflow.ellipsis, // 오버플로우 처리 설정 (생략 부호 사용)
               ),
               onTap: () {
-                Get.to(() => const NoticeDetailScreen(), arguments: comment);
+                Get.to(() => NoticeDetailScreen(notice: comment));
               },
             );
           },
@@ -143,21 +143,22 @@ class _NoticeScreenState extends State<NoticeScreen> {
               ),
             ),
             //FloatingActionButton 구현
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: FloatingActionButton(
-                backgroundColor: Colors.pink,
-                onPressed: () {
-                  Get.to(() => CreateNoticeScreen());
-                },
-                child: const Icon(
-                  Icons.add,
-                  size: 30,
-                  color: Colors.white60,
+            if (_authController.userData!['isAdmin'])
+              Positioned(
+                bottom: 20,
+                right: 20,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.pink,
+                  onPressed: () {
+                    Get.to(() => const CreateNoticeScreen());
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    size: 30,
+                    color: Colors.white60,
+                  ),
                 ),
               ),
-            ),
 
             //화면구성
             Positioned(
@@ -167,30 +168,34 @@ class _NoticeScreenState extends State<NoticeScreen> {
               child: Column(
                 children: [
                   Container(
-                      child: StreamBuilder<QuerySnapshot>(
-                    stream: query.snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return const Text('공지사항 데이터를 가져오는 중 오류가 발생했습니다.');
-                      }
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: query.snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return const Text('공지사항 데이터를 가져오는 중 오류가 발생했습니다.');
+                        }
 
-                      final querySnapshot = snapshot.data;
-                      if (querySnapshot == null || querySnapshot.docs.isEmpty) {
-                        return const Text('공지사항이 없습니다.');
-                      }
+                        final querySnapshot = snapshot.data;
+                        if (querySnapshot == null ||
+                            querySnapshot.docs.isEmpty) {
+                          return const Text('공지사항이 없습니다.');
+                        }
 
-                      final announcementList = querySnapshot.docs
-                          .map((doc) => NoticeModel.fromMap(
-                              doc.data() as Map<String, dynamic>))
-                          .toList();
-                      announcementList.sort((a, b) =>
-                          b.createdAt.compareTo(a.createdAt)); // 내림차순 정렬
-                      return SingleChildScrollView(
-                          child: buildCommentListView(announcementList));
-                    },
-                  )),
+                        final announcementList = querySnapshot.docs
+                            .map((doc) => NoticeModel.fromMap(
+                                doc.data() as Map<String, dynamic>))
+                            .toList();
+                        announcementList.sort((a, b) =>
+                            b.createdAt.compareTo(a.createdAt)); // 내림차순 정렬
+                        return SingleChildScrollView(
+                            child: buildCommentListView(announcementList));
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

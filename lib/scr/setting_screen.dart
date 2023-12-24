@@ -101,7 +101,6 @@ class _SettingScreenState extends State<SettingScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     //E-mail 문의 구현
-                    print(widget.selectedReleases!.first.message); //데이타 사용법
                     _sendEmail();
                   },
                   style: ButtonStyle(
@@ -111,10 +110,11 @@ class _SettingScreenState extends State<SettingScreen> {
                   // 추가된 child 매개변수
                   child: Container(
                     alignment: Alignment.center, // Text를 가운데로 정렬
-                    padding: EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
-                    child: Text(
-                      '     문의 및 제휴문의\nmaccrey@naver.com',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
+                    child: const Text(
+                      '광고 보기',
+                      style: TextStyle(fontSize: 28, color: Colors.white),
                     ),
                   ), // 원하는 텍스트를 넣어주세요
                   // 나머지 위젯 속성들...
@@ -122,46 +122,57 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
             Positioned(
-                top: 100,
-                child: Padding(
-                  padding: const EdgeInsets.all(28.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 40),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => MypageScreen());
-                        },
-                        child: const Text(
-                          '마이페이지',
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
+              top: 100,
+              child: Padding(
+                padding: const EdgeInsets.all(28.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 40),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => MypageScreen());
+                      },
+                      child: const Text(
+                        '마이페이지',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
-                      SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => const ReleaseSettingScrren());
-                        },
-                        child: const Text(
-                          '출소일 설정',
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => const ReleaseSettingScrren());
+                      },
+                      child: const Text(
+                        '출소일 설정',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
-                      SizedBox(height: 20),
-                      TextButton(
-                        onPressed: () {
-                          Get.to(() => NoticeScreen());
-                        },
-                        child: Text(
-                          '공지사항',
-                          style: TextStyle(color: Colors.white, fontSize: 24),
-                        ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(() => const NoticeScreen());
+                      },
+                      child: const Text(
+                        '공지사항',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
-                    ],
-                  ),
-                ))
+                    ),
+                    const SizedBox(height: 20),
+                    TextButton(
+                      onPressed: () {
+                        _sendEmail();
+                      },
+                      child: const Text(
+                        '문의 및 제휴',
+                        style: TextStyle(color: Colors.white, fontSize: 24),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -176,11 +187,12 @@ class _SettingScreenState extends State<SettingScreen> {
         recipients: ['maccrey@naver.com'],
         cc: ['navi.project2023@gmail.com'],
         isHTML: false);
+
     try {
       await FlutterEmailSender.send(email);
     } catch (e) {
       String title =
-          '기본 메일 앱을 사용할 수 없기 때문에 \n앱에서 바로 문의를 전송하기 어려운 상황입니다.\n\n사용하시는 메일을 이용하여\nmaccrey@naver.com으로 문의를 주세요!';
+          '기본 메일 앱을 사용할 수 없기 때문에 \n앱에서 바로 문의를 전송하기 어려운 상태입니다.\n\n사용하시는 메일을 이용하여\nmaccrey@naver.com으로 문의부탁드립니다.';
       Get.defaultDialog(
         title: '안내',
         content: Text(title),

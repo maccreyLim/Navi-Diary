@@ -80,6 +80,8 @@ class AuthController extends GetxController {
           'createdAt': DateTime.now(),
           'profileName': profileName,
           'sex': sex,
+          'point': 1000,
+          'isAdmin': false,
         },
       );
 
@@ -123,24 +125,24 @@ class AuthController extends GetxController {
       // 로그인이 성공한 경우, 이메일 인증 여부 확인
       User? user = authentication.currentUser;
       if (user != null && user.emailVerified == false) {
-        // 이메일이 인증되지 않았다면 인즈 안내페이지로 이동
+        // 이메일이 인증되지 않았다면 인증 안내페이지로 이동
         Get.to(() => const WellcomeJoinMessageScreen());
-      }
-
-      // Firestore에서 사용자 정보 가져오기
-      DocumentSnapshot<Map<String, dynamic>> userDocument =
-          await _firestore.collection('users').doc(user?.uid).get();
-      if (userDocument.exists) {
-        // 사용자 정보가 존재하는 경우
-        Map<String, dynamic> userData = userDocument.data()!;
-        // _userData 업데이트
-        _userData.value = userData;
-        // 사용자 정보가 로드되면 홈 화면으로 이동
-        Get.offAll(() => const HomeScreen());
-        print("User Data: ${_userData.value!['uid']}");
       } else {
-        // 사용자 정보가 없는 경우
-        print("사용자 정보가 없습니다.");
+        // Firestore에서 사용자 정보 가져오기
+        DocumentSnapshot<Map<String, dynamic>> userDocument =
+            await _firestore.collection('users').doc(user?.uid).get();
+        if (userDocument.exists) {
+          // 사용자 정보가 존재하는 경우
+          Map<String, dynamic> userData = userDocument.data()!;
+          // _userData 업데이트
+          _userData.value = userData;
+          // 사용자 정보가 로드되면 홈 화면으로 이동
+          Get.offAll(() => const HomeScreen());
+          print("User Data: ${_userData.value!['uid']}");
+        } else {
+          // 사용자 정보가 없는 경우
+          print("사용자 정보가 없습니다.");
+        }
       }
     } on FirebaseAuthException catch (e) {
       print("FirebaseAuthException: $e");

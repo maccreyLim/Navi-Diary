@@ -129,7 +129,7 @@ class FindPasswordScreen extends StatelessWidget {
                     ),
                     style: const TextStyle(color: Colors.white),
                   ),
-                  SizedBox(height: 280),
+                  const SizedBox(height: 280),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
                     height: 70,
@@ -144,7 +144,7 @@ class FindPasswordScreen extends StatelessWidget {
                         showToast('비밀번호 재설정 메일을 전송했습니다.', 2);
                         Get.back();
                       },
-                      child: Text(
+                      child: const Text(
                         '비밀번호 찾기',
                         style: TextStyle(
                           fontSize: 24,

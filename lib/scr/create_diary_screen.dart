@@ -133,7 +133,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                                 size: 40,
                               ),
                             ),
-                            SizedBox(height: 14),
+                            const SizedBox(height: 14),
                             Row(
                               children: [
                                 Container(
@@ -148,7 +148,8 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                                         return Container(
                                           height: 80,
                                           width: 100,
-                                          margin: EdgeInsets.only(right: 10),
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
                                           child: Container(
                                             height: 80,
                                             width: 80,
@@ -281,7 +282,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                             showToast('일기가 저장되었습니다.', 1);
                             Get.back(); // 로딩 인디케이터 닫기
                             // 홈으로 돌아온 후에 화면 다시 그리기
-                            Get.off(() => HomeScreen());
+                            Get.off(() => const HomeScreen());
                           } else {
                             // _authController.userData가 null인 경우에 대한 처리
                             // 예를 들어, 에러 메시지를 표시하거나 다른 조치를 취할 수 있습니다.

@@ -257,10 +257,10 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
+                                              const SizedBox(height: 10),
                                               Row(
                                                 children: [
-                                                  Text(
+                                                  const Text(
                                                     "현재 선고 받은 형량의  ",
                                                     style: TextStyle(
                                                         color: Colors.white70,
@@ -268,13 +268,13 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                   ),
                                                   Text(
                                                     '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 26,
                                                         color: Colors.red,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
-                                                  Text(
+                                                  const Text(
                                                     " 로",
                                                     style: TextStyle(
                                                         color: Colors.white70,
@@ -296,10 +296,11 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                             percentageMap,
                                                         release: release,
                                                       ),
-                                                      SizedBox(height: 30),
+                                                      const SizedBox(
+                                                          height: 30),
                                                       Text(
                                                         '[입소${daysPassed}일째]',
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                             fontSize: 34,
                                                             color:
                                                                 Colors.white54),
@@ -416,7 +417,6 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                           color: Colors.red,
                         ),
                         onPressed: () {
-                          Get.to(() => ReleaseSettingScrren());
                           if (selectedReleases != null &&
                               selectedReleases!.isNotEmpty) {
                             // 변경된 부분
@@ -480,10 +480,10 @@ class ReleaseTipText extends StatelessWidget {
 //출소정보 디테일 다이얼로그
 void _showGetXDialog(ReleaseModel release) {
   Get.defaultDialog(
-    title: release.name, titleStyle: TextStyle(color: Colors.white),
+    title: release.name, titleStyle: const TextStyle(color: Colors.white),
     content: Text(
       release.message,
-      style: TextStyle(color: Colors.white54, fontSize: 20),
+      style: const TextStyle(color: Colors.white54, fontSize: 20),
     ),
     backgroundColor: Colors.deepPurple, // 배경색 변경
     actions: [
@@ -496,7 +496,7 @@ void _showGetXDialog(ReleaseModel release) {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.pink, // 버튼 색상 변경
         ),
-        child: Text(
+        child: const Text(
           '확인',
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),

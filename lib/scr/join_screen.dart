@@ -74,128 +74,138 @@ class _JoinScreenState extends State<JoinScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextFormField(
-                                controller: idController,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.email),
-                                  labelText: 'E-Mail',
-                                  hintText: 'Enter your e-mail',
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return '이메일 주소를 입력 해주세요.';
-                                  } else if (!isEmail(value)) {
-                                    return "이메일 형식에 맞지 않습니다.";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              TextFormField(
-                                controller: pwController,
-                                obscureText: _obscureText,
-                                decoration: InputDecoration(
-                                  icon: const Icon(Icons.lock),
-                                  labelText: 'Password',
-                                  hintText: 'Enter your password',
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscureText
-                                          ? Icons.visibility_off_outlined
-                                          : Icons.visibility_outlined,
-                                      color: Colors.black26,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscureText = !_obscureText;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "비밀번호를 입력 해주세요.";
-                                  } else if (value.isEmpty) {
-                                    return "패스워드에는 빈칸이 들어갈 수 없습니다.";
-                                  } else if (value.length > 12) {
-                                    return "패스워드의 최대길이는 12자입니다.";
-                                  } else if (value.length < 6) {
-                                    return "패스워드의 최소길이는 6자입니다.";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              TextFormField(
-                                  controller: pnController,
+                              Flexible(
+                                child: TextFormField(
+                                  controller: idController,
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: const InputDecoration(
-                                    icon: Icon(Icons.pets_outlined),
-                                    labelText: 'Profile Name',
-                                    hintText: 'Enter your Profile Name',
+                                    icon: Icon(Icons.email),
+                                    labelText: 'E-Mail',
+                                    hintText: 'Enter your e-mail',
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return '프로필이름은 필수항목입니다';
+                                      return '이메일 주소를 입력 해주세요.';
+                                    } else if (!isEmail(value)) {
+                                      return "이메일 형식에 맞지 않습니다.";
                                     }
                                     return null;
-                                  }),
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              Flexible(
+                                child: TextFormField(
+                                  controller: pwController,
+                                  obscureText: _obscureText,
+                                  decoration: InputDecoration(
+                                    icon: const Icon(Icons.lock),
+                                    labelText: 'Password',
+                                    hintText: 'Enter your password',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscureText
+                                            ? Icons.visibility_off_outlined
+                                            : Icons.visibility_outlined,
+                                        color: Colors.black26,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "비밀번호를 입력 해주세요.";
+                                    } else if (value.isEmpty) {
+                                      return "패스워드에는 빈칸이 들어갈 수 없습니다.";
+                                    } else if (value.length > 12) {
+                                      return "패스워드의 최대길이는 12자입니다.";
+                                    } else if (value.length < 6) {
+                                      return "패스워드의 최소길이는 6자입니다.";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              Flexible(
+                                child: TextFormField(
+                                    controller: pnController,
+                                    decoration: const InputDecoration(
+                                      icon: Icon(Icons.pets_outlined),
+                                      labelText: 'Profile Name',
+                                      hintText: 'Enter your Profile Name',
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return '프로필이름은 필수항목입니다';
+                                      }
+                                      return null;
+                                    }),
+                              ),
                               const SizedBox(height: 25),
-                              Row(children: [
-                                Radio(
-                                  value: 'male',
-                                  groupValue: gender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gender = value.toString();
-                                    });
-                                  },
-                                ),
-                                const Text('남성'),
-                                Radio(
-                                  value: 'female',
-                                  groupValue: gender,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gender = value.toString();
-                                    });
-                                  },
-                                ),
-                                const Text('여성'),
-                                const SizedBox(width: 10),
-                                if (gender == null)
-                                  const Text(
-                                    '성별을 선택해주세요',
-                                    style: TextStyle(
-                                      color: Colors.deepPurple,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                              ]), // Add a validation message if gender is not selected
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Image.asset('assets/image.jpeg',
-                                        width: 50,
-                                        height: 50,
-                                        fit: BoxFit.cover),
+                                  Radio(
+                                    value: 'male',
+                                    groupValue: gender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gender = value.toString();
+                                      });
+                                    },
                                   ),
-                                  const SizedBox(width: 50),
-                                  const Icon(
-                                    Icons.photo_camera,
-                                    color: Colors.white54,
+                                  const Text('남성'),
+                                  Radio(
+                                    value: 'female',
+                                    groupValue: gender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gender = value.toString();
+                                      });
+                                    },
                                   ),
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      'Upload Profile Picture',
-                                      style: TextStyle(color: Colors.white54),
+                                  const Text('여성'),
+                                  const SizedBox(width: 10),
+                                  //성별을 선택하지 않은 경우 확인 메시지 추가
+                                  if (gender == null)
+                                    const Text(
+                                      '성별을 선택해주세요',
+                                      style: TextStyle(
+                                        color: Colors.deepPurple,
+                                        fontSize: 16,
+                                      ),
                                     ),
-                                  ),
                                 ],
-                              )
+                              ),
+// Todo: 추후 프로필 이미지 추가 기능 구현
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: [
+                              //     ClipRRect(
+                              //       borderRadius: BorderRadius.circular(15.0),
+                              //       child: Image.asset('assets/image.jpeg',
+                              //           width: 50,
+                              //           height: 50,
+                              //           fit: BoxFit.cover),
+                              //     ),
+                              //     const SizedBox(width: 50),
+                              //     const Icon(
+                              //       Icons.photo_camera,
+                              //       color: Colors.white54,
+                              //     ),
+                              //     TextButton(
+                              //       onPressed: () {},
+                              //       child: const Text(
+                              //         'Upload Profile Picture',
+                              //         style: TextStyle(color: Colors.white54),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // )
                             ],
                           ),
                         ),

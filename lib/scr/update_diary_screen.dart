@@ -301,7 +301,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   Widget _buildCameraIconButton() {
     return IconButton(
       onPressed: _pickMultiImage,
-      icon: Icon(
+      icon: const Icon(
         Icons.camera_alt_outlined,
         size: 40,
       ),
@@ -347,7 +347,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
           color: Colors.grey.withOpacity(0.3),
           borderRadius: BorderRadius.circular(15.0),
         ),
-        child: Center(
+        child: const Center(
           child: Icon(
             Icons.add,
             size: 40,
@@ -455,7 +455,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   void showLoadingIndicator() {
     showDialog(
       context: context,
-      builder: (context) => Center(
+      builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
     );

@@ -97,7 +97,7 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                           ),
                           Row(
                             children: [
-                              SizedBox(width: 80),
+                              const SizedBox(width: 80),
                               Text(
                                 'Notice',
                                 style: GoogleFonts.pacifico(
@@ -126,20 +126,20 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                       children: [
                         Text(
                           '${authController.userData!['profileName']}님',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 34,
                               fontWeight: FontWeight.bold,
                               color: Colors.black54),
                         ),
-                        SizedBox(height: 30),
-                        Text(
+                        const SizedBox(height: 30),
+                        const Text(
                           "우리 커뮤니티를 떠나기로 결정하셔서 안타깝게 생각합니다.\n계정 해지를 진행하기 전에 중요한 정보를 안내해 드리고자 합니다.\n",
                           style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white54),
                         ),
-                        Text(
+                        const Text(
                           "-- 데이터 손실 주의 안내 --\n",
                           style: TextStyle(
                               fontSize: 18,
@@ -148,12 +148,12 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                         ),
                         Text(
                           '회원님은 현재 소중한 ${widget.diarytotalCount}개의 일기장이 있습니다.',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.indigo),
                         ),
-                        Text(
+                        const Text(
                           '계정 해지 시 계정과 관련된 모든 데이터,\n일기 및 저장된 모든 정보가 영구적으로\n삭제됩니다.\n이 작업은 되돌릴 수 없으며 손실된 데이터를 복구할 방법이 없습니다.',
                           style: TextStyle(
                               fontSize: 18,
@@ -190,7 +190,7 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                         isPress
                             ? '회원을 탈퇴를 원하시면\n     길게 눌러주세요'
                             : '정말 회원을 탈퇴하시겠습니까?',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.white54),
