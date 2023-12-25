@@ -60,7 +60,7 @@ class _JoinScreenState extends State<JoinScreen> {
                 Positioned.fill(
                   child: Center(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.width * 1,
                       decoration: BoxDecoration(
                         borderRadius:
@@ -214,29 +214,55 @@ class _JoinScreenState extends State<JoinScreen> {
                   ),
                 ),
                 Positioned(
-                  top: 144,
-                  left: 170,
+                  top: MediaQuery.of(context).size.height * 0.1,
+                  left: MediaQuery.of(context).size.width * 0.1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Please \n      Join',
-                        style: GoogleFonts.pacifico(
-                          fontSize: 54,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                'Please',
+                                style: GoogleFonts.pacifico(
+                                  fontSize: 54,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'Join',
+                                style: GoogleFonts.pacifico(
+                                  fontSize: 54,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.25,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              //Todo: 뒤로가기
+                              Get.back();
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.white54,
+                            ),
+                          ),
+                        ],
                       ),
-                      // SizedBox(
-                      //   height: 250,
-                      // ),
                     ],
                   ),
                 ),
                 Positioned(
-                  bottom: 40,
-                  left: 40,
+                  bottom: MediaQuery.of(context).size.height * 0.1,
+                  left: MediaQuery.of(context).size.width * 0.05,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -244,8 +270,8 @@ class _JoinScreenState extends State<JoinScreen> {
                       Column(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.82,
-                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.07,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
@@ -266,30 +292,32 @@ class _JoinScreenState extends State<JoinScreen> {
                               },
                               child: const Text(
                                 'Sign Up',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 24),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.82,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                  const Color.fromARGB(255, 213, 140, 231),
-                                ),
-                              ),
-                              onPressed: () {
-                                Get.offAll(const LoginScreen());
-                              },
-                              child: const Text(
-                                '< Create an account later.',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
+                          // const SizedBox(height: 30),
+                          // SizedBox(
+                          //   width: MediaQuery.of(context).size.width * 0.9,
+                          //   height: MediaQuery.of(context).size.height * 0.07,
+                          //   child: ElevatedButton(
+                          //     style: ButtonStyle(
+                          //       backgroundColor:
+                          //           MaterialStateProperty.all<Color>(
+                          //         const Color.fromARGB(255, 213, 140, 231),
+                          //       ),
+                          //     ),
+                          //     onPressed: () {
+                          //       Get.offAll(const LoginScreen());
+                          //     },
+                          //     child: const Text(
+                          //       '< Create an account later.',
+                          //       style: TextStyle(
+                          //           color: Colors.white, fontSize: 18),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],

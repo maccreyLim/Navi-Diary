@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Positioned.fill(
                   child: Center(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.85,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       height: MediaQuery.of(context).size.width * 0.65,
                       decoration: BoxDecoration(
                         borderRadius:
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Form(
                         key: _formKey,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 46, 16, 16),
+                          padding: const EdgeInsets.fromLTRB(8, 46, 8, 16),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -160,14 +160,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Positioned.fill(
-                  top: 144,
-                  left: 170,
+                  top: MediaQuery.of(context).size.height * 0.18,
+                  left: MediaQuery.of(context).size.width * 0.1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Please \n      log in',
+                        'Please',
+                        style: GoogleFonts.pacifico(
+                          fontSize: 54,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'log in',
                         style: GoogleFonts.pacifico(
                           fontSize: 54,
                           color: Colors.white,
@@ -182,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Positioned(
                   bottom: 70,
-                  left: 40,
+                  left: MediaQuery.of(context).size.width * 0.05,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -190,8 +198,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Column(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.82,
-                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.07,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
@@ -209,15 +217,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                               },
                               child: const Text(
-                                'LogIn >',
-                                style: TextStyle(color: Colors.white),
+                                'LogIn',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 24),
                               ),
                             ),
                           ),
                           const SizedBox(height: 30),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.82,
-                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.07,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<
@@ -234,7 +243,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: const Text(
                                 'Create an Account',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               ),
                             ),
                           ),
