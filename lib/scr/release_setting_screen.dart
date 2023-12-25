@@ -390,7 +390,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
               right: MediaQuery.of(context).size.width * 0.02,
               child: Padding(
                 padding: const EdgeInsets.all(28.0),
-                child: selectedReleases?.isEmpty ?? false
+                child: AuthController.instance.isReleaseFirebase.isFalse
                     ? FloatingActionButton(
                         backgroundColor: Colors.pink,
                         child: const Icon(

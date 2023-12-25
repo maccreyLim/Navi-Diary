@@ -68,7 +68,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                                 ' ${_formatDate(diary.createdAt)}',
                                 style: TextStyle(
                                   color: Colors.white54,
-                                  fontSize: 32,
+                                  fontSize: 28,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -81,7 +81,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 18,
                           ),
                           // 이미지 표시 부분
@@ -89,9 +89,10 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                               imgIndex < diary.photoURL!.length;
                               imgIndex++)
                             Container(
-                              margin: EdgeInsets.only(top: 20),
+                              margin: const EdgeInsets.only(top: 20),
+                              //이미지 사이즈
                               width: MediaQuery.of(context).size.height * 0.45,
-                              height: MediaQuery.of(context).size.width * 0.7,
+                              height: MediaQuery.of(context).size.width * 0.6,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image:

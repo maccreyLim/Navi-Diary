@@ -6,6 +6,7 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
+import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
 
 class UpdateReleaseScreen extends StatefulWidget {
@@ -269,7 +270,11 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                     },
                     onLongPress: () {
                       //Todo : 파이어베이스에 출소일 삭제 구현
-                      print('삭제되었습니다.');
+                      print(releaseData.id.toString());
+                      ReleaseController.instance
+                          .deleteRelease(releaseData.id.toString());
+                      AuthController.instance.isReleaseFirebase(false);
+                      Get.to(() => ReleaseSettingScrren());
                     },
                   ),
                 ),

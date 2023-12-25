@@ -478,11 +478,11 @@ class DiaryScreenForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: MediaQuery.of(context).size.height * 0.42, // 조정 가능한 값
-      left: MediaQuery.of(context).size.width * 0.054, // 조정 가능한 값
+      left: MediaQuery.of(context).size.width * 0.07, // 조정 가능한 값
       child: Container(
         // color: Colors.transparent,
-        width: MediaQuery.of(context).size.height * 0.45,
-        height: MediaQuery.of(context).size.width * 1.08,
+        width: MediaQuery.of(context).size.height * 0.42,
+        height: MediaQuery.of(context).size.width * 1.06,
         //일기장 리스트
         child: DiaryListWidget(),
       ),

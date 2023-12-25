@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
-import 'package:navi_diary/scr/login_screen.dart';
 import 'package:validators/validators.dart';
 
 class JoinScreen extends StatefulWidget {
@@ -28,7 +27,7 @@ class _JoinScreenState extends State<JoinScreen> {
   AuthController authController = AuthController.instance;
 
   //Gender
-  String? gender;
+  String? gender = "male";
 
   @override
   void dispose() {
@@ -171,14 +170,14 @@ class _JoinScreenState extends State<JoinScreen> {
                                   const Text('여성'),
                                   const SizedBox(width: 10),
                                   //성별을 선택하지 않은 경우 확인 메시지 추가
-                                  if (gender == null)
-                                    const Text(
-                                      '성별을 선택해주세요',
-                                      style: TextStyle(
-                                        color: Colors.deepPurple,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                                  // if (gender == null)
+                                  //   const Text(
+                                  //     '성별을 선택해주세요',
+                                  //     style: TextStyle(
+                                  //       color: Colors.deepPurple,
+                                  //       fontSize: 10,
+                                  //     ),
+                                  //   ),
                                 ],
                               ),
 // Todo: 추후 프로필 이미지 추가 기능 구현
