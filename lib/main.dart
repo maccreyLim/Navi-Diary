@@ -1,13 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/firebase_options.dart';
 import 'package:navi_diary/scr/login_screen.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
 // Firebase 초기화
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(AuthController()));
@@ -20,14 +26,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'NAVI Diary',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      designSize: const Size(
+        1080,
+        2220,
       ),
-      home: const LoginScreen(),
+      builder: (_, child) => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'NAVI Diary',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const LoginScreen(),
+      ),
     );
   }
 }

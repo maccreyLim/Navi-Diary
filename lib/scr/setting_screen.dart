@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
@@ -36,12 +37,12 @@ class _SettingScreenState extends State<SettingScreen> {
         child: Stack(
           children: [
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.10,
-              left: 10,
+              top: 230.h,
+              left: 20.w,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: 1040.w,
+                  height: 1790.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -58,8 +59,8 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
             Positioned(
-              top: 20,
-              left: 20,
+              top: 70.h,
+              left: 40.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,13 +70,13 @@ class _SettingScreenState extends State<SettingScreen> {
                       Text(
                         'Setting',
                         style: GoogleFonts.pacifico(
-                          fontSize: 54,
+                          fontSize: 150.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.40,
+                        width: 400.w,
                       ),
                       IconButton(
                         onPressed: () {
@@ -93,11 +94,11 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).size.height * 0.07,
-              left: MediaQuery.of(context).size.width * 0.13,
+              bottom: 120.h,
+              left: 100.w,
               child: Container(
-                width: MediaQuery.of(context).size.width * 0.75,
-                height: 60,
+                width: 880.w,
+                height: 150.h,
                 child: ElevatedButton(
                   onPressed: () {
                     //E-mail 문의 구현
@@ -112,9 +113,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     alignment: Alignment.center, // Text를 가운데로 정렬
                     padding:
                         const EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
-                    child: const Text(
+                    child: Text(
                       '광고 보기',
-                      style: TextStyle(fontSize: 28, color: Colors.white),
+                      style: TextStyle(fontSize: 50.sp, color: Colors.white),
                     ),
                   ), // 원하는 텍스트를 넣어주세요
                   // 나머지 위젯 속성들...
@@ -122,51 +123,51 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
             ),
             Positioned(
-              top: 100,
+              top: 200.h,
               child: Padding(
                 padding: const EdgeInsets.all(28.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40),
+                    SizedBox(height: 100.h),
                     TextButton(
                       onPressed: () {
                         Get.to(() => MypageScreen());
                       },
-                      child: const Text(
+                      child: Text(
                         '마이페이지',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 40.h),
                     TextButton(
                       onPressed: () {
                         Get.to(() => const ReleaseSettingScrren());
                       },
-                      child: const Text(
+                      child: Text(
                         '출소일 설정',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 40.h),
                     TextButton(
                       onPressed: () {
                         Get.to(() => const NoticeScreen());
                       },
-                      child: const Text(
+                      child: Text(
                         '공지사항',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 40.h),
                     TextButton(
                       onPressed: () {
                         _sendEmail();
                       },
-                      child: const Text(
+                      child: Text(
                         '문의 및 제휴',
-                        style: TextStyle(color: Colors.white, fontSize: 24),
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,7 @@ class ReleaseSettingScrren extends StatefulWidget {
 }
 
 class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
-  List<ReleaseModel>? selectedReleases; // 여기에 선언하세요.
+  List<ReleaseModel>? selectedReleases;
   //AuthController의 인스턴스를 얻기
   final AuthController _authController = AuthController.instance;
 
@@ -94,12 +95,12 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
         child: Stack(
           children: [
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.10,
-              left: 10,
+              top: 320.h,
+              left: 20.w,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: 1040.w,
+                  height: 1850.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -154,13 +155,13 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                       calculatePercentage(
                                           release.inputDate, releaseDate);
                                   return Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        18, 90, 18, 0),
+                                    padding: EdgeInsets.fromLTRB(
+                                        18.w, 50.h, 18.w, 0),
                                     child: ListTile(
                                       title: Text(
                                         release.name,
-                                        style: const TextStyle(
-                                            fontSize: 36,
+                                        style: TextStyle(
+                                            fontSize: 140.sp,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white70),
                                       ),
@@ -174,25 +175,25 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              const SizedBox(height: 28),
+                                              SizedBox(height: 80.sp),
                                               Text(
                                                 '입소일:  ${DateFormat('yyyy-MM-dd').format(release.inputDate).toString()}',
-                                                style: const TextStyle(
-                                                  fontSize: 24,
+                                                style: TextStyle(
+                                                  fontSize: 70.sp,
                                                   color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              const SizedBox(height: 14),
+                                              SizedBox(height: 40.h),
                                               Text(
                                                 '형   량:  ${release.years}년 ${release.months}개월',
-                                                style: const TextStyle(
-                                                  fontSize: 24,
+                                                style: TextStyle(
+                                                  fontSize: 70.sp,
                                                   color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
-                                              const SizedBox(height: 14),
+                                              SizedBox(height: 40.h),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -200,8 +201,8 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                 children: [
                                                   Text(
                                                     '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
-                                                    style: const TextStyle(
-                                                      fontSize: 24,
+                                                    style: TextStyle(
+                                                      fontSize: 70.sp,
                                                       color: Colors.white38,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -209,19 +210,18 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                   ),
                                                 ],
                                               ),
-                                              const SizedBox(height: 14),
+                                              SizedBox(height: 40.h),
                                               Text(
-                                                "D-Day: $remainingDays 일후 만기출소",
-                                                style: const TextStyle(
-                                                  fontSize: 24,
+                                                "D-Day: D - [ $remainingDays 일 ]",
+                                                style: TextStyle(
+                                                  fontSize: 70.sp,
                                                   color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 30, 0, 4),
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 100.h, 0, 4),
                                                 child: LinearProgressIndicator(
                                                   minHeight: 20,
                                                   value: percentageMap[
@@ -257,28 +257,28 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                   ),
                                                 ),
                                               ),
-                                              const SizedBox(height: 10),
+                                              SizedBox(height: 30.h),
                                               Row(
                                                 children: [
-                                                  const Text(
+                                                  Text(
                                                     "현재 선고 받은 형량의  ",
                                                     style: TextStyle(
                                                         color: Colors.white70,
-                                                        fontSize: 18),
+                                                        fontSize: 50.sp),
                                                   ),
                                                   Text(
                                                     '${percentageMap[release.name]?.toStringAsFixed(0) ?? "0"}%',
-                                                    style: const TextStyle(
-                                                        fontSize: 26,
+                                                    style: TextStyle(
+                                                        fontSize: 100.sp,
                                                         color: Colors.red,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
-                                                  const Text(
+                                                  Text(
                                                     " 로",
                                                     style: TextStyle(
                                                         color: Colors.white70,
-                                                        fontSize: 18),
+                                                        fontSize: 50.sp),
                                                   ),
                                                 ],
                                               ),
@@ -289,6 +289,9 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                         .spaceBetween,
                                                 children: [
                                                   Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
                                                     children: [
                                                       ReleaseTipText(
                                                         daysPassed: daysPassed,
@@ -296,12 +299,11 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                             percentageMap,
                                                         release: release,
                                                       ),
-                                                      const SizedBox(
-                                                          height: 30),
+                                                      SizedBox(height: 80.h),
                                                       Text(
-                                                        '[입소${daysPassed}일째]',
-                                                        style: const TextStyle(
-                                                            fontSize: 34,
+                                                        '[입소 ${daysPassed}일째]',
+                                                        style: TextStyle(
+                                                            fontSize: 80.sp,
                                                             color:
                                                                 Colors.white54),
                                                       ),
@@ -345,13 +347,13 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                               Text(
                                 'Release',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.35,
+                                width: 440.w,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -367,11 +369,11 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                           ),
                           Row(
                             children: [
-                              const SizedBox(width: 120),
+                              SizedBox(width: 220.w),
                               Text(
                                 'Setting',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -386,8 +388,8 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).size.height * 0.025,
-              right: MediaQuery.of(context).size.width * 0.02,
+              bottom: 10.h,
+              right: 10.w,
               child: Padding(
                 padding: const EdgeInsets.all(28.0),
                 child: AuthController.instance.isReleaseFirebase.isFalse

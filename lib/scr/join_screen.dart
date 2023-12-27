@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
+import 'package:navi_diary/scr/login_screen.dart';
 import 'package:validators/validators.dart';
 
 class JoinScreen extends StatefulWidget {
@@ -59,8 +61,8 @@ class _JoinScreenState extends State<JoinScreen> {
                 Positioned.fill(
                   child: Center(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: MediaQuery.of(context).size.width * 1,
+                      width: 1020.w,
+                      height: 1100.h,
                       decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(40.0)),
@@ -69,7 +71,7 @@ class _JoinScreenState extends State<JoinScreen> {
                       child: Form(
                         key: _formKey,
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(18.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -92,7 +94,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: 20.h),
                               Flexible(
                                 child: TextFormField(
                                   controller: pwController,
@@ -129,7 +131,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: 20.h),
                               Flexible(
                                 child: TextFormField(
                                     controller: pnController,
@@ -145,7 +147,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                       return null;
                                     }),
                               ),
-                              const SizedBox(height: 25),
+                              SizedBox(height: 25.h),
                               Row(
                                 children: [
                                   Radio(
@@ -158,6 +160,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                     },
                                   ),
                                   const Text('남성'),
+                                  SizedBox(width: 20.w),
                                   Radio(
                                     value: 'female',
                                     groupValue: gender,
@@ -168,16 +171,6 @@ class _JoinScreenState extends State<JoinScreen> {
                                     },
                                   ),
                                   const Text('여성'),
-                                  const SizedBox(width: 10),
-                                  //성별을 선택하지 않은 경우 확인 메시지 추가
-                                  // if (gender == null)
-                                  //   const Text(
-                                  //     '성별을 선택해주세요',
-                                  //     style: TextStyle(
-                                  //       color: Colors.deepPurple,
-                                  //       fontSize: 10,
-                                  //     ),
-                                  //   ),
                                 ],
                               ),
 // Todo: 추후 프로필 이미지 추가 기능 구현
@@ -213,8 +206,8 @@ class _JoinScreenState extends State<JoinScreen> {
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.1,
-                  left: MediaQuery.of(context).size.width * 0.1,
+                  top: 300.h,
+                  left: 50.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,23 +219,29 @@ class _JoinScreenState extends State<JoinScreen> {
                               Text(
                                 'Please',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Text(
-                                'Join',
-                                style: GoogleFonts.pacifico(
-                                  fontSize: 54,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              Row(
+                                children: [
+                                  SizedBox(width: 140.w),
+                                  Text(
+                                    'Join',
+                                    style: GoogleFonts.pacifico(
+                                      fontSize: 120.sp,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.25,
+                            width: 500.w,
+                            // height: MediaQuery.of(context).size.height * 0.16.w,
                           ),
                           IconButton(
                             onPressed: () {
@@ -260,8 +259,8 @@ class _JoinScreenState extends State<JoinScreen> {
                   ),
                 ),
                 Positioned(
-                  bottom: MediaQuery.of(context).size.height * 0.1,
-                  left: MediaQuery.of(context).size.width * 0.05,
+                  bottom: 100.h,
+                  left: 40.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -269,8 +268,8 @@ class _JoinScreenState extends State<JoinScreen> {
                       Column(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: 1000.w,
+                            height: 150.h,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
@@ -289,10 +288,10 @@ class _JoinScreenState extends State<JoinScreen> {
                                   );
                                 }
                               },
-                              child: const Text(
+                              child: Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 24),
+                                    color: Colors.white, fontSize: 60.sp),
                               ),
                             ),
                           ),

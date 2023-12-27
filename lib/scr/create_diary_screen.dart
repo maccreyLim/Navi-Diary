@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
@@ -60,12 +61,12 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
           child: Stack(
             children: [
               Positioned(
-                top: 70,
-                left: 10,
+                top: 300.h,
+                left: 20.w,
                 child: Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.952,
-                    height: MediaQuery.of(context).size.height * 0.70,
+                    width: 1040.w,
+                    height: 1450.h,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.1),
                       boxShadow: [
@@ -81,33 +82,35 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                     child: Form(
                       key: _formKey,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 40, 16, 0),
+                        padding: EdgeInsets.fromLTRB(16.w, 40.h, 16.w, 0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             // 제목 입력 필드
-                            TextFormField(
-                              controller: titleController,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: const InputDecoration(
-                                icon: Icon(Icons.title),
-                                labelText: 'Title',
-                                hintText: 'Please write the title"',
+                            Flexible(
+                              child: TextFormField(
+                                controller: titleController,
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: const InputDecoration(
+                                  icon: Icon(Icons.title),
+                                  labelText: 'Title',
+                                  hintText: 'Please write the title"',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return '필수항목 입니다';
+                                  }
+                                  return null;
+                                },
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return '필수항목 입니다';
-                                }
-                                return null;
-                              },
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 60.h),
                             // 내용 입력 필드
                             TextFormField(
-                              maxLength: 400,
-                              maxLines: 8,
+                              maxLength: 500,
+                              maxLines: 6,
                               controller: contentsController,
-                              keyboardType: TextInputType.emailAddress,
+                              keyboardType: TextInputType.multiline,
                               decoration: const InputDecoration(
                                 icon: Icon(Icons.content_paste),
                                 labelText: 'Contents',
@@ -128,35 +131,35 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                                 await diaryController.pickMultiImage(images);
                                 setState(() {});
                               },
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.camera_alt_outlined,
-                                size: 40,
+                                size: 140.sp,
                               ),
                             ),
-                            const SizedBox(height: 14),
+                            SizedBox(height: 40.h),
                             Row(
                               children: [
                                 Container(
-                                  height: 100,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.85,
+                                  height: 280.h,
+                                  width: 1000.w,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: images.length + 1,
                                     itemBuilder: (context, index) {
                                       if (index < images.length) {
                                         return Container(
-                                          height: 80,
-                                          width: 100,
+                                          height: 100.h,
+                                          width: 280.w,
                                           margin:
                                               const EdgeInsets.only(right: 10),
                                           child: Container(
-                                            height: 80,
-                                            width: 80,
+                                            height: 180.h,
+                                            width: 180.w,
                                             child: Stack(
                                               children: [
                                                 Positioned(
-                                                  top: 6,
+                                                  top: 50.h,
+                                                  left: 40.w,
                                                   child:
                                                       // 이미지 표시
                                                       ClipRRect(
@@ -165,18 +168,18 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                                                             15.0),
                                                     child: Image.file(
                                                       File(images[index]!.path),
-                                                      width: 70,
-                                                      height: 70,
+                                                      width: 220.w,
+                                                      height: 220.h,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  bottom: 18,
-                                                  left: 20,
+                                                  bottom: 8.h,
+                                                  left: 120.w,
                                                   child: Container(
-                                                    width: 100,
-                                                    height: 140,
+                                                    width: 270.w,
+                                                    height: 440.h,
                                                     child: IconButton(
                                                       onPressed: () {
                                                         // 이미지 삭제
@@ -185,10 +188,10 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                                                                 index, images);
                                                         setState(() {});
                                                       },
-                                                      icon: const Icon(
+                                                      icon: Icon(
                                                         Icons.delete,
                                                         color: Colors.black54,
-                                                        size: 24,
+                                                        size: 70.sp,
                                                       ),
                                                     ),
                                                   ),
@@ -213,37 +216,43 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                 ),
               ),
               Positioned(
-                top: 25,
-                left: 32,
-                child: Column(
+                top: 140.h,
+                left: 20.w,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Write a diary',
                       style: GoogleFonts.pacifico(
-                        fontSize: 54,
+                        fontSize: 150.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Get.off(() => const HomeScreen());
+                      },
+                      icon: Icon(Icons.close),
                     ),
                   ],
                 ),
               ),
               Positioned(
-                bottom: 40,
-                left: 10,
+                bottom: 100.h,
+                left: 20.w,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  height: 50,
+                  width: 1040.w,
+                  height: 150.h,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pink,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Save',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 50.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white60,
                       ),

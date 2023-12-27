@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
@@ -63,8 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Positioned.fill(
                   child: Center(
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: MediaQuery.of(context).size.width * 0.65,
+                      width: 1020.w,
+                      height: 720.h,
                       decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(40.0)),
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: Form(
                         key: _formKey,
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 46, 8, 16),
+                          padding: EdgeInsets.fromLTRB(18.w, 110.h, 18.w, 10.h),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -96,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 20),
+                              SizedBox(height: 20.h),
                               Flexible(
                                 child: TextFormField(
                                   controller: pwController,
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                               ),
-                              const SizedBox(height: 25),
+                              SizedBox(height: 60.h),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -142,14 +143,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: Colors.white54,
                                   ),
                                   TextButton(
-                                      onPressed: () {
-                                        //Todo: 파이어베이스 Password찾기 구현
-                                        Get.to(() => FindPasswordScreen());
-                                      },
-                                      child: const Text(
-                                        'Find Your Password',
-                                        style: TextStyle(color: Colors.white54),
-                                      )),
+                                    onPressed: () {
+                                      //Todo: 파이어베이스 Password찾기 구현
+                                      Get.to(() => FindPasswordScreen());
+                                    },
+                                    child: const Text(
+                                      'Find Your Password',
+                                      style: TextStyle(color: Colors.white54),
+                                    ),
+                                  ),
                                 ],
                               )
                             ],
@@ -160,8 +162,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Positioned.fill(
-                  top: MediaQuery.of(context).size.height * 0.18,
-                  left: MediaQuery.of(context).size.width * 0.1,
+                  top: 480.h,
+                  left: 80.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,28 +171,30 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text(
                         'Please',
                         style: GoogleFonts.pacifico(
-                          fontSize: 54,
+                          fontSize: 120.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text(
-                        'log in',
-                        style: GoogleFonts.pacifico(
-                          fontSize: 54,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          SizedBox(width: 140.w),
+                          Text(
+                            '     log in',
+                            style: GoogleFonts.pacifico(
+                              fontSize: 120.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      // SizedBox(
-                      //   height: 250,
-                      // ),
                     ],
                   ),
                 ),
                 Positioned(
-                  bottom: 70,
-                  left: MediaQuery.of(context).size.width * 0.05,
+                  bottom: 100.h,
+                  left: 40.w,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -198,8 +202,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       Column(
                         children: [
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: 1000.w,
+                            height: 150.h,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor:
@@ -216,17 +220,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   print(authController.userData);
                                 }
                               },
-                              child: const Text(
+                              child: Text(
                                 'LogIn',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 24),
+                                    color: Colors.white, fontSize: 60.sp),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 30),
+                          SizedBox(height: 60.h),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: 1000.w,
+                            height: 150.h,
                             child: ElevatedButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<
@@ -241,10 +245,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                       milliseconds: 1500), // 1.5초로 수정
                                 );
                               },
-                              child: const Text(
+                              child: Text(
                                 'Create an Account',
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
+                                    color: Colors.white, fontSize: 60.sp),
                               ),
                             ),
                           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,12 +73,12 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
           child: Stack(
             children: [
               Positioned(
-                top: 70,
-                left: 10,
+                top: 260.h,
+                left: 20.w,
                 child: Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.952,
-                    height: MediaQuery.of(context).size.height * 0.70,
+                    width: 1040.w,
+                    height: 1550.h,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.1),
                         boxShadow: [
@@ -92,7 +93,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                     child: Form(
                       key: _formKey,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 40, 16, 0),
+                        padding: EdgeInsets.fromLTRB(20.w, 80.h, 40.w, 0),
                         child: Column(
                           children: [
                             TextFormField(
@@ -110,19 +111,18 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                                 return null; // Return null if the input is valid
                               },
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 30.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const SizedBox(width: 0),
-                                const Text(
+                                Text(
                                   '입소일',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 50.sp),
                                 ),
-                                // SizedBox(width: 2),
                                 Text(
                                   '${yearformatter.format(selectedDate)} 년 ${monthformatter.format(selectedDate)} 월 ${dayformatter.format(selectedDate)} 일',
-                                  style: const TextStyle(fontSize: 14),
+                                  style: TextStyle(fontSize: 44.sp),
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.date_range_outlined),
@@ -133,14 +133,14 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const SizedBox(width: 42),
-                                const Text(
+                                SizedBox(width: 105.w),
+                                Text(
                                   '형량 설정',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 50.sp),
                                 ),
-                                const SizedBox(width: 26),
+                                SizedBox(width: 50.w),
                                 SizedBox(
-                                  width: 80,
+                                  width: 180.w,
                                   child: TextFormField(
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) {
@@ -159,9 +159,9 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(width: 30),
+                                SizedBox(width: 80.w),
                                 SizedBox(
-                                  width: 80,
+                                  width: 180.w,
                                   child: TextFormField(
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) {
@@ -182,7 +182,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 40.h),
                             TextFormField(
                               maxLength: 400,
                               maxLines: 10,
@@ -208,30 +208,57 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                 ),
               ),
               Positioned(
-                top: 20,
-                left: 20,
-                child: Text(
-                  'Create Release',
-                  style: GoogleFonts.pacifico(
-                    fontSize: 54,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                top: 70.h,
+                left: 50.w,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Create',
+                          style: GoogleFonts.pacifico(
+                            fontSize: 120.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 500.w),
+                        IconButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            icon: Icon(Icons.close))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(width: 40.w),
+                        Text(
+                          'Release',
+                          style: GoogleFonts.pacifico(
+                            fontSize: 120.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Positioned(
-                bottom: 50,
-                left: 10,
+                bottom: 100.h,
+                left: 40.w,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  height: 70,
+                  width: 1000.w,
+                  height: 150.h,
                   child: ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.pink),
-                    child: const Text(
+                    child: Text(
                       'Save',
                       style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 60.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white60),
                     ),
@@ -239,7 +266,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                       //Todo : 파이어베이스에 일기 저장 구현
                       if (_formKey.currentState?.validate() ?? false) {
                         final release = ReleaseController.instance;
-                        String result = await release.createRelease(
+                        await release.createRelease(
                           ReleaseModel(
                             name: nameController.text,
                             inputDate: selectedDate,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
@@ -27,8 +28,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
 
     return Container(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.75,
-        width: MediaQuery.of(context).size.width * 1,
+        height: 1800.h,
+        width: 1000.w,
         child: ListView.builder(
           itemCount: announcementList.length,
           itemBuilder: (context, index) {
@@ -86,12 +87,12 @@ class _NoticeScreenState extends State<NoticeScreen> {
         child: Stack(
           children: [
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.10,
-              left: 10,
+              top: 220.h,
+              left: 20.w,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.84,
+                  width: 1040.w,
+                  height: 1900.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -109,8 +110,8 @@ class _NoticeScreenState extends State<NoticeScreen> {
             ),
             //네이밍
             Positioned(
-              top: 20,
-              left: 20,
+              top: 70.h,
+              left: 50.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,13 +121,13 @@ class _NoticeScreenState extends State<NoticeScreen> {
                       Text(
                         'Notice',
                         style: GoogleFonts.pacifico(
-                          fontSize: 54,
+                          fontSize: 150.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.40,
+                        width: 440.w,
                       ),
                       IconButton(
                         onPressed: () {
@@ -142,29 +143,11 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 ],
               ),
             ),
-            //FloatingActionButton 구현
-            if (_authController.userData!['isAdmin'])
-              Positioned(
-                bottom: 20,
-                right: 20,
-                child: FloatingActionButton(
-                  backgroundColor: Colors.pink,
-                  onPressed: () {
-                    Get.to(() => const CreateNoticeScreen());
-                  },
-                  child: const Icon(
-                    Icons.add,
-                    size: 30,
-                    color: Colors.white60,
-                  ),
-                ),
-              ),
-
             //화면구성
             Positioned(
-              bottom: 80,
-              left: 15,
-              right: 15,
+              bottom: 152.h,
+              left: 40.w,
+              right: 40.w,
               child: Column(
                 children: [
                   Container(
@@ -199,6 +182,24 @@ class _NoticeScreenState extends State<NoticeScreen> {
                 ],
               ),
             ),
+            //FloatingActionButton 구현
+            if (_authController.userData?['isAdmin'] ?? false)
+              Positioned(
+                bottom: 120.h,
+                right: 40.w,
+                child: FloatingActionButton(
+                  backgroundColor: Colors.pink,
+                  onPressed: () {
+                    print('Click');
+                    Get.to(() => const CreateNoticeScreen());
+                  },
+                  child: Icon(
+                    Icons.add,
+                    size: 40,
+                    color: Colors.white60,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

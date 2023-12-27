@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
+import 'package:navi_diary/scr/change_password_screen.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/member_terminator_notice.dart';
 
@@ -35,12 +37,12 @@ class MypageScreen extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.10,
-              left: 10,
+              top: 250.h,
+              left: 20.w,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: 1040.w,
+                  height: 1680.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -68,13 +70,13 @@ class MypageScreen extends StatelessWidget {
                       Text(
                         'My Page',
                         style: GoogleFonts.pacifico(
-                          fontSize: 54,
+                          fontSize: 150.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.25,
+                        width: 220.w,
                       ),
                       IconButton(
                         onPressed: () {
@@ -92,173 +94,208 @@ class MypageScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.15,
+              top: 300.h,
               child: Padding(
                 padding: const EdgeInsets.all(28.0),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "프로필이름",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white54),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "${_authController.userData!["profileName"]}",
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.black54),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "성          별",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white54),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  _authController.userData!["sex"] == 'male'
-                                      ? "남성"
-                                      : "여성",
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.black54),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "보유포인트 : ",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white54),
-                                ),
-                                const SizedBox(width: 20),
-                                Text(
-                                  "${_authController.userData!["point"]}  point",
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.black54),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "가   입   일",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white54),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  "${_formatDate(_authController.userData!["createdAt"])}",
-                                  style: const TextStyle(
-                                      fontSize: 20, color: Colors.black54),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "일기장사용량",
-                                  style: TextStyle(
-                                      fontSize: 20, color: Colors.white54),
-                                ),
-                                const SizedBox(height: 20),
-                                FutureBuilder<List<DiaryModel>>(
-                                  future: diaryController.getDiaries(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Center(
-                                          child:
-                                              CircularProgressIndicator()); // 데이터 로딩 중이면 로딩 표시기 표시
-                                    } else if (snapshot.hasError) {
-                                      return Text("에러 발생: ${snapshot.error}");
-                                    } else {
-                                      List<DiaryModel> diaries =
-                                          snapshot.data ?? [];
-                                      int diaryCount =
-                                          diaries.length; // 일기 수를 가져옴
-                                      diaryTotalCount = diaryCount;
+                    Container(
+                      width: 930.w,
+                      height: 1440.h,
+                      child: Row(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "프로필이름",
+                                    style: TextStyle(
+                                        fontSize: 80.sp, color: Colors.white54),
+                                  ),
+                                  SizedBox(
+                                    height: 40.h,
+                                  ),
+                                  Text(
+                                    "${_authController.userData!["profileName"]}",
+                                    style: TextStyle(
+                                        fontSize: 80.sp, color: Colors.black54),
+                                  ),
+                                  SizedBox(
+                                    height: 60.h,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "성          별",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.white54),
+                                  ),
+                                  SizedBox(
+                                    height: 40.h,
+                                  ),
+                                  Text(
+                                    _authController.userData!["sex"] == 'male'
+                                        ? "남성"
+                                        : "여성",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.black54),
+                                  ),
+                                  SizedBox(
+                                    height: 60.h,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    "보유포인트 : ",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.white54),
+                                  ),
+                                  SizedBox(width: 40.h),
+                                  Text(
+                                    "${_authController.userData!["point"]}  point",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.black54),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 60.h,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "가   입   일",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.white54),
+                                  ),
+                                  SizedBox(
+                                    height: 40.h,
+                                  ),
+                                  Text(
+                                    "${_formatDate(_authController.userData!["createdAt"])}",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.black54),
+                                  ),
+                                  SizedBox(
+                                    height: 60.h,
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "일기장사용량",
+                                    style: TextStyle(
+                                        fontSize: 60.sp, color: Colors.white54),
+                                  ),
+                                  SizedBox(height: 40.h),
+                                  FutureBuilder<List<DiaryModel>>(
+                                    future: diaryController.getDiaries(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                            child:
+                                                CircularProgressIndicator()); // 데이터 로딩 중이면 로딩 표시기 표시
+                                      } else if (snapshot.hasError) {
+                                        return Text("에러 발생: ${snapshot.error}");
+                                      } else {
+                                        List<DiaryModel> diaries =
+                                            snapshot.data ?? [];
+                                        int diaryCount =
+                                            diaries.length; // 일기 수를 가져옴
+                                        diaryTotalCount = diaryCount;
 
-                                      return Text(
-                                        "회원님은 현재까지 $diaryCount개의 일기를 \n작성하셨습니다.",
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.black54),
-                                      );
-                                    }
-                                  },
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
+                                        return Text(
+                                          "회원님은 현재까지 $diaryCount개의 \n일기를 작성하셨습니다.",
+                                          style: TextStyle(
+                                              fontSize: 60.sp,
+                                              color: Colors.black54),
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).size.height * 0.06,
-              left: MediaQuery.of(context).size.width * 0.1,
+              bottom: 220.h,
+              left: 90.w,
               child: Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width * 0.8,
+                height: 150.h,
+                width: 900.w,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.to(() => MemberTerminatorNotice(
-                          diarytotalCount: diaryTotalCount.toString(),
-                        ));
-                    Get.to(() => LoginScreen);
+                    Get.to(
+                      () => MemberTerminatorNotice(
+                        diarytotalCount: diaryTotalCount.toString(),
+                      ),
+                    );
+                    // Get.to(() => LoginScreen);
                   },
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.blueGrey),
                   ),
-                  child: const Text(
+                  child: Text(
                     "회원 탈퇴하기",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 50.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white54),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 50.h,
+              left: 90.w,
+              child: Container(
+                height: 150.h,
+                width: 900.w,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.to(
+                      () => MemberTerminatorNotice(
+                        diarytotalCount: diaryTotalCount.toString(),
+                      ),
+                    );
+                    Get.to(() => const ChangePasswordScreen());
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.indigo),
+                  ),
+                  child: Text(
+                    "비밀번호 변경",
+                    style: TextStyle(
+                        fontSize: 50.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white54),
                   ),

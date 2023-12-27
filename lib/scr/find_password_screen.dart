@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
+import 'package:navi_diary/scr/login_screen.dart';
+import 'package:navi_diary/scr/setting_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
 
 class FindPasswordScreen extends StatelessWidget {
@@ -69,18 +72,18 @@ class FindPasswordScreen extends StatelessWidget {
                               Text(
                                 ' Find',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.52,
+                                width: 590.w,
                               ),
                               IconButton(
                                 onPressed: () {
                                   // 뒤로가기
-                                  Get.back();
+                                  Get.off(() => const LoginScreen());
                                 },
                                 icon: const Icon(
                                   Icons.close,
@@ -91,11 +94,11 @@ class FindPasswordScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              const SizedBox(width: 40),
+                              SizedBox(width: 40.w),
                               Text(
                                 ' Password',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -110,9 +113,9 @@ class FindPasswordScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 30,
-              left: 40,
-              right: 40,
+              bottom: 120.h,
+              left: 80.w,
+              right: 80.w,
               child: Column(
                 children: [
                   TextFormField(
@@ -129,10 +132,10 @@ class FindPasswordScreen extends StatelessWidget {
                     ),
                     style: const TextStyle(color: Colors.white),
                   ),
-                  const SizedBox(height: 280),
+                  SizedBox(height: 700.h),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 1,
-                    height: 70,
+                    width: 1000.w,
+                    height: 150.h,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple),
@@ -144,10 +147,10 @@ class FindPasswordScreen extends StatelessWidget {
                         showToast('비밀번호 재설정 메일을 전송했습니다.', 2);
                         Get.back();
                       },
-                      child: const Text(
+                      child: Text(
                         '비밀번호 찾기',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 60.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white60,
                         ),

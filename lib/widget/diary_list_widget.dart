@@ -31,6 +31,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
               }
 
               return Container(
+                width: MediaQuery.of(context).size.width * 1,
                 child: ListView.builder(
                   itemCount: diaries.length,
                   itemBuilder: (context, index) {
@@ -66,7 +67,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             children: [
                               Text(
                                 ' ${_formatDate(diary.createdAt)}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white54,
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
@@ -91,15 +92,15 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             Container(
                               margin: const EdgeInsets.only(top: 20),
                               //이미지 사이즈
-                              width: MediaQuery.of(context).size.height * 0.45,
-                              height: MediaQuery.of(context).size.width * 0.6,
+                              width: MediaQuery.of(context).size.width * 1,
+                              height: MediaQuery.of(context).size.height * 0.3,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       NetworkImage(diary.photoURL![imgIndex]),
                                   fit: BoxFit.cover,
                                 ),
-                                borderRadius: BorderRadius.circular(25.0),
+                                borderRadius: BorderRadius.circular(15.0),
                               ),
                             ),
 
@@ -107,11 +108,11 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
                             child: Text(
                               diary.title,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           // SizedBox(
                           //   height: 20,
                           // ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
@@ -32,10 +33,10 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
 //저장 버튼
   Widget saveButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+      padding: EdgeInsets.fromLTRB(0, 0, 16.w, 0),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 1,
-        height: 60,
+        width: 1000.w,
+        height: 150.h,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.indigo,
@@ -59,9 +60,9 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
               Get.off(const NoticeScreen());
             });
           },
-          child: const Text(
+          child: Text(
             'SAVE',
-            style: TextStyle(fontSize: 24, color: Colors.white54),
+            style: TextStyle(fontSize: 60.sp, color: Colors.white54),
           ),
         ),
       ),
@@ -74,13 +75,13 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
       children: [
         Text(
           '${nametext}',
-          style: const TextStyle(fontSize: 20),
-        ),
-        const SizedBox(
-          width: 10,
+          style: TextStyle(fontSize: 50.sp),
         ),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.63,
+          width: 20.w,
+        ),
+        SizedBox(
+          width: 840.w,
           child: TextFormField(
             textAlignVertical: TextAlignVertical.center,
             controller: name,
@@ -123,12 +124,12 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
         child: Stack(
           children: [
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.10,
-              left: 10,
+              top: 230.h,
+              left: 15,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: 1000.w,
+                  height: 1500.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -145,8 +146,8 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
               ),
             ),
             Positioned(
-              top: 20,
-              left: 20,
+              top: 70.h,
+              left: 50.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,13 +163,13 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
                               Text(
                                 ' Create',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 150.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.38,
+                                width: 380.w,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -184,11 +185,11 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
                           ),
                           Row(
                             children: [
-                              const SizedBox(width: 40),
+                              SizedBox(width: 180.w),
                               Text(
                                 'Notice',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 150.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -203,9 +204,10 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
               ),
             ),
             Positioned(
-              bottom: 40,
-              left: 40,
-              right: 40,
+              bottom: 100.h,
+              left: 40.w,
+              right: 20.w,
+              top: 540.w,
               child: Column(
                 children: [
                   Form(
@@ -216,14 +218,14 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           inputText(titleController, "제목", 1),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          inputText(contentsController, "내용", 8),
-                          const SizedBox(height: 180),
                           SizedBox(
-                              height: 60,
-                              width: MediaQuery.of(context).size.width * 0.9,
+                            height: 50.h,
+                          ),
+                          inputText(contentsController, "내용", 10),
+                          SizedBox(height: 320.h),
+                          SizedBox(
+                              height: 150.h,
+                              width: 1000.w,
                               child: saveButton()),
                         ],
                       ),

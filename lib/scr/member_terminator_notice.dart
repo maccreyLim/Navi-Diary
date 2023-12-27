@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
+import 'package:navi_diary/scr/login_screen.dart';
 
 // ignore: must_be_immutable
 class MemberTerminatorNotice extends StatefulWidget {
@@ -58,8 +60,8 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
               ),
             ),
             Positioned(
-              top: 25,
-              left: 20,
+              top: 70.h,
+              left: 50.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,13 +77,13 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                               Text(
                                 'Terminator',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.16,
+                                width: 290.w,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -101,7 +103,7 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                               Text(
                                 'Notice',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -116,47 +118,50 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
               ),
             ),
             Positioned(
-              top: 160,
+              top: 360.h,
+              right: 20.w,
+              left: 20.w,
               child: Padding(
-                padding: const EdgeInsets.all(28.0),
+                padding: const EdgeInsets.all(24.0),
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
+                  width: 1000.w,
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         Text(
                           '${authController.userData!['profileName']}님',
-                          style: const TextStyle(
-                              fontSize: 34,
+                          style: TextStyle(
+                              fontSize: 100.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.black54),
                         ),
-                        const SizedBox(height: 30),
-                        const Text(
-                          "우리 커뮤니티를 떠나기로 결정하셔서 안타깝게 생각합니다.\n계정 해지를 진행하기 전에 중요한 정보를 안내해 드리고자 합니다.\n",
+                        SizedBox(height: 60.h),
+                        Text(
+                          "우리 커뮤니티를 떠나기로 결정하셔서 \n안타깝게 생각합니다.\n계정 해지를 진행하기 전에 중요한 정보를 안내해 드리고자 합니다.\n",
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white54),
-                        ),
-                        const Text(
-                          "-- 데이터 손실 주의 안내 --\n",
-                          style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 50.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white54),
                         ),
                         Text(
-                          '회원님은 현재 소중한 ${widget.diarytotalCount}개의 일기장이 있습니다.',
-                          style: const TextStyle(
-                              fontSize: 18,
+                          "-- 데이터 손실 주의 안내 --\n",
+                          style: TextStyle(
+                              fontSize: 70.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white54),
+                        ),
+                        Text(
+                          '회원님은 현재 소중한 ${widget.diarytotalCount}개의 일기장이 \n존재합니다.',
+                          style: TextStyle(
+                              fontSize: 50.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.indigo),
                         ),
-                        const Text(
-                          '계정 해지 시 계정과 관련된 모든 데이터,\n일기 및 저장된 모든 정보가 영구적으로\n삭제됩니다.\n이 작업은 되돌릴 수 없으며 손실된 데이터를 복구할 방법이 없습니다.',
+                        SizedBox(height: 40.h),
+                        Text(
+                          '계정 해지 시 계정과 관련된 모든 데이터,\n일기 및 저장된 모든 정보가 영구적으로\n삭제됩니다.\n이 작업은 되돌릴 수 없으며 손실된 \n데이터는 복구가 불가능합니다.',
                           style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 50.sp,
                               fontWeight: FontWeight.bold,
                               color: Colors.white54),
                         ),
@@ -180,6 +185,7 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                       },
                       onLongPress: () async {
                         await AuthController.instance.deleteAccount();
+                        Get.to(const LoginScreen());
                       },
                       style: ButtonStyle(
                         backgroundColor: isPress
@@ -190,8 +196,8 @@ class _MemberTerminatorNoticeState extends State<MemberTerminatorNotice> {
                         isPress
                             ? '회원을 탈퇴를 원하시면\n     길게 눌러주세요'
                             : '정말 회원을 탈퇴하시겠습니까?',
-                        style: const TextStyle(
-                            fontSize: 20,
+                        style: TextStyle(
+                            fontSize: 40.sp,
                             fontWeight: FontWeight.bold,
                             color: Colors.white54),
                       )),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -100,12 +101,12 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
           child: Stack(
             children: [
               Positioned(
-                top: 70,
-                left: 10,
+                top: 260.h,
+                left: 20.w,
                 child: Center(
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.952,
-                    height: MediaQuery.of(context).size.height * 0.70,
+                    width: 1040.w,
+                    height: 1550.h,
                     decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.1),
                         boxShadow: [
@@ -120,7 +121,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                     child: Form(
                       key: _formKey,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 40, 16, 0),
+                        padding: EdgeInsets.fromLTRB(20.w, 80.h, 40.w, 0),
                         child: Column(
                           children: [
                             TextFormField(
@@ -138,16 +139,15 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                                 return null; // Return null if the input is valid
                               },
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 30.h),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const SizedBox(width: 0),
-                                const Text(
+                                Text(
                                   '입소일',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 50.sp),
                                 ),
-                                // SizedBox(width: 2),
                                 Text(
                                   '${yearformatter.format(selectedDate)} 년 ${monthformatter.format(selectedDate)} 월 ${dayformatter.format(selectedDate)} 일',
                                   style: const TextStyle(fontSize: 14),
@@ -161,14 +161,14 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const SizedBox(width: 42),
-                                const Text(
+                                SizedBox(width: 105.w),
+                                Text(
                                   '형량 설정',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 50.sp),
                                 ),
-                                const SizedBox(width: 26),
+                                SizedBox(width: 50.w),
                                 SizedBox(
-                                    width: 80,
+                                    width: 180.w,
                                     child: TextFormField(
                                       controller: yearsController,
                                       keyboardType: TextInputType.number,
@@ -182,9 +182,9 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                                         hintText: '년',
                                       ),
                                     )),
-                                const SizedBox(width: 30),
+                                SizedBox(width: 80.w),
                                 SizedBox(
-                                  width: 80,
+                                  width: 180.w,
                                   child: TextFormField(
                                     controller: monthsController,
                                     keyboardType: TextInputType.number,
@@ -201,7 +201,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 40.h),
                             TextFormField(
                               maxLength: 400,
                               maxLines: 10,
@@ -227,38 +227,65 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                 ),
               ),
               Positioned(
-                top: 20,
-                left: 10,
-                child: Text(
-                  'Update Release',
-                  style: GoogleFonts.pacifico(
-                    fontSize: 54,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+                top: 70.h,
+                left: 50.w,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Update',
+                          style: GoogleFonts.pacifico(
+                            fontSize: 120.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: 500.w),
+                        IconButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            icon: Icon(Icons.close))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SizedBox(width: 40.w),
+                        Text(
+                          'Release',
+                          style: GoogleFonts.pacifico(
+                            fontSize: 120.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Positioned(
-                bottom: 20,
-                left: 10,
+                bottom: 40.h,
+                left: 40.w,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  height: 50,
+                  width: 1000.w,
+                  height: 150.h,
                   child: ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.pink),
                     child: isdelete == false
-                        ? const Text(
+                        ? Text(
                             'Delete',
                             style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 60.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white60),
                           )
-                        : const Text(
+                        : Text(
                             '삭제를 원하시면 버튼을 길게 눌러주세요',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 40.sp,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white60),
                           ),
@@ -280,18 +307,18 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                 ),
               ),
               Positioned(
-                bottom: 80,
-                left: 10,
+                bottom: 210.h,
+                left: 40.w,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  height: 50,
+                  width: 1000.w,
+                  height: 150.h,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple),
-                    child: const Text(
+                    child: Text(
                       'Update',
                       style: TextStyle(
-                          fontSize: 24,
+                          fontSize: 60.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white60),
                     ),

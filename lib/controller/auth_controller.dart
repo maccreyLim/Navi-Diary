@@ -190,6 +190,7 @@ class AuthController extends GetxController {
     }
   }
 
+//회원어카운트 삭제
   Future<void> deleteAccount() async {
     try {
       // 현재 사용자 정보를 가져옴
@@ -238,10 +239,19 @@ class AuthController extends GetxController {
     }
   }
 
+//스토리지 전체 삭제
   Future<void> deleteUserDataFromStorage(String userId) async {
     try {
       // Firebase Storage에서 데이터에 대한 참조를 만듭니다.
-      final ref = _storage.ref().child('users/$userId');
+      final ref = _storage.ref().child('images/$userId');
+
+      // 디렉터리 내의 모든 파일에 대한 참조 목록을 가져옵니다.
+      final ListResult result = await ref.listAll();
+
+      // 모든 파일을 삭제합니다.
+      await Future.forEach(result.items, (Reference item) async {
+        await item.delete();
+      });
 
       // 데이터를 삭제합니다.
       await ref.delete();
@@ -252,6 +262,7 @@ class AuthController extends GetxController {
     }
   }
 
+//콜렉션 삭제
   Future<void> _deleteCollection(
       CollectionReference collectionReference) async {
     // 컬렉션에 대한 모든 문서를 가져옵니다.
@@ -276,5 +287,31 @@ class AuthController extends GetxController {
     final auth = FirebaseAuth.instance;
     // 비밀번호 재설정 메일 전송
     await auth.sendPasswordResetEmail(email: email);
+  }
+
+//패스워드 변경
+  Future<void> changePassword(
+      String email, String currentPassword, String newPassword) async {
+    try {
+      // 현재 로그인한 사용자 가져오기
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // 현재 사용자가 null이 아니면서 이메일이 일치할 경우에만 비밀번호 변경 수행
+      if (user != null && user.email == email) {
+        // 사용자의 현재 비밀번호를 사용하여 로그인
+        AuthCredential credential = EmailAuthProvider.credential(
+            email: email, password: currentPassword);
+        await user.reauthenticateWithCredential(credential);
+
+        // 새 비밀번호로 변경
+        await user.updatePassword(newPassword);
+
+        print('비밀번호가 성공적으로 변경되었습니다.');
+      } else {
+        print('사용자 정보가 일치하지 않습니다.');
+      }
+    } catch (e) {
+      print('비밀번호 변경 중 오류 발생: $e');
+    }
   }
 }

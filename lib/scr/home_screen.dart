@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -99,12 +100,12 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             //위쪽 화면 Stack
             Positioned(
-              top: 70,
-              left: 10,
+              top: 260.h,
+              left: 20.w,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.28,
+                  width: 1040.w,
+                  height: 480.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -132,8 +133,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               return Text('Error: ${snapshot.error}');
                             } else if (!snapshot.hasData ||
                                 snapshot.data!.isEmpty) {
-                              return const Center(
-                                child: Text('출소 정보가 없습니다.'),
+                              return Center(
+                                child: Text(
+                                  '출소 정보가 없습니다.',
+                                  style: TextStyle(
+                                      fontSize: 60.sp, color: Colors.white54),
+                                ),
                               );
                             } else {
                               List<ReleaseModel>? releases = snapshot.data;
@@ -158,12 +163,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                   return Padding(
                                     padding:
-                                        const EdgeInsets.fromLTRB(18, 0, 18, 0),
+                                        EdgeInsets.fromLTRB(18.w, 0, 18.w, 0),
                                     child: ListTile(
                                       title: Text(
                                         release.name,
-                                        style: const TextStyle(
-                                            fontSize: 26,
+                                        style: TextStyle(
+                                            fontSize: 60.sp,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white70),
                                       ),
@@ -177,32 +182,47 @@ class _HomeScreenState extends State<HomeScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              const SizedBox(height: 24),
-                                              Text(
-                                                '입소일:  ${DateFormat('yyyy-MM-dd').format(release.inputDate).toString()}',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.white38,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
+                                              SizedBox(height: 40.h),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    '입소일:  ${DateFormat('yyyy-MM-dd').format(release.inputDate).toString()}',
+                                                    style: TextStyle(
+                                                      fontSize: 40.sp,
+                                                      color: Colors.white38,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 80),
+                                                  Text(
+                                                    '[입소${daysPassed}일째]',
+                                                    style: TextStyle(
+                                                      fontSize: 40.sp,
+                                                      color: Colors.white38,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Text(
-                                                '형   량:  ${release.years}년 ${release.months}개월',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.white38,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
+                                              // Text(
+                                              //   '형   량:  ${release.years}년 ${release.months}개월',
+                                              //   style: TextStyle(
+                                              //     fontSize: 40.sp,
+                                              //     color: Colors.white38,
+                                              //     fontWeight: FontWeight.bold,
+                                              //   ),
+                                              // ),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
+                                                    '출소일:  ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
+                                                    style: TextStyle(
+                                                      fontSize: 40.sp,
                                                       color: Colors.white38,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -214,11 +234,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ],
                                               ),
                                               Padding(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 8, 0, 4),
+                                                padding: EdgeInsets.fromLTRB(
+                                                    0, 8.h, 0, 4.h),
                                                 child: LinearProgressIndicator(
-                                                  minHeight: 20,
+                                                  minHeight: 20.h,
                                                   value: percentageMap[
                                                                   release.name]
                                                               ?.isFinite ==
@@ -252,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              const SizedBox(height: 5),
+                                              SizedBox(height: 5.h),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -287,8 +306,8 @@ class _HomeScreenState extends State<HomeScreen> {
             const DownScreenForm(),
             // 타이틀 표시위젯
             Positioned(
-              top: 20,
-              left: 20,
+              top: 100.h,
+              left: 20.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,13 +317,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         'Home',
                         style: GoogleFonts.pacifico(
-                          fontSize: 54,
+                          fontSize: 160.sp,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.31,
+                        width: 300.w,
                       ),
                       IconButton(
                         onPressed: () {
@@ -339,8 +358,8 @@ class _HomeScreenState extends State<HomeScreen> {
             const DiaryScreenForm(),
             //일기장 작성 버튼
             Positioned(
-              bottom: 30,
-              right: 20,
+              bottom: 46.h,
+              right: 40.w,
               child: FloatingActionButton(
                 backgroundColor: Colors.pink,
                 tooltip: '일기쓰기',
@@ -348,9 +367,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.to(() => const CreateDiaryScreen());
                   setState(() {});
                 },
-                child: const Icon(
+                child: Icon(
                   Icons.add,
-                  size: 30,
+                  size: 80.sp,
                   color: Colors.white60,
                 ),
               ),
@@ -392,78 +411,13 @@ class ReleaseTipText extends StatelessWidget {
                   : percentageMap[release.name]! < 50
                       ? "Tip: 50%가 지났습니다.힘냅시다 [입소${daysPassed}일째]"
                       : percentageMap[release.name]! < 80
-                          ? "Tip: 세심한 가족의 관심이 필요할 시기 [입소${daysPassed}일째]"
+                          ? "Tip: 세심한 가족의 관심이 필요할 시기입니다. [입소${daysPassed}일째]"
                           : "가석방 가능 기간입니다. [입소${daysPassed}일째]",
-      style: const TextStyle(
-        fontSize: 11,
+      style: TextStyle(
+        fontSize: 30.sp,
         color: Colors.white54,
         fontWeight: FontWeight.bold,
       ),
-    );
-  }
-}
-
-//출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
-class ReleaseChangeButton extends StatefulWidget {
-  const ReleaseChangeButton({
-    Key? key,
-    required this.isRelease,
-    required this.selectedReleases,
-  }) : super(key: key);
-
-  final bool isRelease;
-  final List<ReleaseModel>? selectedReleases;
-
-  @override
-  State<ReleaseChangeButton> createState() => _ReleaseChangeButtonState();
-}
-
-class _ReleaseChangeButtonState extends State<ReleaseChangeButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      // top: MediaQuery.of(context).size.height * 0.5,
-      // right: 20,
-      child: Obx(() => AuthController.instance.isReleaseFirebase.value
-          ? IconButton(
-              icon: const Icon(
-                Icons.close,
-                size: 20,
-                color: Colors.white38,
-              ),
-              onPressed: () {
-                if (widget.selectedReleases != null &&
-                    widget.selectedReleases!.isNotEmpty) {
-                  // 변경된 부분
-
-                  Get.to(() => UpdateReleaseScreen(
-                      release: widget.selectedReleases!.first))?.then(
-                    (value) {
-                      if (value == true) {
-                        setState(() {});
-                        ;
-                      }
-                    },
-                  );
-                }
-              },
-            )
-          : IconButton(
-              icon: const Icon(
-                Icons.add,
-                size: 30,
-                color: Colors.white38,
-              ),
-              onPressed: () {
-                Get.to(() => const CreateReleaseScreen())!.then((value) {
-                  // CreateReleaseScreen이 닫힌 후 실행되는 코드
-                  if (value == true) {
-                    // 화면이 성공적으로 닫혔을 때, 상위 화면 다시 그리기
-                    AuthController.instance.update();
-                  }
-                });
-              },
-            )),
     );
   }
 }
@@ -477,12 +431,11 @@ class DiaryScreenForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: MediaQuery.of(context).size.height * 0.42, // 조정 가능한 값
-      left: MediaQuery.of(context).size.width * 0.07, // 조정 가능한 값
+      top: 800.h, // 조정 가능한 값
+      left: 40.w, // 조정 가능한 값
       child: Container(
-        // color: Colors.transparent,
-        width: MediaQuery.of(context).size.height * 0.42,
-        height: MediaQuery.of(context).size.width * 1.06,
+        width: 1000.w,
+        height: 1350.h,
         //일기장 리스트
         child: DiaryListWidget(),
       ),
@@ -499,12 +452,12 @@ class DownScreenForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: MediaQuery.of(context).size.height * 0.40,
-      left: MediaQuery.of(context).size.width * 0.025,
+      top: 760.h,
+      left: 20.w,
       child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.952,
-          height: MediaQuery.of(context).size.height * 0.58,
+          width: 1040.w,
+          height: 1430.h,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.1),
             boxShadow: [
@@ -529,7 +482,7 @@ void _showGetXDialog(ReleaseModel release) {
     title: release.name, titleStyle: const TextStyle(color: Colors.white),
     content: Text(
       release.message,
-      style: const TextStyle(color: Colors.white54, fontSize: 20),
+      style: TextStyle(color: Colors.white54, fontSize: 60.sp),
     ),
     backgroundColor: Colors.deepPurple, // 배경색 변경
     actions: [
@@ -542,9 +495,9 @@ void _showGetXDialog(ReleaseModel release) {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.pink, // 버튼 색상 변경
         ),
-        child: const Text(
+        child: Text(
           '확인',
-          style: TextStyle(color: Colors.white, fontSize: 20),
+          style: TextStyle(color: Colors.white, fontSize: 50.sp),
         ),
       ),
     ],

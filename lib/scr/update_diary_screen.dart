@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
@@ -117,12 +118,12 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildFormContainer() {
     return Positioned(
-      top: 70,
-      left: 10,
+      top: 300.h,
+      left: 20.w,
       child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.952,
-          height: MediaQuery.of(context).size.height * 0.70,
+          width: 1040.w,
+          height: 1500.h,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.1),
             boxShadow: [
@@ -138,15 +139,16 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 40, 16, 0),
+              padding: EdgeInsets.fromLTRB(16.w, 40.h, 16.w, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SizedBox(height: 20.h),
                   _buildTitleTextField(),
                   const SizedBox(height: 10),
                   _buildContentsTextField(),
                   _buildCameraIconButton(),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 10),
                   _buildImageListView(),
                 ],
               ),
@@ -159,19 +161,30 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildTitleText() {
     return Positioned(
-      top: 25,
-      left: 32,
+      top: 140.h,
+      left: 20.w,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Update a diary',
-            style: GoogleFonts.pacifico(
-              fontSize: 54,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            children: [
+              Text(
+                'Update Diary',
+                style: GoogleFonts.pacifico(
+                  fontSize: 150.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              IconButton(
+                onPressed: () {
+                  Get.off(() => const HomeScreen());
+                },
+                icon: Icon(Icons.close),
+              ),
+            ],
           ),
         ],
       ),
@@ -180,19 +193,19 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildSaveButton() {
     return Positioned(
-      bottom: 90,
-      left: 10,
+      bottom: 220.h,
+      left: 20.w,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.95,
-        height: 50,
+        width: 1040.w,
+        height: 150.h,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.purple,
           ),
-          child: const Text(
+          child: Text(
             '수정',
             style: TextStyle(
-              fontSize: 24,
+              fontSize: 50.sp,
               fontWeight: FontWeight.bold,
               color: Colors.white60,
             ),
@@ -220,18 +233,18 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildDeleteButton() {
     return Positioned(
-      bottom: 30,
-      left: 10,
+      bottom: 50.h,
+      left: 20.w,
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.95,
-        height: 50,
+        width: 1040.w,
+        height: 150.h,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               backgroundColor: isDlelete ? Colors.pink : Colors.grey),
           child: Text(
             isDlelete ? '길게 누르면 삭제가 됩니다.' : '삭제',
-            style: const TextStyle(
-              fontSize: 24,
+            style: TextStyle(
+              fontSize: 50.sp,
               fontWeight: FontWeight.bold,
               color: Colors.white60,
             ),
@@ -301,9 +314,9 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   Widget _buildCameraIconButton() {
     return IconButton(
       onPressed: _pickMultiImage,
-      icon: const Icon(
+      icon: Icon(
         Icons.camera_alt_outlined,
-        size: 40,
+        size: 140.sp,
       ),
     );
   }
@@ -324,8 +337,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildImageListView() {
     return Container(
-      height: 100,
-      width: MediaQuery.of(context).size.width * 0.85,
+      height: 280.h,
+      width: 1000.w,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: images.length,
@@ -340,8 +353,9 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     return GestureDetector(
       onTap: _pickMultiImage,
       child: Container(
-        height: 80,
-        width: 100,
+        color: Colors.amber,
+        height: 200.h,
+        width: 140.w,
         margin: const EdgeInsets.only(right: 10),
         decoration: BoxDecoration(
           color: Colors.grey.withOpacity(0.3),
@@ -360,45 +374,45 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Widget _buildImageContainer(int index) {
     return Container(
-      height: 80,
-      width: 80,
+      height: 160.h,
+      width: 240.w,
       child: Stack(
         children: [
           Positioned(
-            top: 6,
+            top: 18.h,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: images[index]!.path.startsWith('http')
                   ? Image.network(
                       images[index]!.path,
-                      width: 70,
-                      height: 70,
+                      width: 200.w,
+                      height: 200.h,
                       fit: BoxFit.cover,
                     )
                   : Image.file(
                       File(images[index]!.path),
-                      width: 70,
-                      height: 70,
+                      width: 200.w,
+                      height: 200.h,
                       fit: BoxFit.cover,
                     ),
             ),
           ),
           Positioned(
-            bottom: 18,
-            left: 20,
+            bottom: 50.h,
+            left: 50.w,
             child: Container(
-              width: 100,
-              height: 140,
+              width: 260.w,
+              height: 400.h,
               child: IconButton(
                 onPressed: () {
                   // 이미지 삭제
                   deleteUpdateImage(index);
                   setState(() {});
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.delete,
                   color: Colors.black54,
-                  size: 24,
+                  size: 70.sp,
                 ),
               ),
             ),

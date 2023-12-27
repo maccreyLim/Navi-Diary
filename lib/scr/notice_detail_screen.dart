@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/model/notice_model.dart';
@@ -30,12 +31,12 @@ class NoticeDetailScreen extends StatelessWidget {
           children: [
             //반투명 폼
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.10,
-              left: 10,
+              top: 340.h,
+              left: 20.w,
               child: Center(
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.952,
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  width: 1040.w,
+                  height: 1700.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -53,8 +54,8 @@ class NoticeDetailScreen extends StatelessWidget {
             ),
             //네이밍
             Positioned(
-              top: 20,
-              left: 20,
+              top: 70.h,
+              left: 40.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,13 +71,13 @@ class NoticeDetailScreen extends StatelessWidget {
                               Text(
                                 ' Notice',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.36,
+                                width: 500.w,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -92,11 +93,11 @@ class NoticeDetailScreen extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              const SizedBox(width: 40),
+                              SizedBox(width: 220.w),
                               Text(
                                 ' Detail',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -112,26 +113,27 @@ class NoticeDetailScreen extends StatelessWidget {
             ),
             //화면구성
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.25,
-              left: 40,
-              right: 40,
-              bottom: MediaQuery.of(context).size.height * 0.22,
+              top: 450.h,
+              left: 80.w,
+              right: 80.w,
+              bottom: 380.h,
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SizedBox(height: 100.h),
                     Text(
                       notice.title,
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 70.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 120.h),
                     Text(
                       notice.content,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 50.sp,
                         color: Colors.white,
                       ),
                     ),
@@ -141,11 +143,11 @@ class NoticeDetailScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: MediaQuery.of(context).size.height * 0.06,
-              left: MediaQuery.of(context).size.width * 0.1,
+              bottom: 110.h,
+              left: 80.w,
               child: Container(
-                height: 60,
-                width: MediaQuery.of(context).size.width * 0.8,
+                height: 150.h,
+                width: 920.w,
                 child: ElevatedButton(
                   onPressed: () {
                     Get.to(() => const NoticeScreen());
@@ -154,10 +156,10 @@ class NoticeDetailScreen extends StatelessWidget {
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.indigo),
                   ),
-                  child: const Text(
+                  child: Text(
                     "확   인",
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 50.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white54),
                   ),
