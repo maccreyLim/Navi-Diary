@@ -395,9 +395,9 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                 child: AuthController.instance.isReleaseFirebase.isFalse
                     ? FloatingActionButton(
                         backgroundColor: Colors.pink,
-                        child: const Icon(
+                        child: Icon(
                           Icons.add,
-                          size: 30,
+                          size: 80.sp,
                           color: Colors.indigo,
                         ),
                         onPressed: () {
@@ -413,9 +413,9 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                       )
                     : FloatingActionButton(
                         backgroundColor: Colors.indigo,
-                        child: const Icon(
+                        child: Icon(
                           Icons.edit,
-                          size: 30,
+                          size: 80.sp,
                           color: Colors.red,
                         ),
                         onPressed: () {
@@ -470,8 +470,8 @@ class ReleaseTipText extends StatelessWidget {
                       : percentageMap[release.name]! < 80
                           ? "세심한 가족의 관심이 필요할 시기입니다."
                           : "가석방 가능 기간입니다.",
-      style: const TextStyle(
-        fontSize: 16,
+      style: TextStyle(
+        fontSize: 46.sp,
         color: Colors.pink,
         fontWeight: FontWeight.bold,
       ),

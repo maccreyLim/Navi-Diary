@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/scr/login_screen.dart';
-import 'package:navi_diary/scr/setting_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
 
 class FindPasswordScreen extends StatelessWidget {

@@ -223,13 +223,14 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Write a diary',
+                      'Write Diary',
                       style: GoogleFonts.pacifico(
-                        fontSize: 150.sp,
+                        fontSize: 120.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    SizedBox(width: 200.w),
                     IconButton(
                       onPressed: () {
                         Get.off(() => const HomeScreen());

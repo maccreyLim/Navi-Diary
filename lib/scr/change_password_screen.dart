@@ -54,7 +54,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           children: [
             //네이밍
             Positioned(
-              top: 360.h,
+              top: 420.h,
               left: 50.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -71,7 +71,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Text(
                                 ' Change',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -97,7 +97,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               Text(
                                 ' Password',
                                 style: GoogleFonts.pacifico(
-                                  fontSize: 54,
+                                  fontSize: 120.sp,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
