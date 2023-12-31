@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/update_diary_screen.dart';
@@ -65,14 +67,16 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              //날짜 표시
                               Text(
                                 ' ${_formatDate(diary.createdAt)}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white54,
-                                  fontSize: 28,
+                                  fontSize: 80.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              //수정 아이콘
                               IconButton(
                                 onPressed: () {
                                   Get.to(() => UpdateDiaryScreen(diary: diary));
@@ -82,8 +86,22 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 18,
+                          SizedBox(
+                            height: 18.h,
+                          ),
+                          //시간 표시
+                          Row(
+                            children: [
+                              SizedBox(width: 20.w),
+                              Text(
+                                ' 작성시간 : ${_formatTime(diary.createdAt)}',
+                                style: TextStyle(
+                                  color: Colors.white54,
+                                  fontSize: 28.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                           // 이미지 표시 부분
                           for (int imgIndex = 0;
@@ -108,11 +126,11 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
                             child: Text(
                               diary.title,
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 60.w, fontWeight: FontWeight.bold),
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           // SizedBox(
                           //   height: 20,
                           // ),
@@ -120,15 +138,15 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               diary.contents,
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 40.sp),
                             ),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 4.w,
                           ),
                           Divider(),
                           SizedBox(
-                            height: 20,
+                            height: 60.w,
                           ),
                         ],
                       ),
@@ -146,6 +164,18 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
       // DateTime이 null이 아닌 경우에만 처리
       final weekdays = ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'];
       return '${dateTime.year}.${dateTime.month.toString().padLeft(2, '0')}.${dateTime.day.toString().padLeft(2, '0')} ${weekdays[dateTime.weekday - 1]}';
+    } else {
+      return ''; // 또는 다른 기본값을 반환할 수 있음
+    }
+  }
+
+  // DateTime을 받아서 시간만 표시하는 함수
+  String _formatTime(DateTime? dateTime) {
+    if (dateTime != null) {
+      // DateTime이 null이 아닌 경우에만 처리
+      String hourString = DateFormat.H().format(dateTime);
+      String minuteString = DateFormat.m().format(dateTime);
+      return '$hourString시 $minuteString분';
     } else {
       return ''; // 또는 다른 기본값을 반환할 수 있음
     }

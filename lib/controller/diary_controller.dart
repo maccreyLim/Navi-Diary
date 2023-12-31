@@ -64,7 +64,7 @@ class DiaryController {
 
   // 이미지를 압축하고 압축된 이미지 파일을 반환하는 함수
   Future<File> _compressImage(File file) async {
-    int quality = 60;
+    int quality = 50;
     List<int> compressedBytes = await FlutterImageCompress.compressWithList(
       file.readAsBytesSync(),
       quality: quality,

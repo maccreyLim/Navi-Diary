@@ -482,6 +482,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
 
   Future<List<String>> _uploadNewImages(List<XFile?> newImages) async {
     List<String> updatedImageUrls = [];
+    // 현재 로그인한 사용자의 UID 가져오기
+    String uid = _authController.userData!['uid'] ?? 'unknown_user';
 
     for (XFile? newImage in newImages) {
       if (newImage != null) {
@@ -491,8 +493,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
         } else {
           // 이미지를 압축하고 Firebase Storage에 업로드
           File compressedImage = await _compressAndGetFile(File(newImage.path));
-          final ref =
-              _storage.ref().child('images/${DateTime.now().toString()}');
+          final ref = _storage.ref().child('images/$uid/${DateTime.now()}');
           await ref.putFile(compressedImage);
           final url = await ref.getDownloadURL();
           updatedImageUrls.add(url);
