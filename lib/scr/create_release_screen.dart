@@ -227,7 +227,7 @@ class _CreateReleaseScreenState extends State<CreateReleaseScreen> {
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(Icons.close))
+                            icon: const Icon(Icons.close))
                       ],
                     ),
                     Row(

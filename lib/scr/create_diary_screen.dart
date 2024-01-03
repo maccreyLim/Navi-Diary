@@ -235,7 +235,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                       onPressed: () {
                         Get.off(() => const HomeScreen());
                       },
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                     ),
                   ],
                 ),

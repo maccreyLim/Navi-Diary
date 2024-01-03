@@ -74,7 +74,7 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
     return Row(
       children: [
         Text(
-          '${nametext}',
+          nametext,
           style: TextStyle(fontSize: 50.sp),
         ),
         SizedBox(
@@ -96,7 +96,7 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
             maxLines: line, // Allow multiple lines
             validator: (value) {
               if (value!.isEmpty) {
-                return "${nametext}을 입력해주세요";
+                return "$nametext을 입력해주세요";
               }
               return null;
             },

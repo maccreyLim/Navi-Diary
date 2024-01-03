@@ -8,11 +8,10 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
-import 'package:navi_diary/scr/create_release_screen.dart';
+import 'package:navi_diary/scr/weather_loading.dart';
 import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
-import 'package:navi_diary/scr/update_release_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -194,9 +193,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           FontWeight.bold,
                                                     ),
                                                   ),
-                                                  SizedBox(width: 80),
+                                                  const SizedBox(width: 80),
                                                   Text(
-                                                    '[입소${daysPassed}일째]',
+                                                    '[입소$daysPassed일째]',
                                                     style: TextStyle(
                                                       fontSize: 40.sp,
                                                       color: Colors.white38,
@@ -206,14 +205,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ],
                                               ),
-                                              // Text(
-                                              //   '형   량:  ${release.years}년 ${release.months}개월',
-                                              //   style: TextStyle(
-                                              //     fontSize: 40.sp,
-                                              //     color: Colors.white38,
-                                              //     fontWeight: FontWeight.bold,
-                                              //   ),
-                                              // ),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
@@ -323,7 +314,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        width: 300.w,
+                        width: 150.w,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {});
+                          //Todo: 날씨정보
+                          Get.to(() => const WeatherLoading());
+                        },
+                        icon: const Icon(
+                          Icons.sunny,
+                          color: Colors.white54,
+                        ),
                       ),
                       IconButton(
                         onPressed: () {
@@ -403,16 +405,16 @@ class ReleaseTipText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       daysPassed <= 7
-          ? "Tip: 신경이 극도로 예민해요 [입소${daysPassed}일째]"
+          ? "Tip: 신경이 극도로 예민해요 [입소$daysPassed일째]"
           : daysPassed <= 30
-              ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소${daysPassed}일째]"
+              ? "Tip: 점점 적응되어 가고 있는 시기입니다.[입소$daysPassed일째]"
               : daysPassed <= 100
-                  ? "Tip: 방식구들과 싸우지 않도록 주의 [입소${daysPassed}일째]"
+                  ? "Tip: 방식구들과 싸우지 않도록 주의 [입소$daysPassed일째]"
                   : percentageMap[release.name]! < 50
-                      ? "Tip: 50%가 지났습니다.힘냅시다 [입소${daysPassed}일째]"
+                      ? "Tip: 50%가 지났습니다.힘냅시다 [입소$daysPassed일째]"
                       : percentageMap[release.name]! < 80
-                          ? "Tip: 세심한 가족의 관심이 필요할 시기입니다. [입소${daysPassed}일째]"
-                          : "가석방 가능 기간입니다. [입소${daysPassed}일째]",
+                          ? "Tip: 세심한 가족의 관심이 필요할 시기입니다. [입소$daysPassed일째]"
+                          : "가석방 가능 기간입니다. [입소$daysPassed일째]",
       style: TextStyle(
         fontSize: 30.sp,
         color: Colors.white54,

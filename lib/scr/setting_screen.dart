@@ -1,12 +1,16 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:navi_diary/model/release_model.dart';
+import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/my_page_screen.dart';
 import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
+import 'package:navi_diary/scr/term_and_infor_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key, required this.selectedReleases});
@@ -18,7 +22,51 @@ class SettingScreen extends StatefulWidget {
 
 class _SettingScreenState extends State<SettingScreen> {
   //Property
+  AdManagerInterstitialAd? _interstitialAd;
   // AuthController _authController = AuthController.instance;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // Widget createAdmobBanner(BuildContext context) {
+  //   return Container(
+  //     height: 60,
+  //     child: AdmobBanner(
+  //       adUnitId: 'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
+
+  //       adSize: AdmobBannerSize.BANNER,
+  //       listener: (AdmobAdEvent? event, Map<String, dynamic>? args) {
+  //         if (event != null) {
+  //           print(event);
+  //         }
+  //         if (args != null) {
+  //           print(args);
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
+
+  void loadAd() {
+    AdManagerInterstitialAd.load(
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-3940256099942544/1033173712'
+          : 'ca-app-pub-3940256099942544/4411468910',
+      request: const AdManagerAdRequest(),
+      adLoadCallback: AdManagerInterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          _interstitialAd = ad;
+          _interstitialAd?.show(); // Show the ad when it's loaded
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('AdManagerInterstitialAd failed to load: $error');
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +129,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       IconButton(
                         onPressed: () {
                           //Todo: 뒤로가기
-                          Get.back();
+                          Get.to(() => const HomeScreen());
                         },
                         icon: const Icon(
                           Icons.close,
@@ -101,8 +149,8 @@ class _SettingScreenState extends State<SettingScreen> {
                 height: 150.h,
                 child: ElevatedButton(
                   onPressed: () {
-                    //E-mail 문의 구현
-                    _sendEmail();
+                    //풀광고 구현
+                    loadAd();
                   },
                   style: ButtonStyle(
                     backgroundColor:
@@ -170,6 +218,20 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
+                    SizedBox(height: 40.h),
+                    TextButton(
+                      onPressed: () {
+                        Get.to(
+                          () => const TermsAndInfoScreen(
+                              url: 'https://www.naver.com'),
+                        );
+                      },
+                      child: Text(
+                        '약관 및 정보보호',
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
+                      ),
+                    ),
+                    // createAdmobBanner(context)
                   ],
                 ),
               ),

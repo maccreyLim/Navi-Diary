@@ -8,7 +8,6 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/change_password_screen.dart';
-import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/member_terminator_notice.dart';
 
 // ignore: must_be_immutable
@@ -185,7 +184,8 @@ class MypageScreen extends StatelessWidget {
                                     height: 40.h,
                                   ),
                                   Text(
-                                    "${_formatDate(_authController.userData!["createdAt"])}",
+                                    _formatDate(
+                                        _authController.userData!["createdAt"]),
                                     style: TextStyle(
                                         fontSize: 60.sp, color: Colors.black54),
                                   ),

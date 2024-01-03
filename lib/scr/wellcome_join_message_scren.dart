@@ -13,7 +13,7 @@ class WellcomeJoinMessageScreen extends StatefulWidget {
 }
 
 class _WellcomeJoinMessageScreenState extends State<WellcomeJoinMessageScreen> {
-  AuthController _authController = AuthController.instance;
+  final AuthController _authController = AuthController.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +45,7 @@ class _WellcomeJoinMessageScreenState extends State<WellcomeJoinMessageScreen> {
                         color: Colors.white.withOpacity(0.25),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(28.0),
+                        padding: const EdgeInsets.all(28.0),
                         child: Column(
                           children: [
                             Text(

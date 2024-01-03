@@ -193,7 +193,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
                     print('Click');
                     Get.to(() => const CreateNoticeScreen());
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     size: 40,
                     color: Colors.white60,

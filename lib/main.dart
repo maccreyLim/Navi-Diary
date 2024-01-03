@@ -6,10 +6,12 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/firebase_options.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
 // Firebase 초기화
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

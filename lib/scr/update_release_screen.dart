@@ -241,12 +241,12 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 500.w),
+                        SizedBox(width: 450.w),
                         IconButton(
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(Icons.close))
+                            icon: const Icon(Icons.close))
                       ],
                     ),
                     Row(
@@ -301,7 +301,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                       ReleaseController.instance
                           .deleteRelease(releaseData.id.toString());
                       AuthController.instance.isReleaseFirebase(false);
-                      Get.to(() => ReleaseSettingScrren());
+                      Get.to(() => const ReleaseSettingScrren());
                     },
                   ),
                 ),
@@ -326,8 +326,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                       //Todo : 파이어베이스에 일기 저장 구현
 
                       if (_formKey.currentState?.validate() ?? false) {
-                        final _release = ReleaseController.instance;
-                        await _release.updateRelease(
+                        final release = ReleaseController.instance;
+                        await release.updateRelease(
                           ReleaseModel(
                             id: releaseData.id,
                             name: nameController.text,

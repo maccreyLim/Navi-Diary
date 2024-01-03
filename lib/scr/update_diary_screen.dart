@@ -182,7 +182,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
                 onPressed: () {
                   Get.off(() => const HomeScreen());
                 },
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
               ),
             ],
           ),
@@ -349,28 +349,28 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
     );
   }
 
-  Widget _buildAddImageButton() {
-    return GestureDetector(
-      onTap: _pickMultiImage,
-      child: Container(
-        color: Colors.amber,
-        height: 200.h,
-        width: 140.w,
-        margin: const EdgeInsets.only(right: 10),
-        decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: const Center(
-          child: Icon(
-            Icons.add,
-            size: 40,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _buildAddImageButton() {
+  //   return GestureDetector(
+  //     onTap: _pickMultiImage,
+  //     child: Container(
+  //       color: Colors.amber,
+  //       height: 200.h,
+  //       width: 140.w,
+  //       margin: const EdgeInsets.only(right: 10),
+  //       decoration: BoxDecoration(
+  //         color: Colors.grey.withOpacity(0.3),
+  //         borderRadius: BorderRadius.circular(15.0),
+  //       ),
+  //       child: const Center(
+  //         child: Icon(
+  //           Icons.add,
+  //           size: 40,
+  //           color: Colors.white,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildImageContainer(int index) {
     return Container(

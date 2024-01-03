@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
-import 'package:navi_diary/scr/my_page_screen.dart';
+import 'package:navi_diary/scr/setting_screen.dart';
 import 'package:validators/validators.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
@@ -18,14 +18,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   // Form key
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //TextEditingController
-  TextEditingController _email = TextEditingController();
-  TextEditingController _currentPassword = TextEditingController();
-  TextEditingController _newPassword = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _currentPassword = TextEditingController();
+  final TextEditingController _newPassword = TextEditingController();
 
   //obscureText 패스워드 보이게 하는 옵션
   bool _obscureText = true;
   //AuthController의 인스턴스를 얻기
-  AuthController _authController = AuthController.instance;
+  final AuthController _authController = AuthController.instance;
 
   @override
   void dispose() {
@@ -77,12 +77,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 ),
                               ),
                               SizedBox(
-                                width: 320.w,
+                                width: 400.w,
                               ),
                               IconButton(
                                 onPressed: () {
                                   // 뒤로가기
-                                  Get.to(() => MypageScreen());
+                                  Get.to(() => const SettingScreen(
+                                        selectedReleases: [],
+                                      ));
                                 },
                                 icon: const Icon(
                                   Icons.close,
@@ -235,13 +237,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         _email.text, _currentPassword.text, _newPassword.text);
                   }
                 },
-                child: Text(
-                  '패스워드 변경',
-                  style: TextStyle(fontSize: 50.sp, color: Colors.white54),
-                ),
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.indigo),
+                ),
+                child: Text(
+                  '패스워드 변경',
+                  style: TextStyle(fontSize: 50.sp, color: Colors.white54),
                 ),
               ),
             ),

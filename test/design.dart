@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:navi_diary/controller/auth_controller.dart';
 
 class FindPasswordScreen extends StatelessWidget {
   // 이메일 입력 컨트롤러
   final TextEditingController emailController = TextEditingController();
-
-  final AuthController _authController = AuthController.instance;
-
   FindPasswordScreen({Key? key}) : super(key: key);
 
   @override

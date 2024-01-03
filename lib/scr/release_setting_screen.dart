@@ -301,7 +301,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                       ),
                                                       SizedBox(height: 80.h),
                                                       Text(
-                                                        '[입소 ${daysPassed}일째]',
+                                                        '[입소 $daysPassed일째]',
                                                         style: TextStyle(
                                                             fontSize: 80.sp,
                                                             color:
@@ -353,7 +353,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                 ),
                               ),
                               SizedBox(
-                                width: 440.w,
+                                width: 400.w,
                               ),
                               IconButton(
                                 onPressed: () {

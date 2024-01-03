@@ -7,6 +7,7 @@ import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/update_diary_screen.dart';
 
 class DiaryListWidget extends StatefulWidget {
+  const DiaryListWidget({Key? key}) : super(key: key);
   @override
   _DiaryListWidgetState createState() => _DiaryListWidgetState();
 }
@@ -38,28 +39,16 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                   itemCount: diaries.length,
                   itemBuilder: (context, index) {
                     var diary = diaries[index];
+                    DiaryModel currentDiary = diary;
+                    String imageUrl = currentDiary.photoURL!.isNotEmpty
+                        ? currentDiary.photoURL![0]
+                        : '';
 
                     return GestureDetector(
-                      onLongPress: () {
+                      onLongPress: () async {
                         //일기 삭제 구현
                         // 어떤 화면에서 이미지 삭제를 수행하는 예제 코드
-                        void deleteImageExample(
-                            DiaryModel diary, String imageUrl) async {
-                          try {
-                            // DiaryController 인스턴스 생성
-                            DiaryController diaryController = DiaryController();
-
-                            // 이미지 삭제
-                            await diaryController.deleteImageFromFirestore(
-                                diary, imageUrl);
-
-                            // 삭제 성공 시 메시지 표시
-                            print('이미지가 성공적으로 삭제되었습니다.');
-                          } catch (error) {
-                            // 오류 발생 시 오류 메시지 출력
-                            print('이미지 삭제 중 오류 발생: $error');
-                          }
-                        }
+                        await deleteImageExample(currentDiary, imageUrl);
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,6 +167,22 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
       return '$hourString시 $minuteString분';
     } else {
       return ''; // 또는 다른 기본값을 반환할 수 있음
+    }
+  }
+
+  Future<void> deleteImageExample(DiaryModel diary, String imageUrl) async {
+    try {
+      // DiaryController 인스턴스 생성
+      DiaryController diaryController = DiaryController();
+
+      // 이미지 삭제
+      await diaryController.deleteImageFromFirestore(diary, imageUrl);
+
+      // 삭제 성공 시 메시지 표시
+      print('이미지가 성공적으로 삭제되었습니다.');
+    } catch (error) {
+      // 오류 발생 시 오류 메시지 출력
+      print('이미지 삭제 중 오류 발생: $error');
     }
   }
 }
