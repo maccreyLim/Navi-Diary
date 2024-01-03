@@ -28,6 +28,7 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
+    loadAd();
   }
 
   // Widget createAdmobBanner(BuildContext context) {
@@ -90,7 +91,7 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Center(
                 child: Container(
                   width: 1040.w,
-                  height: 1790.h,
+                  height: 1950.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -141,35 +142,35 @@ class _SettingScreenState extends State<SettingScreen> {
                 ],
               ),
             ),
-            Positioned(
-              bottom: 120.h,
-              left: 100.w,
-              child: Container(
-                width: 880.w,
-                height: 150.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    //풀광고 구현
-                    loadAd();
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.indigo),
-                  ),
-                  // 추가된 child 매개변수
-                  child: Container(
-                    alignment: Alignment.center, // Text를 가운데로 정렬
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
-                    child: Text(
-                      '광고 보기',
-                      style: TextStyle(fontSize: 50.sp, color: Colors.white),
-                    ),
-                  ), // 원하는 텍스트를 넣어주세요
-                  // 나머지 위젯 속성들...
-                ),
-              ),
-            ),
+            // Positioned(
+            //   bottom: 120.h,
+            //   left: 100.w,
+            //   child: Container(
+            //     width: 880.w,
+            //     height: 150.h,
+            //     child: ElevatedButton(
+            //       onPressed: () {
+            //         //풀광고 구현
+            //         loadAd();
+            //       },
+            //       style: ButtonStyle(
+            //         backgroundColor:
+            //             MaterialStateProperty.all<Color>(Colors.indigo),
+            //       ),
+            //       // 추가된 child 매개변수
+            //       child: Container(
+            //         alignment: Alignment.center, // Text를 가운데로 정렬
+            //         padding:
+            //             const EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
+            //         child: Text(
+            //           '광고 보기',
+            //           style: TextStyle(fontSize: 50.sp, color: Colors.white),
+            //         ),
+            //       ), // 원하는 텍스트를 넣어주세요
+            //       // 나머지 위젯 속성들...
+            //     ),
+            //   ),
+            // ),
             Positioned(
               top: 200.h,
               child: Padding(
