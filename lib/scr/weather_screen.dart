@@ -39,7 +39,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   void updateData(dynamic weatherData, dynamic airData) {
-    double temp2 = weatherData['main']['temp'];
+    double temp2 = getTemperature(weatherData['main']['temp']);
     temp = temp2.round();
     int condition = weatherData['weather'][0]['id'];
     cityName = weatherData['name'];
@@ -56,6 +56,15 @@ class _WeatherScreenState extends State<WeatherScreen> {
   String getSystemTime() {
     var now = DateTime.now();
     return DateFormat("h:mm a").format(now);
+  }
+
+  double getTemperature(dynamic tempData) {
+    // 만약 정수로 오는 경우 double로 변환하여 반환
+    if (tempData is int) {
+      return tempData.toDouble();
+    }
+    // 기본적으로는 double로 간주하여 반환
+    return tempData;
   }
 
   @override

@@ -38,7 +38,7 @@ class _WeatherLoadingState extends State<WeatherLoading> {
       'https://api.openweathermap.org/data/2.5/air_pollution'
           '?lat=$latitude3&lon=$longitude3&appid=$apikey&units=metric',
     );
-
+    print(netWork);
     var weatherData = await netWork.getJsonData();
     print(weatherData);
 
