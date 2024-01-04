@@ -1,4 +1,4 @@
-package com.example.navi_diary
+package com.maccrey.navi_diary_release
 
 import io.flutter.embedding.android.FlutterActivity
 
