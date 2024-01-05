@@ -103,23 +103,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   controller: pwController,
                                   obscureText: _obscureText,
                                   decoration: InputDecoration(
-                                    icon: const Icon(Icons.lock),
-                                    labelText: 'Password',
-                                    hintText: 'Enter your password',
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        _obscureText
-                                            ? Icons.visibility_off_outlined
-                                            : Icons.visibility_outlined,
-                                        color: Colors.black26,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _obscureText = !_obscureText;
-                                        });
-                                      },
-                                    ),
-                                  ),
+                                      icon: const Icon(Icons.lock),
+                                      labelText: 'Password',
+                                      hintText: 'Enter your password',
+                                      suffixIcon: Semantics(
+                                        label: _obscureText
+                                            ? '비밀번호 표시'
+                                            : '비밀번호 숨김',
+                                        child: IconButton(
+                                          icon: Icon(
+                                            _obscureText
+                                                ? Icons.visibility_off_outlined
+                                                : Icons.visibility_outlined,
+                                            color: Colors.black45,
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _obscureText = !_obscureText;
+                                            });
+                                          },
+                                        ),
+                                      )),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "비밀번호를 입력 해주세요.";
