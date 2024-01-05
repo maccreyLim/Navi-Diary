@@ -6,7 +6,7 @@ class MyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Sample')),
+      appBar: AppBar(title: const Text('Sample')),
       body: const Center(
         child: CircularProgressIndicator(),
       ),

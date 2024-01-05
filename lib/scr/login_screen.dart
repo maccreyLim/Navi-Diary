@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             _obscureText
                                                 ? Icons.visibility_off_outlined
                                                 : Icons.visibility_outlined,
-                                            color: Colors.black45,
+                                            color: Colors.black54,
                                           ),
                                           onPressed: () {
                                             setState(() {

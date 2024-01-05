@@ -107,7 +107,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                         _obscureText
                                             ? Icons.visibility_off_outlined
                                             : Icons.visibility_outlined,
-                                        color: Colors.black26,
+                                        color: Colors.black54,
                                       ),
                                       onPressed: () {
                                         setState(() {

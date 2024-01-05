@@ -71,7 +71,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                                   Get.to(() => UpdateDiaryScreen(diary: diary));
                                   setState(() {});
                                 },
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                               ),
                             ],
                           ),
@@ -133,7 +133,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                           SizedBox(
                             height: 4.w,
                           ),
-                          Divider(),
+                          const Divider(),
                           SizedBox(
                             height: 60.w,
                           ),

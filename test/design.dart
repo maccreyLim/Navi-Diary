@@ -109,7 +109,7 @@ class FindPasswordScreen extends StatelessWidget {
               ),
             ),
             //화면구성
-            Positioned(
+            const Positioned(
               bottom: 40,
               left: 40,
               right: 40,
