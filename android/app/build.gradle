@@ -67,6 +67,10 @@ signingConfigs {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+                        ndk {
+                // debugSymbolLevel 설정 추가 출시 빌드시 삭제
+                // debugSymbolLevel = 'SYMBOL_TABLE | FULL'
+            }
         }
     }
 }
