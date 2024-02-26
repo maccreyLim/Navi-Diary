@@ -12,6 +12,7 @@ import 'package:navi_diary/scr/weather_loading.dart';
 import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ReleaseModel>? selectedReleases; // 여기에 선언하세요.
   //AuthController의 인스턴스를 얻기
   final AuthController _authController = AuthController.instance;
+  final InterstitialAdController adController = InterstitialAdController();
 
   //Release 생성 / 삭제 /수정 구분을 위한 버튼
 
@@ -318,14 +320,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       IconButton(
                         onPressed: () {
+                          //전면광고
+                          adController.loadAndShowAd();
                           setState(() {});
                           //Todo: 날씨정보
                           Get.to(() => const WeatherLoading());
                         },
-                        icon: const Icon(
-                          Icons.sunny,
-                          color: Colors.white54,
-                        ),
+                        icon: const Icon(Icons.sunny,
+                            color: Colors.white54, size: 24),
                       ),
                       IconButton(
                         onPressed: () {
@@ -336,6 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         icon: const Icon(
                           Icons.settings,
+                          size: 24,
                           color: Colors.white54,
                         ),
                       ),
@@ -347,6 +350,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                         icon: const Icon(
                           Icons.logout_outlined,
+                          size: 24,
                           color: Colors.white,
                         ),
                       ),
@@ -376,11 +380,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // 출소일 데이타가 있으면 수정 버튼으로 바뀌고 수정페이지에서 수정과 삭제를 구현
-            // ReleaseChangeButton(
-            //   isRelease: _authController.isReleaseFirebase.value,
-            //   selectedReleases: selectedReleases,
-            // ),
           ],
         ),
       ),

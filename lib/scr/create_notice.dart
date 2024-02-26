@@ -7,6 +7,8 @@ import 'package:navi_diary/controller/notice_controller.dart';
 import 'package:navi_diary/model/notice_model.dart';
 import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
 class CreateNoticeScreen extends StatefulWidget {
   const CreateNoticeScreen({Key? key}) : super(key: key);
@@ -21,6 +23,12 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
   TextEditingController titleController = TextEditingController();
   TextEditingController contentsController = TextEditingController();
   final AuthController _authController = AuthController.instance;
+  final InterstitialAdController adController = InterstitialAdController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
 //TextEditingController dispose
   @override
@@ -36,12 +44,14 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
       padding: EdgeInsets.fromLTRB(0, 0, 16.w, 0),
       child: SizedBox(
         width: 1000.w,
-        height: 150.h,
+        height: 100.h,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.indigo,
           ),
           onPressed: () async {
+            //전면광고
+            adController.loadAndShowAd();
             NoticeModel announcetList = NoticeModel(
               uid: _authController.userData!['uid'],
               profileName: _authController.userData!['profileName'] ?? "",
@@ -219,12 +229,12 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
                         children: [
                           inputText(titleController, "제목", 1),
                           SizedBox(
-                            height: 50.h,
+                            height: 100.h,
                           ),
                           inputText(contentsController, "내용", 10),
-                          SizedBox(height: 320.h),
+                          SizedBox(height: 160.h),
                           SizedBox(
-                              height: 150.h,
+                              height: 100.h,
                               width: 1000.w,
                               child: saveButton()),
                         ],
@@ -236,6 +246,10 @@ class _CreateNoticeScreenState extends State<CreateNoticeScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: BannerAdExample(),
       ),
     );
   }

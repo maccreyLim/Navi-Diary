@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
@@ -19,6 +20,10 @@ class _LoginScreenState extends State<LoginScreen> {
   // Text controllers
   TextEditingController idController = TextEditingController();
   TextEditingController pwController = TextEditingController();
+  String userInfo = ""; //user으ㅣ 정보를 저장하기 위한 변수
+
+  static final storage =
+      new FlutterSecureStorage(); //flutter_secure_storage 사용을 위한 초기화
 
   // Form key
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -29,10 +34,29 @@ class _LoginScreenState extends State<LoginScreen> {
   //AuthController의 인스턴스를 얻기
   AuthController authController = AuthController.instance;
 
-  //Get X
-  // ControllerGetx authController = ControllerGetx();
-  //AuthController
-  // final AuthController _authController = AuthController();
+  @override
+  void initState() {
+    super.initState();
+    idController = TextEditingController();
+    pwController = TextEditingController();
+
+    //비동기로 flutter secure storage 정보를 불러오는 작업.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  }
+
+  _asyncMethod() async {
+    //read 함수를 통하여 key값에 맞는 정보를 불러오게 됩니다. 이때 불러오는 결과의 타입은 String 타입임을 기억해야 합니다.
+    //(데이터가 없을때는 null을 반환을 합니다.)
+    userInfo = await storage.read(key: "login") ?? ""; // null이면 빈 문자열로 설정
+    print(userInfo);
+
+    //user의 정보가 있다면 바로 로그아웃 페이지로 넝어가게 합니다.
+    // if (userInfo != null) {
+    authController.signOut();
+    // }
+  }
 
   @override
   void dispose() {
@@ -216,6 +240,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
+                                  // write 함수를 통하여 key에 맞는 정보를 적게 됩니다.
+                                  //{"login" : "id id_value password password_value"}
+                                  //와 같은 형식으로 저장이 된다고 생각을 하면 됩니다.
+                                  await storage.write(
+                                      key: "login",
+                                      value: "id " +
+                                          idController.text.toString() +
+                                          " " +
+                                          "password " +
+                                          pwController.text.toString());
                                   //Todo: 파이어베이스 Login 구현
                                   await authController.signIn(
                                     idController.text,

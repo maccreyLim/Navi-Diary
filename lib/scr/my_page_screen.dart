@@ -9,6 +9,7 @@ import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/change_password_screen.dart';
 import 'package:navi_diary/scr/member_terminator_notice.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
 // ignore: must_be_immutable
 class MypageScreen extends StatelessWidget {
@@ -18,6 +19,7 @@ class MypageScreen extends StatelessWidget {
   final AuthController _authController = AuthController.instance;
   // DiaryController의 인스턴스 생성
   final DiaryController diaryController = DiaryController();
+  final InterstitialAdController adController = InterstitialAdController();
 
   @override
   Widget build(BuildContext context) {
@@ -252,6 +254,8 @@ class MypageScreen extends StatelessWidget {
                 width: 900.w,
                 child: ElevatedButton(
                   onPressed: () {
+                    //전면광고
+                    adController.loadAndShowAd();
                     Get.to(
                       () => MemberTerminatorNotice(
                         diarytotalCount: diaryTotalCount.toString(),
@@ -281,6 +285,8 @@ class MypageScreen extends StatelessWidget {
                 width: 900.w,
                 child: ElevatedButton(
                   onPressed: () {
+                    //전면광고
+                    adController.loadAndShowAd();
                     Get.to(
                       () => MemberTerminatorNotice(
                         diarytotalCount: diaryTotalCount.toString(),

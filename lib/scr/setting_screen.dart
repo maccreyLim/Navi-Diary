@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +9,8 @@ import 'package:navi_diary/scr/my_page_screen.dart';
 import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/scr/term_and_infor_screen.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
+import 'package:navi_diary/widget/w.reword_ad.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key, required this.selectedReleases});
@@ -21,52 +21,17 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  //Property
-  AdManagerInterstitialAd? _interstitialAd;
-  // AuthController _authController = AuthController.instance;
-
   @override
   void initState() {
     super.initState();
-    loadAd();
   }
 
-  // Widget createAdmobBanner(BuildContext context) {
-  //   return Container(
-  //     height: 60,
-  //     child: AdmobBanner(
-  //       adUnitId: 'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
-
-  //       adSize: AdmobBannerSize.BANNER,
-  //       listener: (AdmobAdEvent? event, Map<String, dynamic>? args) {
-  //         if (event != null) {
-  //           print(event);
-  //         }
-  //         if (args != null) {
-  //           print(args);
-  //         }
-  //       },
-  //     ),
-  //   );
-  // }
-
-  void loadAd() {
-    AdManagerInterstitialAd.load(
-      adUnitId: Platform.isAndroid
-          ? 'ca-app-pub-3940256099942544/1033173712'
-          : 'ca-app-pub-3940256099942544/4411468910',
-      request: const AdManagerAdRequest(),
-      adLoadCallback: AdManagerInterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          debugPrint('$ad loaded.');
-          _interstitialAd = ad;
-          _interstitialAd?.show(); // Show the ad when it's loaded
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('AdManagerInterstitialAd failed to load: $error');
-        },
-      ),
-    );
+  void showRewardAd() {
+    final RewardAd _rewardAd = RewardAd();
+    _rewardAd.showRewardFullBanner(() {
+      // 광고를 보고 사용자가 리워드를 얻었을 때 실행할 로직
+      // 예: 기부하기 또는 다른 작업 수행
+    });
   }
 
   @override
@@ -142,35 +107,6 @@ class _SettingScreenState extends State<SettingScreen> {
                 ],
               ),
             ),
-            // Positioned(
-            //   bottom: 120.h,
-            //   left: 100.w,
-            //   child: Container(
-            //     width: 880.w,
-            //     height: 150.h,
-            //     child: ElevatedButton(
-            //       onPressed: () {
-            //         //풀광고 구현
-            //         loadAd();
-            //       },
-            //       style: ButtonStyle(
-            //         backgroundColor:
-            //             MaterialStateProperty.all<Color>(Colors.indigo),
-            //       ),
-            //       // 추가된 child 매개변수
-            //       child: Container(
-            //         alignment: Alignment.center, // Text를 가운데로 정렬
-            //         padding:
-            //             const EdgeInsets.symmetric(vertical: 8), // 상하 여백 조절
-            //         child: Text(
-            //           '광고 보기',
-            //           style: TextStyle(fontSize: 50.sp, color: Colors.white),
-            //         ),
-            //       ), // 원하는 텍스트를 넣어주세요
-            //       // 나머지 위젯 속성들...
-            //     ),
-            //   ),
-            // ),
             Positioned(
               top: 200.h,
               child: Padding(
@@ -232,13 +168,25 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
-                    // createAdmobBanner(context)
+                    TextButton(
+                      onPressed: () {
+                        showRewardAd;
+                      },
+                      child: Text(
+                        '광고시청하고 기부하기',
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: BannerAdExample(),
       ),
     );
   }

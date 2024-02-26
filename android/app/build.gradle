@@ -67,17 +67,19 @@ signingConfigs {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-                        ndk {
+                        // ndk {
                 // debugSymbolLevel 설정 추가 출시 빌드시 삭제
                 // debugSymbolLevel = 'SYMBOL_TABLE | FULL'
             }
         }
     }
-}
+
 
 
 flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'com.google.android.recaptcha:recaptcha:18.4.0'
+}

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/login_screen.dart';
@@ -14,6 +15,9 @@ class AuthController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   // Firebase Storage 인스턴스
   final FirebaseStorage _storage = FirebaseStorage.instance;
+
+  static final storage =
+      new FlutterSecureStorage(); //flutter_secure_storage 사용을 위한 초기화
 
   //static AuthCotroller Type으로 GetX를 Global 함수로 설정
   static AuthController instance = Get.find();
@@ -175,6 +179,9 @@ class AuthController extends GetxController {
   // 로그아웃
   Future<void> signOut() async {
     try {
+      //delete 함수를 통하여 key 이름이 login인것을 완전히 폐기 시켜 버린다.
+      //이를 통하여 다음 로그인시에는 로그인 정보가 없어 정보를 불러 올 수가 없게 된다.
+      storage.delete(key: "login");
       // Firebase Authentication을 사용하여 로그아웃
       await authentication.signOut();
 

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 import 'package:validators/validators.dart';
 
 class JoinScreen extends StatefulWidget {
@@ -23,9 +24,10 @@ class _JoinScreenState extends State<JoinScreen> {
 
   // Form key
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final InterstitialAdController adController = InterstitialAdController();
 
 //AuthController의 인스턴스를 얻기
-  AuthController authController = AuthController.instance;
+  final AuthController authController = AuthController.instance;
 
   //Gender
   String? gender = "male";
@@ -279,6 +281,8 @@ class _JoinScreenState extends State<JoinScreen> {
                                 //validate Check!!
                                 if (_formKey.currentState!.validate()) {
                                   // Sign Up 버튼이 눌렸을 때 수행할 작업을 여기에 추가
+                                  //전면광고
+                                  adController.loadAndShowAd();
                                   authController.signUp(
                                     idController.text,
                                     pwController.text,

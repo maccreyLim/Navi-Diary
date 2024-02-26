@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
 import 'package:validators/validators.dart';
+import 'dart:io';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -26,6 +29,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   bool _obscureText = true;
   //AuthController의 인스턴스를 얻기
   final AuthController _authController = AuthController.instance;
+  AdManagerInterstitialAd? _interstitialAd;
 
   @override
   void dispose() {
@@ -33,6 +37,31 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     _currentPassword.dispose();
     _newPassword.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadAd();
+  }
+
+  void loadAd() {
+    AdManagerInterstitialAd.load(
+      adUnitId: Platform.isAndroid
+          ? 'ca-app-pub-8185964270830687/7337567956'
+          : 'ca-app-pub-3940256099942544/4411468910',
+      request: const AdManagerAdRequest(),
+      adLoadCallback: AdManagerInterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          _interstitialAd = ad;
+          _interstitialAd?.show(); // Show the ad when it's loaded
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          debugPrint('AdManagerInterstitialAd failed to load: $error');
+        },
+      ),
+    );
   }
 
   @override
@@ -54,7 +83,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           children: [
             //네이밍
             Positioned(
-              top: 420.h,
+              top: 340.h,
               left: 50.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -198,6 +227,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   ),
                                   onPressed: () {
                                     setState(() {
+                                      _interstitialAd?.show();
                                       _obscureText = !_obscureText;
                                     });
                                   },
@@ -226,7 +256,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ),
             ),
             Positioned(
-              bottom: 100.h,
+              bottom: 20.h,
               left: 20.w,
               height: 150.h,
               width: 1040.w,
@@ -236,6 +266,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     await _authController.changePassword(
                         _email.text, _currentPassword.text, _newPassword.text);
                   }
+                  await _authController.signOut();
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -249,6 +280,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: BannerAdExample(),
       ),
     );
   }

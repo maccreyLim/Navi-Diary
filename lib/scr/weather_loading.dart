@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:navi_diary/controller/weather_location_controller.dart';
 import 'package:navi_diary/controller/weather_network_controller.dart';
 import 'package:navi_diary/scr/weather_screen.dart';
@@ -19,12 +16,11 @@ class WeatherLoading extends StatefulWidget {
 class _WeatherLoadingState extends State<WeatherLoading> {
   late double latitude3;
   late double longitude3;
-  AdManagerInterstitialAd? _interstitialAd;
 
   @override
   void initState() {
     super.initState();
-    loadAd();
+
     _getLocation();
   }
 
@@ -54,25 +50,6 @@ class _WeatherLoadingState extends State<WeatherLoading> {
           parseWeatherData: weatherData,
           parseAirPollution: airData,
         ));
-  }
-
-  void loadAd() {
-    AdManagerInterstitialAd.load(
-      adUnitId: Platform.isAndroid
-          ? 'ca-app-pub-3940256099942544/1033173712'
-          : 'ca-app-pub-3940256099942544/4411468910',
-      request: const AdManagerAdRequest(),
-      adLoadCallback: AdManagerInterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          debugPrint('$ad loaded.');
-          _interstitialAd = ad;
-          _interstitialAd?.show(); // Show the ad when it's loaded
-        },
-        onAdFailedToLoad: (LoadAdError error) {
-          debugPrint('AdManagerInterstitialAd failed to load: $error');
-        },
-      ),
-    );
   }
 
   @override

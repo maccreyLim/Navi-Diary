@@ -9,6 +9,7 @@ import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_release_screen.dart';
 import 'package:navi_diary/scr/update_release_screen.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
 
 class ReleaseSettingScrren extends StatefulWidget {
   const ReleaseSettingScrren({super.key});
@@ -100,7 +101,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
               child: Center(
                 child: Container(
                   width: 1040.w,
-                  height: 1850.h,
+                  height: 1700.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -179,7 +180,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                               Text(
                                                 '입소일:  ${DateFormat('yyyy-MM-dd').format(release.inputDate).toString()}',
                                                 style: TextStyle(
-                                                  fontSize: 70.sp,
+                                                  fontSize: 60.sp,
                                                   color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -188,7 +189,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                               Text(
                                                 '형   량:  ${release.years}년 ${release.months}개월',
                                                 style: TextStyle(
-                                                  fontSize: 70.sp,
+                                                  fontSize: 60.sp,
                                                   color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -202,7 +203,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                                   Text(
                                                     '출소일: ${DateFormat('yyyy-MM-dd').format(releaseDate)}',
                                                     style: TextStyle(
-                                                      fontSize: 70.sp,
+                                                      fontSize: 60.sp,
                                                       color: Colors.white38,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -214,7 +215,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
                                               Text(
                                                 "D-Day: D - [ $remainingDays 일 ]",
                                                 style: TextStyle(
-                                                  fontSize: 70.sp,
+                                                  fontSize: 60.sp,
                                                   color: Colors.white38,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -330,7 +331,7 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
               ),
             ),
             Positioned(
-              top: 25,
+              top: 45,
               left: 20,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -438,6 +439,10 @@ class _ReleaseSettingScrrenState extends State<ReleaseSettingScrren> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: BannerAdExample(),
       ),
     );
   }

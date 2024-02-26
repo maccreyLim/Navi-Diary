@@ -9,6 +9,8 @@ import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
 class UpdateReleaseScreen extends StatefulWidget {
   final ReleaseModel release;
@@ -34,6 +36,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
 
   // Form key
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final InterstitialAdController adController = InterstitialAdController();
 
   //Delete 방법 안내
   bool isdelete = false;
@@ -244,6 +247,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                         SizedBox(width: 450.w),
                         IconButton(
                             onPressed: () {
+                              //전면광고
+                              adController.loadAndShowAd();
                               Get.back();
                             },
                             icon: const Icon(Icons.close))
@@ -270,7 +275,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                 left: 40.w,
                 child: SizedBox(
                   width: 1000.w,
-                  height: 150.h,
+                  height: 120.h,
                   child: ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.pink),
@@ -296,6 +301,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                       });
                     },
                     onLongPress: () {
+                      //전면광고
+                      adController.loadAndShowAd();
                       //Todo : 파이어베이스에 출소일 삭제 구현
                       print(releaseData.id.toString());
                       ReleaseController.instance
@@ -311,7 +318,7 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                 left: 40.w,
                 child: SizedBox(
                   width: 1000.w,
-                  height: 150.h,
+                  height: 120.h,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepPurple),
@@ -324,6 +331,8 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
                     ),
                     onPressed: () async {
                       //Todo : 파이어베이스에 일기 저장 구현
+                      //전면광고
+                      adController.loadAndShowAd();
 
                       if (_formKey.currentState?.validate() ?? false) {
                         final release = ReleaseController.instance;
@@ -350,6 +359,10 @@ class _UpdateReleaseScreenState extends State<UpdateReleaseScreen> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: BannerAdExample(),
       ),
     );
   }

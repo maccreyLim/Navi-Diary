@@ -8,6 +8,7 @@ import 'package:navi_diary/model/notice_model.dart';
 import 'package:navi_diary/scr/create_notice.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/notice_detail_screen.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
 
 class NoticeScreen extends StatefulWidget {
   const NoticeScreen({super.key});
@@ -28,7 +29,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
 
     return Container(
       child: SizedBox(
-        height: 1800.h,
+        height: 1550.h,
         width: 1000.w,
         child: ListView.builder(
           itemCount: announcementList.length,
@@ -92,7 +93,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
               child: Center(
                 child: Container(
                   width: 1040.w,
-                  height: 1900.h,
+                  height: 1700.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -110,7 +111,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
             ),
             //네이밍
             Positioned(
-              top: 70.h,
+              top: 80.h,
               left: 50.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -145,7 +146,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
             ),
             //화면구성
             Positioned(
-              bottom: 152.h,
+              bottom: 260.h,
               left: 40.w,
               right: 40.w,
               child: Column(
@@ -185,7 +186,7 @@ class _NoticeScreenState extends State<NoticeScreen> {
             //FloatingActionButton 구현
             if (_authController.userData?['isAdmin'] ?? false)
               Positioned(
-                bottom: 120.h,
+                bottom: 80.h,
                 right: 40.w,
                 child: FloatingActionButton(
                   backgroundColor: Colors.pink,
@@ -202,6 +203,10 @@ class _NoticeScreenState extends State<NoticeScreen> {
               ),
           ],
         ),
+      ),
+      bottomNavigationBar: SizedBox(
+        width: double.infinity,
+        child: BannerAdExample(),
       ),
     );
   }

@@ -12,6 +12,8 @@ import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/widget/show_toast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
 class UpdateDiaryScreen extends StatefulWidget {
   final DiaryModel diary;
@@ -28,6 +30,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   final DiaryController _diaryController = DiaryController();
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentsController = TextEditingController();
+  final InterstitialAdController adController = InterstitialAdController();
 
   List<XFile?> images = [];
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -111,6 +114,10 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
               _buildDeleteButton(),
             ],
           ),
+        ),
+        bottomNavigationBar: SizedBox(
+          width: double.infinity,
+          child: BannerAdExample(),
         ),
       ),
     );
@@ -211,6 +218,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
             ),
           ),
           onPressed: () async {
+            //전면광고
+            adController.loadAndShowAd();
             try {
               // 다이어리 업데이트
               await _saveDiary(images);
@@ -256,6 +265,8 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
             });
           },
           onLongPress: () async {
+            //전면광고
+            adController.loadAndShowAd();
             // 파이어 스토리지에서 이미지 삭제
             if (widget.diary.photoURL?.isNotEmpty == true) {
               deleteImages(widget.diary.photoURL);
@@ -348,29 +359,6 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
       ),
     );
   }
-
-  // Widget _buildAddImageButton() {
-  //   return GestureDetector(
-  //     onTap: _pickMultiImage,
-  //     child: Container(
-  //       color: Colors.amber,
-  //       height: 200.h,
-  //       width: 140.w,
-  //       margin: const EdgeInsets.only(right: 10),
-  //       decoration: BoxDecoration(
-  //         color: Colors.grey.withOpacity(0.3),
-  //         borderRadius: BorderRadius.circular(15.0),
-  //       ),
-  //       child: const Center(
-  //         child: Icon(
-  //           Icons.add,
-  //           size: 40,
-  //           color: Colors.white,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildImageContainer(int index) {
     return Container(
@@ -517,7 +505,7 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
   // 이미지를 압축하고 파일을 반환하는 비동기 함수
   Future<File> _compressAndGetFile(File file) async {
     // 이미지 품질 설정 (0부터 100까지, 높은 품질일수록 용량이 큼)
-    int quality = 60;
+    int quality = 50;
 
     // FlutterImageCompress 라이브러리를 사용하여 이미지 압축
     List<int> compressedBytes = await FlutterImageCompress.compressWithList(
@@ -582,15 +570,4 @@ class _UpdateDiaryScreenState extends State<UpdateDiaryScreen> {
       }
     }
   }
-
-  // String extractPathFromUrl(String imageUrl) {
-  //   // 이미지 URL에서 파일 경로 추출
-  //   Uri uri = Uri.parse(imageUrl);
-  //   String path = uri.path;
-  //   // token 제거
-  //   path = path.split('?').first;
-  //   // URL 디코딩
-  //   path = Uri.decodeFull(path);
-  //   return path;
-  // }
 }

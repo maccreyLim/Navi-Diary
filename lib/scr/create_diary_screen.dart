@@ -9,6 +9,7 @@ import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:navi_diary/widget/show_toast.dart';
+import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
 class CreateDiaryScreen extends StatefulWidget {
   const CreateDiaryScreen({super.key});
@@ -27,6 +28,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
       TextEditingController(); // Text controllers
   TextEditingController contentsController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>(); // Form key
+  final InterstitialAdController adController = InterstitialAdController();
 
   @override
   void dispose() {
@@ -251,7 +253,7 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                       backgroundColor: Colors.pink,
                     ),
                     child: Text(
-                      'Save',
+                      'SAVE',
                       style: TextStyle(
                         fontSize: 50.sp,
                         fontWeight: FontWeight.bold,
@@ -259,10 +261,14 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                       ),
                     ),
                     onPressed: () async {
+                      //전면광고
+
+                      adController.loadAndShowAd();
                       // 제목과 내용이 비어있지 않은지 확인
                       if (titleController.text.isNotEmpty &&
                           contentsController.text.isNotEmpty) {
                         // 로딩 인디케이터 표시
+
                         Get.dialog(
                           const Center(
                             child: CircularProgressIndicator(),
@@ -309,9 +315,6 @@ class _CreateDiaryScreenState extends State<CreateDiaryScreen> {
                         // 제목 또는 내용이 비어있을 때 메시지 표시
                         showToast('제목과 내용은 필수 항목입니다.', 2);
                       }
-                    },
-                    onLongPress: () {
-                      Get.to(() => const HomeScreen());
                     },
                   ),
                 ),

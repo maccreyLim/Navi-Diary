@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/update_diary_screen.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
 
 class DiaryListWidget extends StatefulWidget {
   const DiaryListWidget({Key? key}) : super(key: key);
@@ -53,6 +54,15 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          //제목표시
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
+                            child: Text(
+                              diary.title,
+                              style: TextStyle(
+                                  fontSize: 60.w, fontWeight: FontWeight.bold),
+                            ),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -61,7 +71,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                                 ' ${_formatDate(diary.createdAt)}',
                                 style: TextStyle(
                                   color: Colors.white54,
-                                  fontSize: 80.sp,
+                                  fontSize: 60.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -111,14 +121,6 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                               ),
                             ),
 
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 30, 8, 0),
-                            child: Text(
-                              diary.title,
-                              style: TextStyle(
-                                  fontSize: 60.w, fontWeight: FontWeight.bold),
-                            ),
-                          ),
                           SizedBox(height: 20.h),
                           // SizedBox(
                           //   height: 20,
@@ -133,6 +135,8 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                           SizedBox(
                             height: 4.w,
                           ),
+                          SizedBox(
+                              width: double.infinity, child: BannerAdExample()),
                           const Divider(),
                           SizedBox(
                             height: 60.w,
