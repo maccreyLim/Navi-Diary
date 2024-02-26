@@ -28,7 +28,7 @@ if (keystorePropertiesFile.exists()) {
 }
 android {
     namespace "com.maccrey.navi_diary_release"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -50,7 +50,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 21
-        targetSdkVersion flutter.targetSdkVersion
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -81,5 +81,7 @@ flutter {
 }
 
 dependencies {
-    implementation 'com.google.android.recaptcha:recaptcha:18.4.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform("com.google.firebase:firebase-bom:29.0.2")
+    implementation "com.google.firebase:firebase-analytics"
 }

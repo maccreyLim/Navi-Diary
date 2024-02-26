@@ -9,6 +9,7 @@ import 'package:navi_diary/scr/my_page_screen.dart';
 import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/scr/term_and_infor_screen.dart';
+import 'package:navi_diary/widget/notification.dart';
 import 'package:navi_diary/widget/w.banner_ad.dart';
 import 'package:navi_diary/widget/w.reword_ad.dart';
 
@@ -21,6 +22,7 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  CustomNotification customNotification = CustomNotification();
   @override
   void initState() {
     super.initState();
@@ -56,7 +58,7 @@ class _SettingScreenState extends State<SettingScreen> {
               child: Center(
                 child: Container(
                   width: 1040.w,
-                  height: 1950.h,
+                  height: 1800.h,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.1),
                     boxShadow: [
@@ -168,12 +170,13 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
+                    SizedBox(height: 40.h),
                     TextButton(
                       onPressed: () {
-                        showRewardAd;
+                        showRewardAd();
                       },
                       child: Text(
-                        '광고시청하고 기부하기',
+                        '광고시청으로 기부하기',
                         style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),

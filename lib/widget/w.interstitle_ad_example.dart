@@ -10,7 +10,7 @@ class InterstitialAdController {
     AdManagerInterstitialAd.load(
       adUnitId: Platform.isAndroid
           //실제 ID
-          ? 'ca-app-pub-3940256099942544/1033173712'
+          ? 'ca-app-pub-9128371394963939/8109624926'
           : 'ca-app-pub-3940256099942544/4411468910',
       request: const AdManagerAdRequest(),
       adLoadCallback: AdManagerInterstitialAdLoadCallback(
