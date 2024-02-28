@@ -133,13 +133,16 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             ),
                           ),
                           SizedBox(
-                            height: 4.w,
+                            height: 100.w,
                           ),
-                          SizedBox(
-                              width: double.infinity, child: BannerAdExample()),
+                          // 광고를 하나걸러서 나오도록 설정
+                          if (index % 2 == 0)
+                            SizedBox(
+                                width: double.infinity,
+                                child: BannerAdExample()),
                           const Divider(),
                           SizedBox(
-                            height: 60.w,
+                            height: 10.w,
                           ),
                         ],
                       ),

@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,11 +8,12 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
-import 'package:navi_diary/scr/weather_loading.dart';
 import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
+import 'package:navi_diary/widget/w.fcm.dart';
 import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
+import 'package:navi_diary/widget/w.notification.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,52 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // daysPassed 변수 추가
   int daysPassed = 0;
-  //FCM 메시지 변수
-  var messageString = "";
 
-  //내 토큰 가지고 오기
-  void getMyDeviceToken() async {
-    final token = await FirebaseMessaging.instance.getToken();
-
-    print("내 디바이스 토큰: $token");
-  }
-
-// 초기화 단계에서 앱이 실행될 때 호출되는 메서드
   @override
   void initState() {
-    // 디바이스 토큰을 가져오는 메서드 호출
-    getMyDeviceToken();
-
-    // FCM 메시지 수신을 위한 이벤트 핸들러 등록
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      // 수신된 메시지에서 알림 정보를 가져옴
-      RemoteNotification? notification = message.notification;
-
-      // 알림 정보가 존재하는 경우
-      if (notification != null) {
-        // Flutter로컬 노티피케이션을 사용하여 알림을 표시
-        FlutterLocalNotificationsPlugin().show(
-          notification.hashCode, // 알림 식별자
-          notification.title, // 알림 제목
-          notification.body, // 알림 내용
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'high_importance_channel',
-              'high_importance_notification',
-              importance: Importance.max, // 알림 중요도 설정
-            ),
-          ),
-        );
-
-        // 알림 내용을 메시지 스트링에 저장하고 출력
-        setState(() {
-          messageString = message.notification!.body!;
-          print("Foreground 메시지 수신: $messageString");
-        });
-      }
-    });
-
-    // 상위 클래스의 initState() 호출
+    //FCM Permission불러오기
+    FcmManager.requestPermission();
     super.initState();
   }
 
@@ -374,7 +332,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           adController.loadAndShowAd();
                           setState(() {});
                           //Todo: 날씨정보
-                          Get.to(() => const WeatherLoading());
+                          // Get.to(() => const WeatherLoading());
+                          FlutterLocalNotification.showNotification(
+                              "테스트중", "테스트 중입니다.");
                         },
                         icon: const Icon(Icons.sunny,
                             color: Colors.white54, size: 24),

@@ -1,16 +1,19 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
+import 'package:navi_diary/scr/fcm_token_screen.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/my_page_screen.dart';
 import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/scr/term_and_infor_screen.dart';
-import 'package:navi_diary/widget/notification.dart';
 import 'package:navi_diary/widget/w.banner_ad.dart';
+import 'package:navi_diary/widget/w.fcm.dart';
 import 'package:navi_diary/widget/w.reword_ad.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -22,7 +25,8 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  CustomNotification customNotification = CustomNotification();
+  AuthController _authController = AuthController.instance;
+
   @override
   void initState() {
     super.initState();
@@ -180,6 +184,20 @@ class _SettingScreenState extends State<SettingScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 60.sp),
                       ),
                     ),
+                    if (_authController.userData!['isAdmin'] == true)
+                      TextButton(
+                        onPressed: () async {
+                          final token =
+                              await FirebaseMessaging.instance.getToken();
+                          print('token : $token');
+                          Get.to(() => FcmTokenScreen(token: token ?? ''));
+                        },
+                        child: Text(
+                          'FCM Token',
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 60.sp),
+                        ),
+                      ),
                   ],
                 ),
               ),
