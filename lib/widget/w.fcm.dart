@@ -7,7 +7,7 @@ class FcmManager {
     FirebaseMessaging.instance.requestPermission();
   }
 
-  //FCM 토큰 가지고 오기
+//FCM 초기화
   static void initialize() async {
     //Forground
     FirebaseMessaging.onMessage.listen((message) {
@@ -37,6 +37,7 @@ class FcmManager {
     FlutterLocalNotification.showNotification(
         firstMessage.data['title'], firstMessage.data['body']);
 
+    //FCM 토큰 가지고 오고 서버로 보내기
     final token = await FirebaseMessaging.instance.getToken();
     print('token : $token');
   }

@@ -27,8 +27,6 @@ void main() async {
   Future.delayed(const Duration(seconds: 3),
       FlutterLocalNotification.requestNotificationPermission());
 
-  // initializeNotification();
-
   runApp(const MyApp());
 }
 

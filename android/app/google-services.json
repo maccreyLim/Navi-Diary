@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:398900241774:android:86df122d698c2065618d7f",
+        "mobilesdk_app_id": "1:398900241774:android:b80f90cfef4e80c3618d7f",
         "android_client_info": {
-          "package_name": "com.maccrey.navi_diary"
+          "package_name": "com.maccrey.navi_diary_release"
         }
       },
       "oauth_client": [],
@@ -22,7 +22,8 @@
         "appinvite_service": {
           "other_platform_oauth_client": []
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-8185964270830687~9377505999"
     }
   ],
   "configuration_version": "1"
