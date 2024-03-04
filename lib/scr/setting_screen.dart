@@ -13,7 +13,6 @@ import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/scr/term_and_infor_screen.dart';
 import 'package:navi_diary/widget/w.banner_ad.dart';
-import 'package:navi_diary/widget/w.fcm.dart';
 import 'package:navi_diary/widget/w.reword_ad.dart';
 
 class SettingScreen extends StatefulWidget {

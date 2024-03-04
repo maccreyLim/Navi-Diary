@@ -33,6 +33,7 @@ class AuthController extends GetxController {
   Map<String, dynamic>? get userData => _userData.value;
 
   RxBool isReleaseFirebase = false.obs;
+  bool isLogin = false; //로그인 상태 확인
 
   @override
   void onReady() {
@@ -63,6 +64,13 @@ class AuthController extends GetxController {
   //isReleaseFirebase 토글
   isReleaseChange(bool a) {
     isReleaseFirebase = a.obs;
+  }
+
+  // //Login 및 로그아웃 변경을 위한 스위칭
+  void loginChange() {
+    isLogin = !isLogin;
+
+    update();
   }
 
   // 회원가입
@@ -140,6 +148,8 @@ class AuthController extends GetxController {
           Map<String, dynamic> userData = userDocument.data()!;
           // _userData 업데이트
           _userData.value = userData;
+          // 사용자 정보가 존재하는 경우
+          loginChange();
           // 사용자 정보가 로드되면 홈 화면으로 이동
           Get.offAll(() => const HomeScreen());
           print("User Data: ${_userData.value!['uid']}");
@@ -187,8 +197,8 @@ class AuthController extends GetxController {
 
       // 로그아웃 성공 시 _user 값을 갱신
       _user.value = null;
-
       // 로그아웃 성공 시 추가적인 작업이 필요하다면 여기에 추가
+      loginChange();
     } catch (e) {
       // 로그아웃 중 에러 발생 시
       print('로그아웃 중 오류 발생: $e');

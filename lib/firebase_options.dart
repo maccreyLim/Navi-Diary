@@ -26,7 +26,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -51,18 +54,9 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyABVJcpavhQyyfOJiWB22Z0GueKuLKiIOY',
-    appId: '1:398900241774:android:86df122d698c2065618d7f',
+    appId: '1:398900241774:android:b80f90cfef4e80c3618d7f',
     messagingSenderId: '398900241774',
     projectId: 'navidiary-26a8b',
     storageBucket: 'navidiary-26a8b.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCS8jKJLJJKGlWosIQlKQJsp0JT2Y6BQjk',
-    appId: '1:398900241774:ios:e8d4b96497eb9c8e618d7f',
-    messagingSenderId: '398900241774',
-    projectId: 'navidiary-26a8b',
-    storageBucket: 'navidiary-26a8b.appspot.com',
-    iosBundleId: 'com.example.naviDiary',
   );
 }
