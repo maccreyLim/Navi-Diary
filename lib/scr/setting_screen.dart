@@ -174,29 +174,6 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                     SizedBox(height: 40.h),
-                    TextButton(
-                      onPressed: () {
-                        showRewardAd();
-                      },
-                      child: Text(
-                        '광고시청으로 기부하기',
-                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
-                      ),
-                    ),
-                    if (_authController.userData!['isAdmin'] == true)
-                      TextButton(
-                        onPressed: () async {
-                          final token =
-                              await FirebaseMessaging.instance.getToken();
-                          print('token : $token');
-                          Get.to(() => FcmTokenScreen(token: token ?? ''));
-                        },
-                        child: Text(
-                          'FCM Token',
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 60.sp),
-                        ),
-                      ),
                   ],
                 ),
               ),
