@@ -7,7 +7,6 @@ import 'package:navi_diary/firebase_options.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:navi_diary/widget/w.fcm.dart';
 import 'package:navi_diary/widget/w.notification.dart';
 
 void main() async {
@@ -27,8 +26,6 @@ void main() async {
   // 3초 후 권한 요청
   Future.delayed(const Duration(seconds: 3),
       FlutterLocalNotification.requestNotificationPermission());
-  //FCM 최기화
-  FcmManager.initialize();
 
   runApp(const MyApp());
 }

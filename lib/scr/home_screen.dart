@@ -8,14 +8,12 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
-import 'package:navi_diary/scr/schedule_screen.dart';
 import 'package:navi_diary/scr/weather_loading.dart';
 import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
 import 'package:navi_diary/widget/w.fcm.dart';
 import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
-import 'package:navi_diary/widget/w.notification.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,6 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     //FCM Permission불러오기
     FcmManager.requestPermission();
+    //FCM초기화
+    FcmManager.initialize();
     super.initState();
   }
 

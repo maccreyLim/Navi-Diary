@@ -1,12 +1,9 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
-import 'package:navi_diary/scr/fcm_token_screen.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/my_page_screen.dart';
 import 'package:navi_diary/scr/notice_screen.dart';
@@ -24,8 +21,6 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  AuthController _authController = AuthController.instance;
-
   @override
   void initState() {
     super.initState();
