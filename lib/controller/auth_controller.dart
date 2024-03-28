@@ -53,11 +53,48 @@ class AuthController extends GetxController {
   }
 
 //user가 LogOut되면 즉시 로그인으로 이동 , LogIn이면 홈으로 이동
-  _moveToPage(User? user) {
-    if (user == null || userData == null) {
+  _moveToPage(User? user) async {
+    if (user == null) {
+      // 로그아웃 상태일 때 로그인 화면으로 이동
       Get.off(() => const LoginScreen());
     } else {
-      Get.offAll(() => const HomeScreen());
+      if (user.emailVerified) {
+        // 이메일이 인증된 경우에만 사용자 데이터 가져오기 시도
+        Map<String, dynamic>? userData = await _getUserData(user.uid);
+
+        if (userData != null) {
+          // 사용자 데이터가 존재하면 업데이트하고 홈 화면으로 이동
+          _userData.value = userData;
+          Get.offAll(() => const HomeScreen());
+        } else {
+          // 사용자 데이터가 없는 경우
+          print("사용자 정보가 없습니다.");
+        }
+      } else {
+        // 이메일이 인증되지 않은 경우에는 이메일 인증 안내페이지로 이동
+        Get.off(() => const WellcomeJoinMessageScreen());
+      }
+    }
+  }
+
+  // 사용자 데이터 가져오기
+  Future<Map<String, dynamic>?> _getUserData(String userId) async {
+    try {
+      // Firestore에서 사용자 데이터 가져오기
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('users').doc(userId).get();
+
+      // 사용자 데이터가 존재하면 Map으로 변환하여 반환
+      if (userSnapshot.exists) {
+        return userSnapshot.data() as Map<String, dynamic>?;
+      } else {
+        // 사용자 데이터가 없는 경우 null 반환
+        return null;
+      }
+    } catch (e) {
+      // 사용자 데이터를 가져오는 중에 오류 발생 시
+      print('사용자 데이터를 가져오는 중 오류 발생: $e');
+      return null;
     }
   }
 
@@ -137,6 +174,7 @@ class AuthController extends GetxController {
       // 로그인이 성공한 경우, 이메일 인증 여부 확인
       User? user = authentication.currentUser;
       if (user != null && user.emailVerified == false) {
+        signOut();
         // 이메일이 인증되지 않았다면 인증 안내페이지로 이동
         Get.to(() => const WellcomeJoinMessageScreen());
       } else {

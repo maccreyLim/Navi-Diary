@@ -175,7 +175,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         final InAppReview inAppReview = InAppReview.instance;
 
                         if (await inAppReview.isAvailable()) {
-                          inAppReview.requestReview();
+                          inAppReview.openStoreListing();
                         }
                       },
                       child: Text(
