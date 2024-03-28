@@ -28,7 +28,7 @@ if (keystorePropertiesFile.exists()) {
 }
 android {
     namespace "com.maccrey.navi_diary_release"
-    compileSdkVersion 33
+    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -84,6 +84,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform("com.google.firebase:firebase-bom:29.0.2")
     implementation "com.google.firebase:firebase-analytics"
+    implementation 'com.google.android.recaptcha:recaptcha:18.4.0'
 }
 // // FCM을 위해 추가
 // apply plugin: 'com.google.gms.google-services'

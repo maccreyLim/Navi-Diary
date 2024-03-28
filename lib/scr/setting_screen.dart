@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/home_screen.dart';
 import 'package:navi_diary/scr/my_page_screen.dart';
@@ -169,6 +170,19 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                     SizedBox(height: 40.h),
+                    TextButton(
+                      onPressed: () async {
+                        final InAppReview inAppReview = InAppReview.instance;
+
+                        if (await inAppReview.isAvailable()) {
+                          inAppReview.requestReview();
+                        }
+                      },
+                      child: Text(
+                        'App 평가하기',
+                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
+                      ),
+                    ),
                   ],
                 ),
               ),
