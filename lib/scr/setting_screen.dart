@@ -11,7 +11,6 @@ import 'package:navi_diary/scr/notice_screen.dart';
 import 'package:navi_diary/scr/release_setting_screen.dart';
 import 'package:navi_diary/scr/term_and_infor_screen.dart';
 import 'package:navi_diary/widget/w.banner_ad.dart';
-import 'package:navi_diary/widget/w.reword_ad.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key, required this.selectedReleases});
@@ -25,14 +24,6 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
-  }
-
-  void showRewardAd() {
-    final RewardAd _rewardAd = RewardAd();
-    _rewardAd.showRewardFullBanner(() {
-      // 광고를 보고 사용자가 리워드를 얻었을 때 실행할 로직
-      // 예: 기부하기 또는 다른 작업 수행
-    });
   }
 
   @override

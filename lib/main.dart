@@ -28,9 +28,6 @@ void main() async {
   Future.delayed(const Duration(seconds: 3),
       FlutterLocalNotification.requestNotificationPermission());
 
-  //FCM 초기화
-  FcmManager.initialize();
-
   runApp(const MyApp());
 }
 
