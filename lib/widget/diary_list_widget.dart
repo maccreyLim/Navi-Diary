@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:navi_diary/controller/diary_controller.dart';
 import 'package:navi_diary/model/diary_model.dart';
 import 'package:navi_diary/scr/update_diary_screen.dart';
+import 'package:navi_diary/widget/w.banner_ad.dart';
 
 class DiaryListWidget extends StatefulWidget {
   const DiaryListWidget({Key? key}) : super(key: key);
@@ -135,10 +136,10 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             height: 100.w,
                           ),
                           // 광고를 하나걸러서 나오도록 설정
-                          // if (index % 2 == 0)
-                          //   SizedBox(
-                          //       width: double.infinity,
-                          //       child: BannerAdExample()),
+                          if (index % 2 == 0)
+                            SizedBox(
+                                width: double.infinity,
+                                child: BannerAdExample()),
                           const Divider(),
                           SizedBox(
                             height: 10.w,

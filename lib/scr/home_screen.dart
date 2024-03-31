@@ -12,7 +12,6 @@ import 'package:navi_diary/scr/weather_loading.dart';
 import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
 import 'package:navi_diary/scr/setting_screen.dart';
-import 'package:navi_diary/widget/w.banner_ad.dart';
 import 'package:navi_diary/widget/w.fcm.dart';
 import 'package:navi_diary/widget/w.interstitle_ad_example.dart';
 
@@ -317,6 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Home',
@@ -327,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        width: 50.w,
+                        width: 160.w,
                       ),
                       IconButton(
                         onPressed: () {
@@ -409,10 +409,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: SizedBox(
-        width: double.infinity,
-        child: BannerAdExample(),
-      ),
     );
   }
 }
@@ -466,7 +462,7 @@ class DiaryScreenForm extends StatelessWidget {
       left: 40.w, // 조정 가능한 값
       child: Container(
         width: 1000.w,
-        height: 1220.h,
+        height: 1350.h,
         //일기장 리스트
         child: const DiaryListWidget(),
       ),
@@ -488,7 +484,7 @@ class DownScreenForm extends StatelessWidget {
       child: Center(
         child: Container(
           width: 1040.w,
-          height: 1300.h,
+          height: 1430.h,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.1),
             boxShadow: [
