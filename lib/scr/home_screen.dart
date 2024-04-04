@@ -8,6 +8,7 @@ import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/controller/release_controller.dart';
 import 'package:navi_diary/model/release_model.dart';
 import 'package:navi_diary/scr/create_diary_screen.dart';
+import 'package:navi_diary/scr/schedule_screen.dart';
 import 'package:navi_diary/scr/weather_loading.dart';
 import 'package:navi_diary/widget/diary_list_widget.dart';
 import 'package:navi_diary/scr/login_screen.dart';
@@ -327,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(
-                        width: 160.w,
+                        width: 40.w,
                       ),
                       IconButton(
                         onPressed: () {
@@ -342,6 +343,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: const Icon(Icons.sunny,
                             color: Colors.white54, size: 24),
                       ),
+                      // 스케쥴러 들어갈곳
+                      IconButton(
+                        onPressed: () {
+                          setState(() {});
+                          //Todo: 설정화면 구현
+                          Get.to(() => ScheduleScreen());
+                        },
+                        icon: const Icon(
+                          Icons.schedule,
+                          size: 24,
+                          color: Colors.white54,
+                        ),
+                      ),
                       IconButton(
                         onPressed: () {
                           setState(() {});
@@ -355,19 +369,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.white54,
                         ),
                       ),
-                      //스케쥴러 들어갈곳
-                      // IconButton(
-                      //   onPressed: () {
-                      //     setState(() {});
-                      //     //Todo: 설정화면 구현
-                      //     Get.to(() => ScheduleScreen());
-                      //   },
-                      //   icon: const Icon(
-                      //     Icons.schedule,
-                      //     size: 24,
-                      //     color: Colors.white54,
-                      //   ),
-                      // ),
+
                       IconButton(
                         onPressed: () {
                           //Todo: 파이어베이스 로그아웃 구현

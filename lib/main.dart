@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:navi_diary/controller/auth_controller.dart';
 import 'package:navi_diary/firebase_options.dart';
 import 'package:navi_diary/scr/login_screen.dart';
@@ -26,6 +27,7 @@ void main() async {
   // 3초 후 권한 요청
   Future.delayed(const Duration(seconds: 3),
       FlutterLocalNotification.requestNotificationPermission());
+  initializeDateFormatting('ko_KR', null);
 
   runApp(const MyApp());
 }

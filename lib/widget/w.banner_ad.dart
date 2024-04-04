@@ -21,8 +21,9 @@ class _BannerAdExampleState extends State<BannerAdExample> {
     _bannerAd = BannerAd(
       //실제 ID
       adUnitId: 'ca-app-pub-9128371394963939/8206306775',
+      // 'ca-app-pub-9128371394963939/8206306775',
       size: AdSize.banner,
-      request: AdRequest(),
+      request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
           debugPrint('$ad loaded.');
