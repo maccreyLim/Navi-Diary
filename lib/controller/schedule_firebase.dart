@@ -12,7 +12,7 @@ class ScheduleFirestore {
   Future<void> addSchedule(FirebaseScheduleModel schedule) async {
     try {
       await _firestore
-          .collection('Users')
+          .collection('users')
           .doc(controller.userData!['uid'])
           .collection('schedules')
           .add(schedule.toMap());
@@ -25,7 +25,7 @@ class ScheduleFirestore {
   // Read (데이터 읽기)
   Stream<List<FirebaseScheduleModel>> getScheduleList() {
     return _firestore
-        .collection('Users')
+        .collection('users')
         .doc(controller.userData!['uid'])
         .collection('schedules')
         .snapshots()
@@ -40,7 +40,7 @@ class ScheduleFirestore {
   Future<void> updateSchedule(String id, Map<String, dynamic> data) async {
     try {
       await _firestore
-          .collection('Users')
+          .collection('users')
           .doc(controller.userData!['uid'])
           .collection('schedules')
           .doc(id)
@@ -54,7 +54,7 @@ class ScheduleFirestore {
   Future<void> deleteSchedule(String scheduleId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('Users')
+          .collection('users')
           .doc(controller.userData!['uid'])
           .collection(
               'schedules') // 'schedules'는 파이어베이스 컬렉션의 이름입니다. 필요에 따라 수정하세요.

@@ -136,7 +136,7 @@ class _DiaryListWidgetState extends State<DiaryListWidget> {
                             height: 100.w,
                           ),
                           // 광고를 하나걸러서 나오도록 설정
-                          if (index % 2 == 0)
+                          if (index % 1 == 0)
                             SizedBox(
                                 width: double.infinity,
                                 child: BannerAdExample()),
