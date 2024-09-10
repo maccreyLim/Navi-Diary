@@ -161,19 +161,19 @@ class _SettingScreenState extends State<SettingScreen> {
                       ),
                     ),
                     SizedBox(height: 40.h),
-                    TextButton(
-                      onPressed: () async {
-                        final InAppReview inAppReview = InAppReview.instance;
+                    // TextButton(
+                    //   onPressed: () async {
+                    //     final InAppReview inAppReview = InAppReview.instance;
 
-                        if (await inAppReview.isAvailable()) {
-                          inAppReview.openStoreListing();
-                        }
-                      },
-                      child: Text(
-                        'App 평가하기',
-                        style: TextStyle(color: Colors.white, fontSize: 60.sp),
-                      ),
-                    ),
+                    //     if (await inAppReview.isAvailable()) {
+                    //       inAppReview.openStoreListing();
+                    //     }
+                    //   },
+                    //   child: Text(
+                    //     'App 평가하기',
+                    //     style: TextStyle(color: Colors.white, fontSize: 60.sp),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
